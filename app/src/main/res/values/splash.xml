@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources> xmlns:tools="https://schemas.android.com/tools">
+    <style name="App.Starting.Theme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/medixlogo</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="windowSplashScreenBackground">@color/splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.SplashScreen</item>
+
+
+
+    </style>
+</resources>
