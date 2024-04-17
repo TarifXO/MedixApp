@@ -8,8 +8,4 @@
         android:fontStyle="normal"
         android:fontWeight="400"
         android:font="@font/nerkooneregular" />
-    <font
-        android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/inter" />
 </font-family>
