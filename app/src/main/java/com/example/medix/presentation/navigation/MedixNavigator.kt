@@ -29,6 +29,8 @@ import com.example.medix.presentation.view.screens.FavouritesScreen
 import com.example.medix.presentation.view.screens.home.HomeScreen
 import com.example.medix.presentation.view.screens.PatientAppointmentsScreen
 import com.example.medix.presentation.view.screens.ProfileScreen
+import com.example.medix.presentation.view.screens.appointment.AppointmentScreen
+import com.example.medix.presentation.view.screens.doctor_details.DoctorDetails
 import com.example.medix.presentation.view.screens.doctors.DoctorsScreen
 
 @SuppressLint("AutoboxingStateCreation")
@@ -184,10 +186,98 @@ fun MedixNavigator() {
                 val fakePagingItems = remember { generateFakePagingItems(20) }
                 DoctorsScreen(
                     navigateUp = { navController.navigateUp() },
-                    doctors = fakePagingItems
+                    doctors = fakePagingItems,
+                    navController = navController
                 )
                 //}
             }
+            
+            composable(
+                route = Screens.DoctorDetailsRoute.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            -fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeOut(animationSpec = tween(100))
+                }
+            ) {
+                val doctor = Doctor(id = 1,
+                    name = "tefoo",
+                    description = "",
+                    title = "Abdelrahman Tarif",
+                    url = "",
+                    urlToImage = "",)
+                DoctorDetails(
+                    navigateUp = { navController.navigateUp() },
+                    navController = navController,
+                    doctor = doctor
+                )
+            }
+
+
+            composable(
+                route = Screens.AppointmentRoute.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            -fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeOut(animationSpec = tween(100))
+                }
+            ) {
+                AppointmentScreen(
+                    navigateUp = { navController.navigateUp() } ,
+                    navController = navController
+                )
+            }
+
 
             composable(route = Screens.FavouritesRoute.route) {
                 //val viewModel : BookmarkViewModel = hiltViewModel()

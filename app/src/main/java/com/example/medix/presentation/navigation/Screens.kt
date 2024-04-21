@@ -8,13 +8,18 @@ sealed class Screens(val route : String) {
     data object HomeRoute : Screens("Home")
     data object AuthRoute : Screens("Auth")
 
-    ////////
+    //////////
 
     data object PatientAppointmentsRoute : Screens("PatientAppointments")
     data object FavouritesRoute : Screens("Favourites")
     data object ProfileRoute : Screens("Profile")
     data object DoctorsRoute : Screens("Doctors")
-    data object MedixNavigation : Screens(route = "medixNavigation")
-    data object MedixNavigatorScreen : Screens(route = "medixNavigator")
+    data object DoctorDetailsRoute : Screens("DoctorDetails")
+    data object AppointmentRoute : Screens("Appointment")
+
+    ///////////
+
+    data object MedixNavigation : Screens(route = "MedixNavigation")
+    data object MedixNavigatorScreen : Screens(route = "MedixNavigator")
 
 }

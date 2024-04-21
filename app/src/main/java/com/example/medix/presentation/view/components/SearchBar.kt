@@ -4,6 +4,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
@@ -48,6 +49,7 @@ fun SearchBar(
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(50.dp)
                 .padding(start = 15.dp, end = 15.dp),
             value = text,
             onValueChange = onValueChange,

@@ -23,8 +23,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.medix.domain.model.Doctor
 import com.example.medix.presentation.Dimens
+import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ChipWithSubItems
 import com.example.medix.presentation.view.components.DoctorsList
 import com.example.medix.presentation.view.components.SearchBar
@@ -37,7 +40,8 @@ import com.example.medix.ui.theme.mixture
 @Composable
 fun DoctorsScreen(
     navigateUp : () -> Unit,
-    doctors : List<Doctor>
+    doctors : List<Doctor>,
+    navController: NavController
 ){
     val chipItems = listOf("Option 1", "Option 2", "Option 3")
 
@@ -51,7 +55,7 @@ fun DoctorsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .shadow(12.dp, shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
-                .height(200.dp)
+                .height(180.dp)
                 .background(mixture),
 
             ) {
@@ -61,7 +65,7 @@ fun DoctorsScreen(
                     onBackClick = navigateUp
                 )
 
-                Spacer(modifier = Modifier.height(55.dp))
+                Spacer(modifier = Modifier.height(45.dp))
 
                 SearchBar(text = "", readOnly = false, onValueChange = {})
 
@@ -92,7 +96,6 @@ fun DoctorsScreen(
                 chipLabel = "Sort by",
                 chipItems = chipItems
             )
-
         }
 
         Spacer(modifier = Modifier.padding(10.dp))
@@ -101,7 +104,7 @@ fun DoctorsScreen(
             modifier = Modifier.padding(horizontal = Dimens.mediumPadding1),
             doctors = doctors,
             onClick = {
-
+                navController.navigate(Screens.DoctorDetailsRoute.route)
             }
         )
     }
@@ -117,7 +120,8 @@ fun DoctorsScreenPreview(){
     MedixTheme {
         DoctorsScreen(
             navigateUp = {},
-            doctors = dummyDoctors
+            doctors = dummyDoctors,
+            navController = rememberNavController()
         )
     }
 }
