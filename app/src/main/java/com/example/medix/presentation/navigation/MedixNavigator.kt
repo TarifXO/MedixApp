@@ -23,11 +23,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
-import com.example.medix.presentation.view.screens.DoctorScreen
+import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.FavouritesScreen
-import com.example.medix.presentation.view.screens.HomeScreen
+import com.example.medix.presentation.view.screens.home.HomeScreen
 import com.example.medix.presentation.view.screens.PatientAppointmentsScreen
 import com.example.medix.presentation.view.screens.ProfileScreen
+import com.example.medix.presentation.view.screens.doctors.DoctorsScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
@@ -125,7 +127,16 @@ fun MedixNavigator() {
             ) {
                 //val viewModel : HomeViewModel = hiltViewModel()
                 //val articles = viewModel.news.collectAsLazyPagingItems()
-                HomeScreen()
+                val fakePagingItems = generateFakePagingItems(20)
+                HomeScreen(
+                    doctors = fakePagingItems,
+                    navigateToDoctors = {
+                        navigateToDoctors(
+                            navController = navController,
+                            doctor = fakePagingItems
+                        )
+                    }
+                )
             }
 
             composable(route = Screens.PatientAppointmentsRoute.route) {
@@ -170,9 +181,11 @@ fun MedixNavigator() {
                 //val viewModel: DetailsViewModel = hiltViewModel()
 
                 //navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")?.let { article ->
-                    DoctorScreen(
-                        navigateUp = { navController.navigateUp() },
-                    )
+                val fakePagingItems = remember { generateFakePagingItems(20) }
+                DoctorsScreen(
+                    navigateUp = { navController.navigateUp() },
+                    doctors = fakePagingItems
+                )
                 //}
             }
 
@@ -203,12 +216,12 @@ private fun navigateToTab(navController: NavController, route : String) {
     }
 }
 
-/*private fun navigateToDoctors(
+private fun navigateToDoctors(
     navController: NavController,
-    doctor: Doctor,
+    doctor: List<Doctor>,
 ) {
     navController.currentBackStackEntry?.savedStateHandle?.set("doctor", doctor)
     navController.navigate(
         route = Screens.DoctorsRoute.route
     )
-}*/
+}
