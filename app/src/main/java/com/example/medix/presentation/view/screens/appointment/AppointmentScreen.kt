@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.DayHourSelection
 import com.example.medix.presentation.view.components.DaySelection
 import com.example.medix.presentation.view.components.ElevatedButton
