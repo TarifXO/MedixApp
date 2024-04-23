@@ -1,6 +1,5 @@
 package com.example.medix.presentation.view.components
 
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,17 +23,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.datesColor
-import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
 
 @Composable
-fun DaySelection(onClick : () -> Unit) {
+fun DaySelection(
+    onClick : () -> Unit,
+    onTitleSelected : (String) -> Unit
+    ) {
 
     val dateList = listOf(
         "Today, 23 Feb","Tomorrow, 24 Feb","Thursday 25 Feb","Friday, 26 Feb"
     )
     var selectedItem by remember {
         mutableStateOf(dateList.first())
+    }
+
+    DisposableEffect(Unit) {
+        onTitleSelected(selectedItem)
+        onDispose {  }
     }
     LazyRow(
         modifier = Modifier
@@ -47,6 +54,7 @@ fun DaySelection(onClick : () -> Unit) {
                 modifier = Modifier.padding(end = 7.dp)
             ){
                 selectedItem = it
+                onTitleSelected(it)
             }
         }
     }
@@ -65,7 +73,7 @@ fun CustomToggleButtonList(
         shape = RoundedCornerShape(5.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = datesColor,
-            disabledContainerColor = orange, // Use disabled color for consistency
+            disabledContainerColor = orange,
             contentColor = Color.Black,
             disabledContentColor = Color.White
         ),
