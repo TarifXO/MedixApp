@@ -1,8 +1,9 @@
 package com.example.medix.presentation.view.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medix.R
 import com.example.medix.ui.theme.MedixTheme
@@ -33,18 +35,19 @@ fun TopBar(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
+                    .padding(end = 20.dp)
             ) {
                 IconButton(
                     onClick = onBackClick,
-                    modifier = Modifier.alignByBaseline()
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.navigate_up),
                         contentDescription = null
                     )
                 }
-                Spacer(modifier = Modifier.weight(.55f))
+                //Spacer(modifier = Modifier.weight(.55f))
                 Text(
                     text = title,
                     style = TextStyle(
@@ -53,7 +56,19 @@ fun TopBar(
                     ),
                     textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.weight(1f))
+
+                Text(
+                    text = "323",
+                    style = TextStyle(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 22.sp,
+                        color = mixture
+                    ),
+                    textAlign = TextAlign.Center
+                )
+
+
+                //Spacer(modifier = Modifier.weight(1f))
             }
         },
         modifier = Modifier.fillMaxWidth(),

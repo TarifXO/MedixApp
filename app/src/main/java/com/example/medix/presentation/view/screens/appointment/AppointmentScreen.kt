@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.DayHourSelection
 import com.example.medix.presentation.view.components.DaySelection
 import com.example.medix.presentation.view.components.ElevatedButton
@@ -55,7 +56,8 @@ fun AppointmentScreen(
     var patientName by remember { mutableStateOf("") }
     var contactNumber by remember { mutableStateOf("") }
     var selectedDay by remember { mutableStateOf("") }
-    var selectedHour by remember { mutableStateOf("") }
+    var selectedAfternoonHour by remember { mutableStateOf("") }
+    var selectedEveningHour by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
 
     Column(
@@ -71,12 +73,11 @@ fun AppointmentScreen(
                 .height(80.dp)
                 .background(mixture)
         ) {
-            Column {
-                TopBar(
-                    title = "Appointment",
-                    onBackClick = navigateUp
-                )
-            }
+            TopBar(
+                title = "Appointment",
+                onBackClick = navigateUp
+            )
+
         }
 
         Column(
@@ -188,9 +189,12 @@ fun AppointmentScreen(
                 dates = listOf(
                     "1:00 PM", "1:30 PM", "2:00 PM" , "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM"
                 ),
-                currentSelectedDate = selectedHour, // Pass the currently selected date
-                onDateSelected = { selectedHour = it }, // Callback to update the selected date
-                onHourSelected = { selectedHour = it } // Callback to update the selected hour
+                currentSelectedDate = selectedAfternoonHour,
+                onDateSelected = { selectedAfternoonHour = it },
+                onHourSelected = {
+                    selectedAfternoonHour = it
+                    selectedEveningHour = ""
+                }
             )
 
             Text(
@@ -204,9 +208,12 @@ fun AppointmentScreen(
                 dates = listOf(
                     "5:00 PM", "5:30 PM", "6:00 PM" , "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM"
                 ),
-                currentSelectedDate = selectedHour, // Pass the currently selected date
-                onDateSelected = { selectedHour = it }, // Callback to update the selected date
-                onHourSelected = { selectedHour = it } // Callback to update the selected hour
+                currentSelectedDate = selectedEveningHour,
+                onDateSelected = { selectedEveningHour = it },
+                onHourSelected = {
+                    selectedEveningHour = it
+                    selectedAfternoonHour = ""
+                }
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -218,7 +225,13 @@ fun AppointmentScreen(
                 backgroundColor = mixture,
                 padding = PaddingValues(10.dp, top = 25.dp, bottom = 25.dp, end = 10.dp),
                 onClick = {
-
+                    navController.navigate(
+                        Screens.HomeRoute.route
+                    ){
+                        popUpTo(Screens.HomeRoute.route){
+                            inclusive = true
+                        }
+                    }
                 }
             )
 

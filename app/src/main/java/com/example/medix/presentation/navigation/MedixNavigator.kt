@@ -1,6 +1,7 @@
 package com.example.medix.presentation.navigation
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -32,6 +33,8 @@ import com.example.medix.presentation.view.screens.ProfileScreen
 import com.example.medix.presentation.view.screens.appointment.AppointmentScreen
 import com.example.medix.presentation.view.screens.doctor_details.DoctorDetails
 import com.example.medix.presentation.view.screens.doctors.DoctorsScreen
+import com.example.medix.presentation.view.screens.medix_ai.MedixAiScreen
+import com.example.medix.presentation.view.screens.medix_model.MedixModel
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
@@ -66,6 +69,8 @@ fun MedixNavigator() {
     var selectedItem by rememberSaveable {
         mutableStateOf(0)
     }
+    var selectedImageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
+
     selectedItem = remember(key1 = backstackState) {
         when (backstackState?.destination?.route) {
             Screens.HomeRoute.route -> 0
@@ -137,7 +142,8 @@ fun MedixNavigator() {
                             navController = navController,
                             doctor = fakePagingItems
                         )
-                    }
+                    },
+                    navController = navController
                 )
             }
 
@@ -275,6 +281,90 @@ fun MedixNavigator() {
                 AppointmentScreen(
                     navigateUp = { navController.navigateUp() } ,
                     navController = navController
+                )
+            }
+
+
+            composable(
+                route = Screens.MedixAiRoute.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            -fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeOut(animationSpec = tween(100))
+                }
+            ) {
+                MedixAiScreen(
+                    navigateUp = { navController.navigateUp() },
+                    navController = navController,
+                    selectedImageUri = selectedImageUri,
+                    onImageSelected = { uri -> selectedImageUri = uri
+                        navController.navigate(Screens.MedixModel.route)
+                    }
+                )
+            }
+
+
+            composable(
+                route = Screens.MedixModel.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            -fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeOut(animationSpec = tween(100))
+                }
+            ) {
+                MedixModel(
+                    navigateUp = { navController.navigateUp() },
+                    selectedImageUri = selectedImageUri
                 )
             }
 

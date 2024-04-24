@@ -69,13 +69,12 @@ fun DoctorDetails(
                 .shadow(12.dp, shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 .height(80.dp)
                 .background(mixture)
-            ) {
-            Column {
-                TopBar(
-                    title = "Doctor Details",
-                    onBackClick = navigateUp
-                )
-            }
+        ) {
+            TopBar(
+                title = "Doctor Details",
+                onBackClick = navigateUp
+            )
+
         }
 
         Column(

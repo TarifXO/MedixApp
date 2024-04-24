@@ -32,9 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.generateFakePagingItems
+import com.example.medix.presentation.navigation.Screens
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.blackText
@@ -46,7 +49,8 @@ import com.example.medix.ui.theme.orange
 @Composable
 fun HomeScreen(
     doctors: List<Doctor>,
-    navigateToDoctors: () -> Unit
+    navigateToDoctors: () -> Unit,
+    navController: NavController
 ) {
 
     Column(
@@ -235,7 +239,8 @@ fun HomeScreen(
                     modifier = Modifier
                         .size(150.dp, 200.dp)
                         .shadow(3.dp, shape = RoundedCornerShape(12.dp))
-                        .background(Color.White),
+                        .background(Color.White)
+                        .clickable { navController.navigate(Screens.MedixAiRoute.route) },
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
@@ -290,7 +295,8 @@ fun HomePreview() {
     val fakePagingItems = generateFakePagingItems(20)
     MedixTheme {
         HomeScreen(doctors = fakePagingItems,
-            navigateToDoctors = {}
+            navigateToDoctors = {},
+            navController = rememberNavController()
         )
     }
 }
