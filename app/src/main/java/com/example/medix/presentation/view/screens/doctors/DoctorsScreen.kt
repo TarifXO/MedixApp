@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ChipWithSubItems
@@ -114,13 +115,11 @@ fun DoctorsScreen(
 @Preview
 @Composable
 fun DoctorsScreenPreview(){
-    val dummyDoctors = remember {
-        listOf<Doctor>()
-    }
+    val fakePagingItems = generateFakePagingItems(20)
     MedixTheme {
         DoctorsScreen(
             navigateUp = {},
-            doctors = dummyDoctors,
+            doctors = fakePagingItems,
             navController = rememberNavController()
         )
     }

@@ -65,8 +65,9 @@ fun CustomLayout(
     LaunchedEffect(text) {
         if (!animatedVisibility) {
             animatedVisibility = true
+            delay(100)
             text.forEachIndexed { index, _ ->
-                delay(100)
+                delay(50)
                 generatedText = text.substring(0, index + 1)
             }
         }

@@ -1,8 +1,8 @@
 package com.example.medix.presentation.view.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,62 +16,72 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
-import com.example.medix.presentation.Dimens
+import com.example.medix.presentation.Dimens.articleCardSize
+import com.example.medix.presentation.Dimens.extraSmallPadding
+import com.example.medix.presentation.Dimens.extraSmallPadding2
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
-import com.example.medix.ui.theme.starsColor
+import com.example.medix.ui.theme.orange
 
 @Composable
-fun DoctorCard(
+fun PatientAppointmentCard(
     doctor: Doctor,
-    onClick: (Doctor) -> Unit
 ){
     val context = LocalContext.current
-    var rating by remember { mutableDoubleStateOf(0.0) }
 
     Row(modifier = Modifier
         .fillMaxWidth()
         .shadow(5.dp, shape = RoundedCornerShape(12.dp))
-        .background(Color.White)
-        .clickable { onClick(doctor) },
+        .background(Color.White),
         horizontalArrangement = Arrangement.SpaceEvenly
-        ){
-        AsyncImage(modifier = Modifier
+    ){
+        Box(modifier = Modifier
             .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
-            .size(Dimens.articleCardSize)
-            .clip(MaterialTheme.shapes.medium),
-            contentScale = ContentScale.Crop,
-            model = ImageRequest.Builder(context).data(doctor.urlToImage).build()
-            , contentDescription = null
-        )
+            .size(articleCardSize)
+            .clip(MaterialTheme.shapes.medium)
+            .background(lightMixture),
+            contentAlignment = Alignment.Center
+        ){
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "24",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = orange,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    text = "FEB",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
 
         Column(
             modifier = Modifier
                 .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
-                .height(Dimens.articleCardSize),
+                .height(articleCardSize),
             verticalArrangement = Arrangement.SpaceAround
         ) {
             Text(text = doctor.title,
@@ -79,7 +89,7 @@ fun DoctorCard(
                 fontSize = 18.sp,
                 color = blackText,
                 maxLines = 1,
-                )
+            )
 
             Text(text = "Specialist Dentist",
                 fontWeight = FontWeight.Normal,
@@ -87,35 +97,31 @@ fun DoctorCard(
                 color = mixture
             )
 
-            Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
+            Spacer(modifier = Modifier.width(extraSmallPadding2))
 
-            RatingBar(
-                modifier = Modifier
-                    .size(25.dp),
-                rating = rating,
-                starsColor = starsColor
-            ){
-                rating = it
-            }
+            Text(text = "6:00 PM",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 18.sp,
+                color = mixture
+                )
         }
 
-        Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
+        Spacer(modifier = Modifier.width(extraSmallPadding2))
 
         Icon(
-            painter = painterResource(id = R.drawable.not_saved_icon),
+            painter = painterResource(id = R.drawable.drop_down_icon),
             contentDescription = null,
             modifier = Modifier
                 .padding(top = 10.dp, end = 5.dp),
-            tint = lightMixture
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun DoctorCardPreview(){
+fun PatientAppointmentCardPreview(){
     MedixTheme {
-        DoctorCard(
+        PatientAppointmentCard(
             doctor = Doctor(
                 id = 1,
                 name = "tefoo",
@@ -123,8 +129,7 @@ fun DoctorCardPreview(){
                 title = "Abdelrahman Tarif",
                 url = "",
                 urlToImage = "",
-            ),
-            onClick = {}
+            )
         )
     }
 }

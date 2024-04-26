@@ -26,9 +26,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.generateFakePagingItems
-import com.example.medix.presentation.view.screens.FavouritesScreen
+import com.example.medix.presentation.view.screens.favourites.FavouritesScreen
 import com.example.medix.presentation.view.screens.home.HomeScreen
-import com.example.medix.presentation.view.screens.PatientAppointmentsScreen
+import com.example.medix.presentation.view.screens.patient_appointments.PatientAppointmentsScreen
 import com.example.medix.presentation.view.screens.ProfileScreen
 import com.example.medix.presentation.view.screens.appointment.AppointmentScreen
 import com.example.medix.presentation.view.screens.doctor_details.DoctorDetails
@@ -150,7 +150,11 @@ fun MedixNavigator() {
             composable(route = Screens.PatientAppointmentsRoute.route) {
                 //val viewModel : SearchViewModel = hiltViewModel()
                 //val state = viewModel.state.value
-                PatientAppointmentsScreen(navController = navController)
+                val fakePagingItems = generateFakePagingItems(20)
+                PatientAppointmentsScreen(
+                    navController = navController,
+                    doctors = fakePagingItems
+                )
             }
 
             composable(
@@ -320,12 +324,10 @@ fun MedixNavigator() {
             ) {
                 MedixAiScreen(
                     navigateUp = { navController.navigateUp() },
-                    navController = navController,
-                    selectedImageUri = selectedImageUri,
-                    onImageSelected = { uri -> selectedImageUri = uri
-                        navController.navigate(Screens.MedixModel.route)
-                    }
-                )
+                ) { uri ->
+                    selectedImageUri = uri
+                    navController.navigate(Screens.MedixModel.route)
+                }
             }
 
 
@@ -372,13 +374,25 @@ fun MedixNavigator() {
             composable(route = Screens.FavouritesRoute.route) {
                 //val viewModel : BookmarkViewModel = hiltViewModel()
                 //val state = viewModel.state.value
-                FavouritesScreen()
+                val fakePagingItems = remember { generateFakePagingItems(20) }
+                FavouritesScreen(
+                    navController = navController,
+                    doctors = fakePagingItems,
+                )
             }
 
             composable(route = Screens.ProfileRoute.route) {
                 //val viewModel : BookmarkViewModel = hiltViewModel()
                 //val state = viewModel.state.value
-                ProfileScreen()
+                val doctor = Doctor(id = 1,
+                    name = "tefoo",
+                    description = "",
+                    title = "Abdelrahman Tarif",
+                    url = "",
+                    urlToImage = "",)
+                ProfileScreen(
+                    doctor = doctor
+                )
             }
         }
     }

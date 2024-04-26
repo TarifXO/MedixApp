@@ -1,5 +1,6 @@
 package com.example.medix.presentation.view.screens.medix_ai
 
+
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -19,13 +20,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,10 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
-import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.TopBar
 import com.example.medix.ui.theme.MedixTheme
@@ -49,14 +42,14 @@ import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
 
+
 @Composable
 fun MedixAiScreen(
-    navigateUp : () -> Unit,
-    navController: NavController,
-    selectedImageUri: Uri?,
+    navigateUp: () -> Unit,
     onImageSelected: (Uri) -> Unit
-    ){
-    //var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+){
+    //val context = LocalContext.current
+
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
@@ -65,6 +58,20 @@ fun MedixAiScreen(
             }
         }
     )
+
+    /*val photoCaptureLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture(),
+        onResult = { bitmap ->
+            // Do something with the bitmap, such as saving it to a file and obtaining its URI
+            if (bitmap != null) {
+                val uri = saveBitmapToFileAndGetUri(context, bitmap)
+                if (uri != null) {
+                    onImageSelected(uri)
+                }
+            }
+        }
+    )*/
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -147,14 +154,39 @@ fun MedixAiScreen(
     }
 }
 
+/*fun saveBitmapToFileAndGetUri(context: Context, bitmap: Bitmap): String? {
+    // Create a directory to save images
+    val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    val imageFileName = "JPEG_" + SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+
+    // Create a file to save the image
+    val imageFile = File.createTempFile(
+        imageFileName, /* prefix */
+        ".jpg", /* suffix */
+        imagesDir /* directory */
+    )
+
+    try {
+        // Write the Bitmap to the file
+        FileOutputStream(imageFile).use { outputStream ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return null
+    }
+
+    // Return the Uri of the saved image file
+    return imageFile.absolutePath
+}*/
+
+
 @Preview
 @Composable
 fun MedixAiPreview(){
     MedixTheme {
         MedixAiScreen(
             navigateUp = {},
-            navController = rememberNavController(),
-            selectedImageUri = null,
             onImageSelected = {}
         )
     }
