@@ -29,7 +29,7 @@ import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.favourites.FavouritesScreen
 import com.example.medix.presentation.view.screens.home.HomeScreen
 import com.example.medix.presentation.view.screens.patient_appointments.PatientAppointmentsScreen
-import com.example.medix.presentation.view.screens.ProfileScreen
+import com.example.medix.presentation.view.screens.profile.ProfileScreen
 import com.example.medix.presentation.view.screens.appointment.AppointmentScreen
 import com.example.medix.presentation.view.screens.doctor_details.DoctorDetails
 import com.example.medix.presentation.view.screens.doctors.DoctorsScreen

@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens
+package com.example.medix.presentation.view.screens.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -165,141 +165,162 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(30.dp)
-                    .clickable {  },
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .height(50.dp)
+                    .clickable { }
             ) {
-                Text(
-                    text = "Change Password",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                    color = mixture,
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.right_arrow),
-                    contentDescription = null,
+                Row(
                     modifier = Modifier
-                        .size(15.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Change Password",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        color = mixture,
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.right_arrow),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(15.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Image(
+                    painter = painterResource(id = R.drawable.flat_line_icon),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    colorFilter = ColorFilter.tint(mixture),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
                 )
             }
 
-            Spacer(modifier = Modifier.height(5.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.flat_line_icon),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                colorFilter = ColorFilter.tint(mixture),
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(15.dp)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .clickable {  },
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .height(50.dp)
+                    .clickable { }
             ) {
-                Text(
-                    text = "Language",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                    color = mixture,
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.right_arrow),
-                    contentDescription = null,
+                Row(
                     modifier = Modifier
-                        .size(15.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Language",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        color = mixture,
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.right_arrow),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(15.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Image(
+                    painter = painterResource(id = R.drawable.flat_line_icon),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    colorFilter = ColorFilter.tint(mixture),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
                 )
             }
 
-            Spacer(modifier = Modifier.height(5.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.flat_line_icon),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                colorFilter = ColorFilter.tint(mixture),
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(15.dp)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .clickable {  },
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .height(50.dp)
+                    .clickable { }
             ) {
-                Text(
-                    text = "Privacy Policy",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                    color = mixture,
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.right_arrow),
-                    contentDescription = null,
+                Row(
                     modifier = Modifier
-                        .size(15.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Privacy Policy",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        color = mixture,
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.right_arrow),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(15.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Image(
+                    painter = painterResource(id = R.drawable.flat_line_icon),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    colorFilter = ColorFilter.tint(mixture),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
                 )
             }
 
-            Spacer(modifier = Modifier.height(5.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.flat_line_icon),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                colorFilter = ColorFilter.tint(mixture),
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(15.dp)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .clickable {  },
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .height(50.dp)
+                    .clickable { }
             ) {
-                Text(
-                    text = "Terms & Conditions",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                    color = mixture,
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.right_arrow),
-                    contentDescription = null,
+                Row(
                     modifier = Modifier
-                        .size(15.dp)
+                        .fillMaxWidth()
+                        .height(30.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Terms & Conditions",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        color = mixture,
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.right_arrow),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(15.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Image(
+                    painter = painterResource(id = R.drawable.flat_line_icon),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    colorFilter = ColorFilter.tint(mixture),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(15.dp)
                 )
             }
-
-            Spacer(modifier = Modifier.height(5.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.flat_line_icon),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                colorFilter = ColorFilter.tint(mixture),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(15.dp)
-            )
 
             Box(
                 modifier = Modifier
@@ -309,7 +330,7 @@ fun ProfileScreen(
                     .height(60.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
-                    .clickable {  },
+                    .clickable { },
                 //contentAlignment = Alignment.Center
             ) {
                 Row(
