@@ -116,8 +116,6 @@ fun HomeScreen(
             }
         }
 
-        //Spacer(modifier = Modifier.height(10.dp))
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()

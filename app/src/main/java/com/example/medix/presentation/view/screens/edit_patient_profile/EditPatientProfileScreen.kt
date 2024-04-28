@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.edit_profile
+package com.example.medix.presentation.view.screens.edit_patient_profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,13 +21,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.medix.R
 import com.example.medix.presentation.view.components.TopBar
-import com.example.medix.presentation.view.components.TopBarTitleOnly
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
 
 @Composable
-fun EditProfileScreen(
+fun EditPatientProfileScreen(
     navigateUp : () -> Unit,
 ){
     Column(
@@ -83,7 +82,7 @@ fun EditProfileScreen(
 @Composable
 fun EditProfileScreenPreview(){
     MedixTheme {
-        EditProfileScreen(
+        EditPatientProfileScreen(
             navigateUp = {}
         )
     }

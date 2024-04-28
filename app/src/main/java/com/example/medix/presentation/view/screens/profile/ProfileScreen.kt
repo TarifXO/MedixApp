@@ -35,11 +35,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
 import com.example.medix.presentation.Dimens
+import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.TopBarTitleOnly
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
@@ -50,6 +53,7 @@ import com.example.medix.ui.theme.secondary
 @Composable
 fun ProfileScreen(
     doctor: Doctor,
+    navController: NavController
 ){
     val context = LocalContext.current
 
@@ -104,7 +108,9 @@ fun ProfileScreen(
                 .height(120.dp)
                 .shadow(8.dp, shape = RoundedCornerShape(12.dp))
                 .background(secondary)
-                .clickable { },
+                .clickable {
+                           navController.navigate(Screens.EditPatientProfileRoute.route)
+                },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ){
@@ -376,5 +382,6 @@ fun ProfileScreenPreview(){
             url = "",
             urlToImage = "",
         ),
+        navController = rememberNavController()
     )
 }

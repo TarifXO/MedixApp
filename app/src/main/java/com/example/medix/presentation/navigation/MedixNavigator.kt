@@ -33,6 +33,7 @@ import com.example.medix.presentation.view.screens.profile.ProfileScreen
 import com.example.medix.presentation.view.screens.appointment.AppointmentScreen
 import com.example.medix.presentation.view.screens.doctor_details.DoctorDetails
 import com.example.medix.presentation.view.screens.doctors.DoctorsScreen
+import com.example.medix.presentation.view.screens.edit_patient_profile.EditPatientProfileScreen
 import com.example.medix.presentation.view.screens.medix_ai.MedixAiScreen
 import com.example.medix.presentation.view.screens.medix_model.MedixModel
 
@@ -391,7 +392,14 @@ fun MedixNavigator() {
                     url = "",
                     urlToImage = "",)
                 ProfileScreen(
-                    doctor = doctor
+                    doctor = doctor,
+                    navController = navController
+                )
+            }
+
+            composable(route = Screens.EditPatientProfileRoute.route) {
+                EditPatientProfileScreen(
+                    navigateUp = { navController.navigateUp() }
                 )
             }
         }
