@@ -106,7 +106,7 @@ fun HomeScreen(
                     )
                 }
 
-                Icon(painter = painterResource(id = R.drawable.tefoo), contentDescription = null,
+                Image(painter = painterResource(id = R.drawable.tefoo), contentDescription = null,
                     modifier = Modifier
                         .fillMaxHeight()
                         .align(Alignment.CenterVertically)
