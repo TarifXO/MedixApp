@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547137135245",
+    "project_id": "medixapp-107d6",
+    "storage_bucket": "medixapp-107d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547137135245:android:be72029cde01a5850af8c4",
+        "android_client_info": {
+          "package_name": "com.example.medix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWBmCg6iv7v9rTOI84q3hf1YSVAiyyjjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

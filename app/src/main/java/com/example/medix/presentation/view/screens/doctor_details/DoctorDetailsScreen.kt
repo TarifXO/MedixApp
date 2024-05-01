@@ -165,7 +165,10 @@ fun DoctorDetails(
                         "lknaei ifgjsn slne idn ianionr inda idn aino din " +
                         "fain pfind indnf ipan  idnapi irnidpn inpiwne " +
                         "inipns dkabnvkld npi dopjvd.",
-                    maxLines = 4
+                    maxLines = 4,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 16.sp,
+                    color = blackText
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
