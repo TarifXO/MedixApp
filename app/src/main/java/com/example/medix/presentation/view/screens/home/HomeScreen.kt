@@ -39,8 +39,8 @@ import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.ui.theme.MedixTheme
-import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.blackText
+import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
@@ -50,7 +50,7 @@ import com.example.medix.ui.theme.orange
 fun HomeScreen(
     doctors: List<Doctor>,
     navigateToDoctors: () -> Unit,
-    navController: NavController
+    navController: NavController,
 ) {
 
     Column(
@@ -106,12 +106,12 @@ fun HomeScreen(
                     )
                 }
 
-                Image(painter = painterResource(id = R.drawable.tefoo), contentDescription = null,
+                Image(
+                    painterResource(id = R.drawable.tefoo),
+                    contentDescription = null,
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .align(Alignment.CenterVertically)
                         .size(50.dp)
-
+                        .align(Alignment.CenterVertically)
                 )
             }
         }
@@ -139,7 +139,10 @@ fun HomeScreen(
 
                 Row(
                     modifier = Modifier
-                        .align(Alignment.CenterVertically),
+                        .align(Alignment.CenterVertically)
+                        .clickable {
+                            navigateToDoctors()
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -294,7 +297,7 @@ fun HomePreview() {
     MedixTheme {
         HomeScreen(doctors = fakePagingItems,
             navigateToDoctors = {},
-            navController = rememberNavController()
+            navController = rememberNavController(),
         )
     }
 }

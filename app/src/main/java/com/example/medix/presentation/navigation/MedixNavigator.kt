@@ -399,7 +399,8 @@ fun MedixNavigator() {
 
             composable(route = Screens.EditPatientProfileRoute.route) {
                 EditPatientProfileScreen(
-                    navigateUp = { navController.navigateUp() }
+                    navigateUp = { navController.navigateUp() },
+                    navController = navController
                 )
             }
         }

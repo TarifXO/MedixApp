@@ -234,10 +234,7 @@ fun AppointmentScreen(
                     }
                 }
             )
-
         }
-
-
     }
 }
 
