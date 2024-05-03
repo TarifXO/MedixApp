@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -59,7 +60,14 @@ import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.secondary
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarConfig
+import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditPatientProfileScreen(
     navigateUp : () -> Unit,
@@ -70,6 +78,9 @@ fun EditPatientProfileScreen(
     var contactNumber by remember { mutableStateOf("") }
     var dateOfBirth by remember { mutableStateOf("") }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+    val calendarState = rememberSheetState()
+    var isCalendarDialogVisible by remember { mutableStateOf(false) }
+
 
     fun handleImageSelection(uri: Uri) {
         selectedImageUri = uri
@@ -219,42 +230,55 @@ fun EditPatientProfileScreen(
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            TextField(
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                value = dateOfBirth,
-                onValueChange = { dateOfBirth = it },
-                textStyle = TextStyle(
-                    fontSize = 20.sp
-                ),
-                singleLine = true,
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp)),
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
-                trailingIcon = {
-                    Image(
-                        painter = painterResource(id = R.drawable.pen_icon),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(blackText)
-                    )
-                },
-                placeholder = {
-                    Text(text = "Date Of Birth", style = MaterialTheme.typography.bodyLarge,
-                        color = mixture
-                    )
-                }
-            )
+                    .height(55.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color.White)
+                    .clickable {
+                        isCalendarDialogVisible = true
+                    },
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Text(
+                    text = dateOfBirth.takeIf { it.isNotEmpty() } ?: "Date Of Birth",
+                    modifier = Modifier
+                        .padding(start = 16.dp),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = if (dateOfBirth.isNotEmpty()) blackText else mixture
+                )
+
+                // Trailing icon
+                Image(
+                    painter = painterResource(id = R.drawable.pen_icon),
+                    contentDescription = null,
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                        .padding(end = 12.dp),
+                    colorFilter = ColorFilter.tint(color = blackText)
+                )
+            }
+
+
+            if (isCalendarDialogVisible) {
+                CalendarDialog(
+                    state = calendarState,
+                    config = CalendarConfig(
+                        monthSelection = true,
+                        yearSelection = true,
+                        disabledDates = listOf(LocalDate.now().plusDays(7)),
+                    ),
+                    selection = CalendarSelection.Date {
+                        dateOfBirth = it.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                    }
+                )
+            } else {
+                // Otherwise, show an empty composable
+                Spacer(modifier = Modifier.height(0.dp))
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
-            
+
             Text(
                 text = "Gender",
                 fontWeight = FontWeight.SemiBold,
@@ -297,6 +321,7 @@ fun EditPatientProfileScreen(
                 }
             )
         }
+
     }
 }
 
