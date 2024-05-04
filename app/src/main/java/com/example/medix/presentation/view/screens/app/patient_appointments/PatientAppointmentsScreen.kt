@@ -13,12 +13,11 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.Dimens
@@ -29,7 +28,6 @@ import com.example.medix.ui.theme.mixture
 
 @Composable
 fun PatientAppointmentsScreen(
-    navController: NavController,
     doctors: List<Doctor>,
 ){
     Column(
@@ -43,7 +41,8 @@ fun PatientAppointmentsScreen(
                 .fillMaxWidth()
                 .shadow(12.dp, shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 .height(80.dp)
-                .background(mixture)
+                .background(mixture),
+            contentAlignment = Alignment.Center
         ) {
             TopBarTitleOnly(
                 title = "Appointments"
@@ -56,7 +55,7 @@ fun PatientAppointmentsScreen(
             verticalArrangement = Arrangement.spacedBy(Dimens.mediumPadding1),
             contentPadding = PaddingValues(all = Dimens.extraSmallPadding2)
         ) {
-            items(count = doctors.lastIndex) { it ->
+            items(count = doctors.lastIndex) {
                 PatientAppointmentCard(doctor = doctors[it])
             }
         }
@@ -69,7 +68,6 @@ fun PatientAppointmentsScreen(
 fun PatientAppointmentsScreenPreview(){
     val fakePagingItems = generateFakePagingItems(20)
     PatientAppointmentsScreen(
-        navController = rememberNavController(),
         doctors = fakePagingItems
         )
 }

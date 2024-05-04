@@ -105,7 +105,8 @@ fun EditPatientProfileScreen(
                 .fillMaxWidth()
                 .shadow(12.dp, shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 .height(220.dp)
-                .background(mixture)
+                .background(mixture),
+            contentAlignment = Alignment.Center
         ) {
             Column(
                 modifier = Modifier,
@@ -311,9 +312,7 @@ fun EditPatientProfileScreen(
                 backgroundColor = mixture,
                 padding = PaddingValues(10.dp, top = 25.dp, bottom = 25.dp, end = 10.dp),
                 onClick = {
-                    navController.navigate(
-                        Screens.ProfileRoute.route
-                    ){
+                    navController.navigate(Screens.ProfileRoute.route){
                         popUpTo(Screens.ProfileRoute.route){
                             inclusive = true
                         }

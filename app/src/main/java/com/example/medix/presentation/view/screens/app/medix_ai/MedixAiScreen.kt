@@ -83,7 +83,8 @@ fun MedixAiScreen(
                 .fillMaxWidth()
                 .shadow(12.dp, shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 .height(80.dp)
-                .background(mixture)
+                .background(mixture),
+            contentAlignment = Alignment.Center
         ) {
             TopBar(
                 title = "Medix AI",

@@ -1,5 +1,6 @@
 package com.example.medix.presentation.view.screens.app.doctor_details
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -47,7 +48,6 @@ import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
-import com.example.medix.ui.theme.orange
 
 @Composable
 fun DoctorDetails(
@@ -68,7 +68,8 @@ fun DoctorDetails(
                 .fillMaxWidth()
                 .shadow(12.dp, shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 .height(80.dp)
-                .background(mixture)
+                .background(mixture),
+            contentAlignment = Alignment.Center
         ) {
             TopBar(
                 title = "Doctor Details",
@@ -174,59 +175,90 @@ fun DoctorDetails(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Row(
-                    verticalAlignment = Alignment.Top
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Column {
-                        Icon(painter = painterResource(id = R.drawable.address_icon),
-                            tint = orange,
-                            contentDescription = null,
+                    Box(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Column(
                             modifier = Modifier
-                                .size(30.dp)
-                        )
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.address_icon),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(30.dp)
+                                )
 
-                        Spacer(modifier = Modifier.height(70.dp))
+                                Spacer(modifier = Modifier.width(8.dp))
 
-                        Icon(painter = painterResource(id = R.drawable.phone_icon),
-                            tint = orange,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(30.dp)
-                        )
+                                Text(
+                                    text = "Address",
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 20.sp,
+                                    color = Color.Black
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(
+                                text = "House 2, EL 7elw, Tanta",
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 18.sp,
+                                color = Color.Black,
+                                maxLines = 2
+                            )
+                        }
                     }
 
-                    Column(
-                        modifier = Modifier
-                            .width(140.dp)
+                    Spacer(modifier = Modifier.width(20.dp))
+
+                    Box(
+                        modifier = Modifier.weight(1f)
                     ) {
-                        Text(text = "Address",
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 20.sp,
-                            color = blackText
-                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.phone_icon),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(30.dp)
+                                )
 
-                        Spacer(modifier = Modifier.height(5.dp))
+                                Spacer(modifier = Modifier.width(8.dp))
 
-                        Text(text = "House 2, EL 7elw, Tanta",
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 18.sp,
-                            color = blackText
-                        )
+                                Text(
+                                    text = "Phone",
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 20.sp,
+                                    color = Color.Black
+                                )
+                            }
 
-                        Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
-                        Text(text = "Phone",
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 20.sp,
-                            color = blackText
-                        )
-
-                        Spacer(modifier = Modifier.height(5.dp))
-
-                        Text(text = "+201147940368",
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 18.sp,
-                            color = blackText
-                        )
+                            Text(
+                                text = "+201147940368",
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 18.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
                 }
 

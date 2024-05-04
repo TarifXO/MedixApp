@@ -64,8 +64,8 @@ fun HomeScreen(
             .fillMaxWidth()
             .shadow(12.dp, shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
             .height(200.dp)
-            .background(mixture)
-
+            .background(mixture),
+            contentAlignment = Alignment.Center
         ) {
             Row(modifier = Modifier
                 .fillMaxWidth()

@@ -208,8 +208,7 @@ fun LogInScreen(navController: NavController) {
                             .border(0.5.dp, Color.Black, RoundedCornerShape(12.dp))
                             .clip(RoundedCornerShape(12.dp)),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }
-                        ),
+                        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                         trailingIcon = {
                             val iconImage =
                                 if(passwordVisible) {

@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +44,7 @@ import com.example.medix.R
 import com.example.medix.domain.model.Doctor
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
+import com.example.medix.presentation.view.components.ToggleButton
 import com.example.medix.presentation.view.components.TopBarTitleOnly
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
@@ -68,7 +70,8 @@ fun ProfileScreen(
                 .fillMaxWidth()
                 .shadow(12.dp, shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 .height(80.dp)
-                .background(mixture)
+                .background(mixture),
+            contentAlignment = Alignment.Center
         ) {
             TopBarTitleOnly(
                 title = "Profile"
@@ -105,11 +108,11 @@ fun ProfileScreen(
 
             Row(modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
+                .height(100.dp)
                 .shadow(8.dp, shape = RoundedCornerShape(12.dp))
                 .background(secondary)
                 .clickable {
-                           navController.navigate(Screens.EditPatientProfileRoute.route)
+                    navController.navigate(Screens.EditPatientProfileRoute.route)
                 },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -127,7 +130,7 @@ fun ProfileScreen(
                     modifier = Modifier
                         .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
                         .height(80.dp),
-                    verticalArrangement = Arrangement.SpaceAround
+                    verticalArrangement = Arrangement.Center
                 ) {
                     Text(text = doctor.title,
                         fontWeight = FontWeight.Bold,
@@ -136,16 +139,18 @@ fun ProfileScreen(
                         maxLines = 1,
                     )
 
-                    Text(text = "abdelrahman.tarif10@gmail.com",
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 15.sp,
-                        color = blackText,
-                        modifier = Modifier
-                            .width(180.dp)
+                    Text(
+                        text = "abdelrahman.tarif10@gmail.com",
+                        style = TextStyle(
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 15.sp,
+                            color = Color.Black,
+                            lineHeight = 15.sp
+                        ),
+                        modifier = Modifier.width(180.dp)
                     )
 
                     Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
-
 
                 }
 
@@ -169,17 +174,71 @@ fun ProfileScreen(
                 color = blackText,
             )
 
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
-                    .clickable { }
+                    .height(40.dp)
+                    .shadow(0.dp, shape = RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(20.dp))
+                    .clickable { },
+                verticalArrangement = Arrangement.Center
             ) {
+                Spacer(modifier = Modifier.height(5.dp))
+
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Notifications",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        color = mixture,
+                    )
+
+                    ToggleButton(initialValue = false){
+
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+            }
+
+            Image(
+                painter = painterResource(id = R.drawable.flat_line_icon),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                colorFilter = ColorFilter.tint(mixture),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(10.dp)
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .shadow(0.dp, shape = RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(20.dp))
+                    .clickable {
+                               navController.navigate(
+                                   Screens.ChangePasswordRoute.route
+                               )
+                    },
+                verticalArrangement = Arrangement.Center
+            ) {
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -199,26 +258,34 @@ fun ProfileScreen(
 
                 Spacer(modifier = Modifier.height(5.dp))
 
-                Image(
-                    painter = painterResource(id = R.drawable.flat_line_icon),
-                    contentDescription = null,
-                    alignment = Alignment.Center,
-                    colorFilter = ColorFilter.tint(mixture),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(15.dp)
-                )
             }
+
+            Image(
+                painter = painterResource(id = R.drawable.flat_line_icon),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                colorFilter = ColorFilter.tint(mixture),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(10.dp)
+            )
+
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
-                    .clickable { }
+                    .height(40.dp)
+                    .shadow(0.dp, shape = RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(20.dp))
+                    .clickable { },
+                verticalArrangement = Arrangement.Center
             ) {
+                Spacer(modifier = Modifier.height(5.dp))
+
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -237,27 +304,33 @@ fun ProfileScreen(
                 }
 
                 Spacer(modifier = Modifier.height(5.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.flat_line_icon),
-                    contentDescription = null,
-                    alignment = Alignment.Center,
-                    colorFilter = ColorFilter.tint(mixture),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(15.dp)
-                )
             }
+
+            Image(
+                painter = painterResource(id = R.drawable.flat_line_icon),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                colorFilter = ColorFilter.tint(mixture),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(10.dp)
+            )
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
-                    .clickable { }
+                    .height(40.dp)
+                    .shadow(0.dp, shape = RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(20.dp))
+                    .clickable { },
+                verticalArrangement = Arrangement.Center
             ) {
+                Spacer(modifier = Modifier.height(5.dp))
+
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -276,28 +349,33 @@ fun ProfileScreen(
                 }
 
                 Spacer(modifier = Modifier.height(5.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.flat_line_icon),
-                    contentDescription = null,
-                    alignment = Alignment.Center,
-                    colorFilter = ColorFilter.tint(mixture),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(15.dp)
-                )
             }
+
+            Image(
+                painter = painterResource(id = R.drawable.flat_line_icon),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                colorFilter = ColorFilter.tint(mixture),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(10.dp)
+            )
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
-                    .clickable { }
+                    .height(40.dp)
+                    .shadow(0.dp, shape = RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(20.dp))
+                    .clickable { },
+                verticalArrangement = Arrangement.Center
             ) {
+                Spacer(modifier = Modifier.height(5.dp))
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(30.dp),
+                        .padding(horizontal = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -316,22 +394,22 @@ fun ProfileScreen(
                 }
 
                 Spacer(modifier = Modifier.height(5.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.flat_line_icon),
-                    contentDescription = null,
-                    alignment = Alignment.Center,
-                    colorFilter = ColorFilter.tint(mixture),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(15.dp)
-                )
             }
+
+            Image(
+                painter = painterResource(id = R.drawable.flat_line_icon),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                colorFilter = ColorFilter.tint(mixture),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(10.dp)
+            )
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp, top = 15.dp, bottom = 0.dp, end = 10.dp)
+                    .padding(10.dp, top = 10.dp, bottom = 0.dp, end = 10.dp)
                     .shadow(20.dp, shape = RoundedCornerShape(20.dp))
                     .height(60.dp)
                     .clip(RoundedCornerShape(12.dp))

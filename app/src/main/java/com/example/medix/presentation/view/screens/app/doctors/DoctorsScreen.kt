@@ -58,7 +58,7 @@ fun DoctorsScreen(
                 .shadow(12.dp, shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 .height(180.dp)
                 .background(mixture),
-
+            contentAlignment = Alignment.Center
             ) {
             Column {
                 TopBar(

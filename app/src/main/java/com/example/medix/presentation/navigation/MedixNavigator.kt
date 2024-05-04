@@ -36,6 +36,7 @@ import com.example.medix.presentation.view.screens.app.doctors.DoctorsScreen
 import com.example.medix.presentation.view.screens.app.edit_patient_profile.EditPatientProfileScreen
 import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiScreen
 import com.example.medix.presentation.view.screens.app.medix_model.MedixModel
+import com.example.medix.presentation.view.screens.app.change_password.ChangePassword
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
@@ -153,7 +154,6 @@ fun MedixNavigator() {
                 //val state = viewModel.state.value
                 val fakePagingItems = generateFakePagingItems(20)
                 PatientAppointmentsScreen(
-                    navController = navController,
                     doctors = fakePagingItems
                 )
             }
@@ -397,8 +397,81 @@ fun MedixNavigator() {
                 )
             }
 
-            composable(route = Screens.EditPatientProfileRoute.route) {
+            composable(
+                route = Screens.EditPatientProfileRoute.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            -fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeOut(animationSpec = tween(100))
+                }
+            ) {
                 EditPatientProfileScreen(
+                    navigateUp = { navController.navigateUp() },
+                    navController = navController
+                )
+            }
+
+            composable(
+                route = Screens.ChangePasswordRoute.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            -fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeOut(animationSpec = tween(100))
+                }
+            ) {
+                //val viewModel : BookmarkViewModel = hiltViewModel()
+                //val state = viewModel.state.value
+                ChangePassword(
                     navigateUp = { navController.navigateUp() },
                     navController = navController
                 )
