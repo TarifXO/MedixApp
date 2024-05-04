@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.doctor_details
+package com.example.medix.presentation.view.screens.app.doctor_details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

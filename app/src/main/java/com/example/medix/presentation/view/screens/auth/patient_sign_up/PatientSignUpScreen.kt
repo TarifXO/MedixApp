@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens
+package com.example.medix.presentation.view.screens.auth.patient_sign_up
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,22 +38,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.medix.R
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
-import com.example.medix.presentation.view.components.Sheet
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
 import com.example.medix.ui.theme.primaryGreen
 import com.example.medix.ui.theme.secondary
 
+
+
 @Composable
-fun LogInScreen(navController: NavController) {
+fun PatientSignUpScreen(navController: NavController) {
+    var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var emailCheck by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    var showBottomSheet by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
     Box(
@@ -73,7 +72,7 @@ fun LogInScreen(navController: NavController) {
         )
         {
             Text(
-                text = "Log In",
+                text = "Sign Up",
                 style = TextStyle(
                     fontFamily = FontFamily.Default,
                     fontWeight = FontWeight.ExtraBold,
@@ -108,7 +107,62 @@ fun LogInScreen(navController: NavController) {
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painter = painterResource(id = R.drawable.email),
+                            painter = painterResource(id = com.example.medix.R.drawable.fullname),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(24.dp)
+                                .padding(bottom = 3.dp)
+                        )
+
+                        Spacer(modifier = Modifier.width(10.dp))
+
+                        Text(
+                            text = "Full Name",
+                            style = TextStyle(
+                                fontFamily = FontFamily.Default,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 20.sp
+                            ),
+                            color = Color.White,
+                            modifier = Modifier.padding(bottom = 3.dp)
+                        )
+                    }
+                    TextField(
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
+                        ),
+                        value = fullName,
+                        onValueChange = { fullName = it },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(0.5.dp, Color.Black, RoundedCornerShape(12.dp))
+                            .clip(RoundedCornerShape(12.dp)),
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                        keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        ),
+                        textStyle = TextStyle(
+                            fontSize = 20.sp
+                        ),
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(id = com.example.medix.R.drawable.email),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(24.dp)
@@ -137,17 +191,16 @@ fun LogInScreen(navController: NavController) {
                         ),
                         value = email,
                         onValueChange = { email = it },
-                        textStyle = TextStyle(
-                            fontSize = 20.sp
-                        ),
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
                             .border(0.5.dp, Color.Black, RoundedCornerShape(12.dp))
                             .clip(RoundedCornerShape(12.dp)),
                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        ),
+                        textStyle = TextStyle(
+                            fontSize = 20.sp
                         )
                     )
                 }
@@ -164,7 +217,7 @@ fun LogInScreen(navController: NavController) {
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painter = painterResource(id = R.drawable.password),
+                            painter = painterResource(id = com.example.medix.R.drawable.password),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(24.dp)
@@ -178,7 +231,7 @@ fun LogInScreen(navController: NavController) {
                             style = TextStyle(
                                 fontFamily = FontFamily.Default,
                                 fontWeight = FontWeight.SemiBold,
-                                fontSize = 20.sp
+                                fontSize = 22.sp
                             ),
                             color = Color.White,
                             modifier = Modifier.padding(bottom = 3.dp)
@@ -193,9 +246,6 @@ fun LogInScreen(navController: NavController) {
                         ),
                         value = password,
                         onValueChange = { password = it },
-                        textStyle = TextStyle(
-                            fontSize = 20.sp
-                        ),
                         singleLine = true,
                         visualTransformation =
                         if (passwordVisible)
@@ -204,11 +254,13 @@ fun LogInScreen(navController: NavController) {
                             PasswordVisualTransformation(),
                         modifier = Modifier
                             .fillMaxWidth()
-
                             .border(0.5.dp, Color.Black, RoundedCornerShape(12.dp))
                             .clip(RoundedCornerShape(12.dp)),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }
+                        ),
+                        textStyle = TextStyle(
+                            fontSize = 20.sp
                         ),
                         trailingIcon = {
                             val iconImage =
@@ -233,17 +285,14 @@ fun LogInScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(36.dp))
 
-
             ElevatedButton(
-                text = "Log In",
+                text = "Sign Up",
                 textSize = 25.sp,
                 textColor = primaryGreen,
                 backgroundColor = secondary,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                    navController.navigate(Screens.MedixNavigation.route){
-                        popUpTo(Screens.AuthRoute.route)
-                    }
+                navController.navigate(Screens.MedixNavigation.route)
                 }
             )
 
@@ -253,46 +302,18 @@ fun LogInScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "Forgot password?",
-                    style = TextStyle(
-                        fontFamily = FontFamily.Default,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 17.sp,
-                        color = Color.White
-                    ),
-                    modifier = Modifier.clickable{
-                        showBottomSheet = true
-                    }
-                )
-            }
-
-            // Show the bottom sheet if showBottomSheet is true
-            if (showBottomSheet) {
-                Sheet(
-                    email = emailCheck,
-                    onEmailChange = { emailCheck = it },
-                    onClose = { showBottomSheet = false }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(25.dp))
-
-            Row(modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(text = "Don’t have an account?",
+                Text(text = "Already have an account?",
                     style = TextStyle(
                         fontFamily = FontFamily.Default,
                         fontWeight = FontWeight.Normal,
                         fontSize = 16.sp,
                         color = Color.White
+                        )
                     )
-                )
 
                 Spacer(modifier = Modifier.width(5.dp))
 
-                Text(text = "Sign up",
+                Text(text = "Log in",
                     style = TextStyle(
                         fontFamily = FontFamily.Default,
                         fontWeight = FontWeight.Normal,
@@ -300,20 +321,20 @@ fun LogInScreen(navController: NavController) {
                         color = orange
                     ),
                     modifier = Modifier.clickable {
-                        navController.navigate(Screens.SignUpOptionsRoute.route)
+                        navController.navigate(Screens.LoginRoute.route)
                     }
                 )
 
             }
 
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
             Row(modifier = Modifier.fillMaxWidth()
                 ,verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.line),
+                    painter = painterResource(id = com.example.medix.R.drawable.line),
                     contentDescription = null,
                     modifier = Modifier.size(width = 130.dp, height = 12.dp),
                     tint = Color.White
@@ -335,28 +356,28 @@ fun LogInScreen(navController: NavController) {
                 Spacer(modifier = Modifier.width(5.dp))
 
                 Icon(
-                    painter = painterResource(id = R.drawable.line),
+                    painter = painterResource(id = com.example.medix.R.drawable.line),
                     contentDescription = null,
                     modifier = Modifier.size(width = 130.dp, height = 12.dp),
                     tint = Color.White
                 )
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
-            Row(modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ){
-                Text(text = "Sign up with your social account",
-                    style = TextStyle(
-                        fontFamily = FontFamily.Default,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 16.sp,
-                        color = Color.White
+                Row(modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ){
+                    Text(text = "Sign up with your social account",
+                        style = TextStyle(
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 16.sp,
+                            color = Color.White
+                        )
                     )
-                )
-            }
+                }
 
             Spacer(modifier = Modifier.height(25.dp))
 
@@ -365,29 +386,25 @@ fun LogInScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.Center
             ){
                 Icon(
-                    painter = painterResource(id = R.drawable.google),
+                    painter = painterResource(id = com.example.medix.R.drawable.google),
                     contentDescription = null,
                     modifier = Modifier.size(width = 100.dp, height = 43.dp),
                     tint = Color.White
                 )
-
-
                 Icon(
-                    painter = painterResource(id = R.drawable.facebook),
+                    painter = painterResource(id = com.example.medix.R.drawable.facebook),
                     contentDescription = null,
                     modifier = Modifier.size(width = 100.dp, height = 45.dp),
                     tint = Color.White
                 )
 
             }
-
-
         }
     }
 }
 
 @Preview
 @Composable
-fun PreviewLogInScreen() {
-    LogInScreen(rememberNavController())
+fun PreviewSignUpScreen() {
+    PatientSignUpScreen(rememberNavController())
 }

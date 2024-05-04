@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.edit_patient_profile
+package com.example.medix.presentation.view.screens.app.edit_patient_profile
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

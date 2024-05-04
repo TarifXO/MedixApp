@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.medix_ai
+package com.example.medix.presentation.view.screens.app.medix_ai
 
 
 import android.net.Uri

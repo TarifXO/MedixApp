@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.medix_model
+package com.example.medix.presentation.view.screens.app.medix_model
 
 import android.net.Uri
 import androidx.compose.foundation.Image

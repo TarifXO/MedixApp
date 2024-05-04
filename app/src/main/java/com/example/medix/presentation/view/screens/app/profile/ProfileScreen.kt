@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.profile
+package com.example.medix.presentation.view.screens.app.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

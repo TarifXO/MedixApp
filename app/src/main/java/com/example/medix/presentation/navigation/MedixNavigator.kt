@@ -26,16 +26,16 @@ import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.generateFakePagingItems
-import com.example.medix.presentation.view.screens.favourites.FavouritesScreen
-import com.example.medix.presentation.view.screens.home.HomeScreen
-import com.example.medix.presentation.view.screens.patient_appointments.PatientAppointmentsScreen
-import com.example.medix.presentation.view.screens.profile.ProfileScreen
-import com.example.medix.presentation.view.screens.appointment.AppointmentScreen
-import com.example.medix.presentation.view.screens.doctor_details.DoctorDetails
-import com.example.medix.presentation.view.screens.doctors.DoctorsScreen
-import com.example.medix.presentation.view.screens.edit_patient_profile.EditPatientProfileScreen
-import com.example.medix.presentation.view.screens.medix_ai.MedixAiScreen
-import com.example.medix.presentation.view.screens.medix_model.MedixModel
+import com.example.medix.presentation.view.screens.app.favourites.FavouritesScreen
+import com.example.medix.presentation.view.screens.app.home.HomeScreen
+import com.example.medix.presentation.view.screens.app.patient_appointments.PatientAppointmentsScreen
+import com.example.medix.presentation.view.screens.app.profile.ProfileScreen
+import com.example.medix.presentation.view.screens.app.appointment.AppointmentScreen
+import com.example.medix.presentation.view.screens.app.doctor_details.DoctorDetails
+import com.example.medix.presentation.view.screens.app.doctors.DoctorsScreen
+import com.example.medix.presentation.view.screens.app.edit_patient_profile.EditPatientProfileScreen
+import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiScreen
+import com.example.medix.presentation.view.screens.app.medix_model.MedixModel
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
