@@ -326,7 +326,7 @@ fun EditPatientProfileScreen(
 
 @Preview
 @Composable
-fun EditProfileScreenPreview(){
+fun EditPatientProfileScreenPreview(){
     MedixTheme {
         EditPatientProfileScreen(
             navigateUp = {},

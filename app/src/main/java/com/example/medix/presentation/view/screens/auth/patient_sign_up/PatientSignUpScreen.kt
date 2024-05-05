@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
+import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
 import com.example.medix.ui.theme.primaryGreen
@@ -145,7 +146,8 @@ fun PatientSignUpScreen(navController: NavController) {
                         keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }
                         ),
                         textStyle = TextStyle(
-                            fontSize = 20.sp
+                            fontSize = 20.sp,
+                            color = blackText
                         ),
                     )
                 }
@@ -200,7 +202,8 @@ fun PatientSignUpScreen(navController: NavController) {
                         keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }
                         ),
                         textStyle = TextStyle(
-                            fontSize = 20.sp
+                            fontSize = 20.sp,
+                            color = blackText
                         )
                     )
                 }
@@ -260,7 +263,8 @@ fun PatientSignUpScreen(navController: NavController) {
                         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }
                         ),
                         textStyle = TextStyle(
-                            fontSize = 20.sp
+                            fontSize = 20.sp,
+                            color = blackText
                         ),
                         trailingIcon = {
                             val iconImage =

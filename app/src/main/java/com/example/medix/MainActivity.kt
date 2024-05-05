@@ -15,7 +15,7 @@ import com.example.medix.ui.theme.MedixTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         actionBar?.hide()
         setContent {
             MedixTheme {

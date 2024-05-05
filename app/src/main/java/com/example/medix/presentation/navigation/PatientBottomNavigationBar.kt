@@ -32,7 +32,7 @@ import com.example.medix.ui.theme.mixture
 
 
 @Composable
-fun BottomNavigationBar(
+fun PatientBottomNavigationBar(
     items : List<BottomNavigationItem>,
     selected : Int,
     onItemClick : (Int) -> Unit
@@ -83,10 +83,10 @@ data class BottomNavigationItem(
 
 @Preview(showBackground = true)
 @Composable
-fun NewsBottomNavigationPreview(){
+fun PatientBottomNavigationBarPreview(){
     MedixTheme {
         Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-            BottomNavigationBar(
+            PatientBottomNavigationBar(
                 items = listOf(
                     BottomNavigationItem(
                         icon = R.drawable.home_icon,

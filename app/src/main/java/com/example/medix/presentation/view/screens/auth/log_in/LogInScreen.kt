@@ -42,6 +42,7 @@ import com.example.medix.R
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.Sheet
+import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
 import com.example.medix.ui.theme.primaryGreen
@@ -138,7 +139,8 @@ fun LogInScreen(navController: NavController) {
                         value = email,
                         onValueChange = { email = it },
                         textStyle = TextStyle(
-                            fontSize = 20.sp
+                            fontSize = 20.sp,
+                            color = blackText
                         ),
                         singleLine = true,
                         modifier = Modifier
@@ -194,7 +196,8 @@ fun LogInScreen(navController: NavController) {
                         value = password,
                         onValueChange = { password = it },
                         textStyle = TextStyle(
-                            fontSize = 20.sp
+                            fontSize = 20.sp,
+                            color = blackText
                         ),
                         singleLine = true,
                         visualTransformation =
@@ -223,7 +226,11 @@ fun LogInScreen(navController: NavController) {
                                     "Show Password"
                                 }
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                Icon(imageVector = iconImage, contentDescription = description)
+                                Icon(
+                                    imageVector = iconImage,
+                                    contentDescription = description,
+                                    tint = blackText
+                                )
                             }
                         }
                     )
