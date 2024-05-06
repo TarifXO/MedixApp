@@ -122,7 +122,11 @@ fun SignUpOptions(navController: NavController){
 
 
                 Column(modifier = Modifier
-                    .height(250.dp),
+                    .height(250.dp)
+                    .clickable {
+                        navController.navigate(Screens.DoctorSignUpRoute.route){
+                        }
+                    },
                     horizontalAlignment = Alignment.CenterHorizontally
 
                 ) {

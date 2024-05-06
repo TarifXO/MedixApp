@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.app.profile
+package com.example.medix.presentation.view.screens.app.patient_profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -41,7 +41,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
-import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.Patient
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ToggleButton
@@ -53,8 +53,8 @@ import com.example.medix.ui.theme.orange
 import com.example.medix.ui.theme.secondary
 
 @Composable
-fun ProfileScreen(
-    doctor: Doctor,
+fun PatientProfileScreen(
+    patient: Patient,
     navController: NavController
 ){
     val context = LocalContext.current
@@ -122,7 +122,7 @@ fun ProfileScreen(
                     .size(60.dp)
                     .clip(MaterialTheme.shapes.medium),
                     contentScale = ContentScale.Crop,
-                    model = ImageRequest.Builder(context).data(doctor.urlToImage).build()
+                    model = ImageRequest.Builder(context).data(patient.urlToImage).build()
                     , contentDescription = null
                 )
 
@@ -132,7 +132,7 @@ fun ProfileScreen(
                         .height(80.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = doctor.title,
+                    Text(text = patient.title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = blackText,
@@ -228,7 +228,7 @@ fun ProfileScreen(
                     .clip(RoundedCornerShape(20.dp))
                     .clickable {
                                navController.navigate(
-                                   Screens.ChangePasswordRoute.route
+                                   Screens.ChangePatientPasswordRoute.route
                                )
                     },
                 verticalArrangement = Arrangement.Center
@@ -450,13 +450,13 @@ fun ProfileScreen(
 
 @Preview
 @Composable
-fun ProfileScreenPreview(){
-    ProfileScreen(
-        doctor = Doctor(
+fun PatientProfileScreenPreview(){
+    PatientProfileScreen(
+        patient = Patient(
             id = 1,
             name = "tefoo",
             description = "",
-            title = "Abdelrahman Tarif",
+            title = "Youssef Hawash",
             url = "",
             urlToImage = "",
         ),

@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -79,6 +80,10 @@ fun EditDoctorProfileScreen(
     var name by remember { mutableStateOf("") }
     var contactNumber by remember { mutableStateOf("") }
     var dateOfBirth by remember { mutableStateOf("") }
+    var specialty by remember { mutableStateOf("") }
+    var bio by remember { mutableStateOf("") }
+    var address by remember { mutableStateOf("") }
+    var wage by remember { mutableStateOf("") }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     val calendarState = rememberSheetState()
     var isCalendarDialogVisible by remember { mutableStateOf(false) }
@@ -149,14 +154,14 @@ fun EditDoctorProfileScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
                 .padding(vertical = 8.dp)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(20.dp)
-                    .verticalScroll(scrollState)
+                    .height(IntrinsicSize.Max)
             ) {
                 Text(
                     text = "Personal Information",
@@ -279,8 +284,8 @@ fun EditDoctorProfileScreen(
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
-                    value = contactNumber,
-                    onValueChange = { contactNumber = it },
+                    value = specialty,
+                    onValueChange = { specialty = it },
                     textStyle = TextStyle(
                         fontSize = 20.sp
                     ),
@@ -315,8 +320,8 @@ fun EditDoctorProfileScreen(
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
-                    value = contactNumber,
-                    onValueChange = { contactNumber = it },
+                    value = bio,
+                    onValueChange = { bio = it },
                     textStyle = TextStyle(
                         fontSize = 20.sp
                     ),
@@ -351,8 +356,8 @@ fun EditDoctorProfileScreen(
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
-                    value = contactNumber,
-                    onValueChange = { contactNumber = it },
+                    value = address,
+                    onValueChange = { address = it },
                     textStyle = TextStyle(
                         fontSize = 20.sp
                     ),
@@ -387,8 +392,8 @@ fun EditDoctorProfileScreen(
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
-                    value = contactNumber,
-                    onValueChange = { contactNumber = it },
+                    value = wage,
+                    onValueChange = { wage = it },
                     textStyle = TextStyle(
                         fontSize = 20.sp
                     ),
@@ -465,8 +470,8 @@ fun EditDoctorProfileScreen(
                     backgroundColor = mixture,
                     padding = PaddingValues(10.dp, top = 25.dp, bottom = 25.dp, end = 10.dp),
                     onClick = {
-                        navController.navigate(Screens.ProfileRoute.route){
-                            popUpTo(Screens.ProfileRoute.route){
+                        navController.navigate(Screens.DoctorProfileRoute.route){
+                            popUpTo(Screens.DoctorProfileRoute.route){
                                 inclusive = true
                             }
                         }

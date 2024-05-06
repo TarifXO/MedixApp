@@ -312,8 +312,8 @@ fun EditPatientProfileScreen(
                 backgroundColor = mixture,
                 padding = PaddingValues(10.dp, top = 25.dp, bottom = 25.dp, end = 10.dp),
                 onClick = {
-                    navController.navigate(Screens.ProfileRoute.route){
-                        popUpTo(Screens.ProfileRoute.route){
+                    navController.navigate(Screens.PatientProfileRoute.route){
+                        popUpTo(Screens.PatientProfileRoute.route){
                             inclusive = true
                         }
                     }

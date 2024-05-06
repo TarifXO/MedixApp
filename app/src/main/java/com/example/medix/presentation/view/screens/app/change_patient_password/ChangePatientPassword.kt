@@ -1,8 +1,7 @@
-package com.example.medix.presentation.view.screens.app.change_password
+package com.example.medix.presentation.view.screens.app.change_patient_password
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -60,11 +59,10 @@ import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
-import com.example.medix.ui.theme.primaryGreen
 import com.example.medix.ui.theme.secondary
 
 @Composable
-fun ChangePassword(
+fun ChangePatientPassword(
     navigateUp : () -> Unit,
     navController: NavController
 ){
@@ -325,8 +323,8 @@ fun ChangePassword(
                 backgroundColor = orange,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                    navController.navigate(Screens.ProfileRoute.route){
-                        popUpTo(Screens.ProfileRoute.route){
+                    navController.navigate(Screens.PatientProfileRoute.route){
+                        popUpTo(Screens.PatientProfileRoute.route){
                             inclusive = true
                         }
                     }
@@ -338,9 +336,9 @@ fun ChangePassword(
 
 @Preview
 @Composable
-fun ChangePasswordPreview(){
+fun ChangePatientPasswordPreview(){
     MedixTheme {
-        ChangePassword(
+        ChangePatientPassword(
             navigateUp = {},
             navController = rememberNavController()
         )

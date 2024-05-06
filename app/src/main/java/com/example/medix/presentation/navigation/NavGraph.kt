@@ -23,5 +23,14 @@ fun NavGraph(
                 MedixNavigator()
             }
         }
+
+        navigation(
+            route = Screens.DoctorNavigation.route,
+            startDestination = Screens.DoctorNavigatorScreen.route
+        ){
+            composable(route = Screens.DoctorNavigatorScreen.route){
+                DoctorNavigator()
+            }
+        }
     }
 }

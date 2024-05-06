@@ -82,19 +82,9 @@ fun DoctorBottomNavigationBarPreview() {
             DoctorBottomNavigationBar(
                 items = listOf(
                     BottomNavigationItem(
-                        icon = R.drawable.home_icon,
-                        selectedIcon = R.drawable.home_icon_filled,
-                        text = "Home"
-                    ),
-                    BottomNavigationItem(
                         icon = R.drawable.appointments_icon,
                         selectedIcon = R.drawable.appointments_icon_filled,
                         text = "Appointments"
-                    ),
-                    BottomNavigationItem(
-                        icon = R.drawable.favourites_icon,
-                        R.drawable.favourites_icon_filled,
-                        text = "Favorites"
                     ),
                     BottomNavigationItem(
                         icon = R.drawable.profile_icon,
