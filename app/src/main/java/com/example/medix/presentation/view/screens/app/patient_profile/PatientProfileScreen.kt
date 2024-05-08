@@ -41,11 +41,13 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
+import com.example.medix.domain.model.Gender
 import com.example.medix.domain.model.Patient
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ToggleButton
 import com.example.medix.presentation.view.components.TopBarTitleOnly
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
@@ -54,6 +56,7 @@ import com.example.medix.ui.theme.secondary
 
 @Composable
 fun PatientProfileScreen(
+    viewModel: AuthViewModel?,
     patient: Patient,
     navController: NavController
 ){
@@ -122,7 +125,7 @@ fun PatientProfileScreen(
                     .size(60.dp)
                     .clip(MaterialTheme.shapes.medium),
                     contentScale = ContentScale.Crop,
-                    model = ImageRequest.Builder(context).data(patient.urlToImage).build()
+                    model = ImageRequest.Builder(context).data(patient.image).build()
                     , contentDescription = null
                 )
 
@@ -132,7 +135,8 @@ fun PatientProfileScreen(
                         .height(80.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = patient.title,
+                    Text(
+                        text = viewModel?.currentUser?.displayName ?: "",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = blackText,
@@ -140,7 +144,7 @@ fun PatientProfileScreen(
                     )
 
                     Text(
-                        text = "abdelrahman.tarif10@gmail.com",
+                        text = viewModel?.currentUser?.email ?: "",
                         style = TextStyle(
                             fontWeight = FontWeight.Normal,
                             fontSize = 15.sp,
@@ -414,7 +418,10 @@ fun PatientProfileScreen(
                     .height(60.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
-                    .clickable { },
+                    .clickable {
+                        viewModel?.logout()
+                        navController.navigate(Screens.LoginRoute.route)
+                    },
                 //contentAlignment = Alignment.Center
             ) {
                 Row(
@@ -454,12 +461,15 @@ fun PatientProfileScreenPreview(){
     PatientProfileScreen(
         patient = Patient(
             id = 1,
-            name = "tefoo",
-            description = "",
-            title = "Youssef Hawash",
-            url = "",
-            urlToImage = "",
+            phoneNumber = "12013",
+            email = "he needs some medical help",
+            name = "Youssef Hawash",
+            image = "",
+            dateOfBirth = "",
+            gender = Gender.MALE,
+            password = "123456789"
         ),
-        navController = rememberNavController()
+        navController = rememberNavController(),
+         viewModel = null
     )
 }

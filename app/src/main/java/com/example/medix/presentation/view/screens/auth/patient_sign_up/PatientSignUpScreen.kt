@@ -1,5 +1,6 @@
 package com.example.medix.presentation.view.screens.auth.patient_sign_up
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -24,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -38,8 +41,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.medix.data.authentication.Resource
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
@@ -49,12 +54,17 @@ import com.example.medix.ui.theme.secondary
 
 
 @Composable
-fun PatientSignUpScreen(navController: NavController) {
+fun PatientSignUpScreen(
+    viewModel: AuthViewModel?,
+    navController: NavController
+) {
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+
+    val signupFlow = viewModel?.signupFlow?.collectAsState()
 
     Box(
         modifier = Modifier
@@ -296,7 +306,7 @@ fun PatientSignUpScreen(navController: NavController) {
                 backgroundColor = secondary,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                navController.navigate(Screens.MedixNavigation.route)
+                viewModel?.signup(fullName, email, password)
                 }
             )
 
@@ -404,11 +414,37 @@ fun PatientSignUpScreen(navController: NavController) {
 
             }
         }
+
+        signupFlow?.value?.let {
+            when(it) {
+                is Resource.Failure -> {
+                    val context = LocalContext.current
+                    Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
+                }
+                Resource.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
+                is Resource.Success -> {
+                    LaunchedEffect(Unit) {
+                        navController.navigate(Screens.MedixNavigation.route){
+                            popUpTo(Screens.AuthRoute.route)
+                        }
+                    }
+                }
+
+            }
+        }
     }
 }
 
 @Preview
 @Composable
 fun PreviewSignUpScreen() {
-    PatientSignUpScreen(rememberNavController())
+    PatientSignUpScreen(
+        viewModel = null,
+        rememberNavController()
+    )
 }

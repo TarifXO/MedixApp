@@ -25,16 +25,21 @@ import androidx.compose.ui.unit.sp
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.datesColor
 import com.example.medix.ui.theme.lightMixture
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 @Composable
 fun DayHourSelection(
-    dates: List<String>,
+    startTime: LocalTime,
+    endTime: LocalTime,
     currentSelectedDate: String,
     modifier: Modifier = Modifier,
     onDateSelected: (String) -> Unit,
     onHourSelected: (String) -> Unit
 ) {
+    val hoursList = generateHoursList(startTime, endTime)
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         modifier = modifier
@@ -42,12 +47,12 @@ fun DayHourSelection(
             ,
         contentPadding = PaddingValues(0.dp)
     ) {
-        items(dates) { date ->
+        items(hoursList) { hour ->
             HourSelection(
-                title = date,
+                title = hour,
                 currentToggleState = currentSelectedDate,
                 onClickButton = {
-                    onDateSelected(date)
+                    onDateSelected(hour)
                     onHourSelected(it)
                 }
             )
@@ -85,6 +90,19 @@ fun HourSelection(
             modifier = Modifier.align(Alignment.Center)
         )
     }
+}
+
+fun generateHoursList(startTime: LocalTime, endTime: LocalTime): List<String> {
+    val formatter = DateTimeFormatter.ofPattern("h:mm a")
+    val hoursList = mutableListOf<String>()
+    var time = startTime
+
+    while (time.isBefore(endTime) || time == endTime) {
+        hoursList.add(time.format(formatter))
+        time = time.plusMinutes(30)
+    }
+
+    return hoursList
 }
 
 

@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -29,7 +28,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,6 +35,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.Gender
 import com.example.medix.presentation.Dimens
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
@@ -64,7 +63,7 @@ fun DoctorCard(
             .size(Dimens.articleCardSize)
             .clip(MaterialTheme.shapes.medium),
             contentScale = ContentScale.Crop,
-            model = ImageRequest.Builder(context).data(doctor.urlToImage).build()
+            model = ImageRequest.Builder(context).data(doctor.image).build()
             , contentDescription = null
         )
 
@@ -74,7 +73,7 @@ fun DoctorCard(
                 .height(Dimens.articleCardSize),
             verticalArrangement = Arrangement.SpaceAround
         ) {
-            Text(text = doctor.title,
+            Text(text = doctor.name,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = blackText,
@@ -118,11 +117,17 @@ fun DoctorCardPreview(){
         DoctorCard(
             doctor = Doctor(
                 id = 1,
-                name = "tefoo",
-                description = "",
-                title = "Abdelrahman Tarif",
-                url = "",
-                urlToImage = "",
+                speciality = "Dentist",
+                bio = "he is the best around here",
+                name = "Abdelrahman Tarif",
+                address = "",
+                phoneNumber = "0123456789",
+                dateOfBirth = "12/12/2023",
+                gender = Gender.MALE,
+                email = "",
+                image = "",
+                password = "",
+                wage = 0.0
             ),
             onClick = {}
         )

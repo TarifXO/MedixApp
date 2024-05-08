@@ -24,16 +24,19 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.Gender
 import com.example.medix.domain.model.generateFakePagingItemsForPatients
 import com.example.medix.presentation.view.screens.app.change_doctor_password.ChangeDoctorPassword
-import com.example.medix.presentation.view.screens.app.change_patient_password.ChangePatientPassword
 import com.example.medix.presentation.view.screens.app.doctor_appointments.DoctorAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.doctor_profile.DoctorProfileScreen
 import com.example.medix.presentation.view.screens.app.edit_doctor_profile.EditDoctorProfileScreen
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
-fun DoctorNavigator() {
+fun DoctorNavigator(
+    viewModel: AuthViewModel?
+) {
     val bottomNavigationItem = remember {
         listOf(
             BottomNavigationItem(
@@ -111,15 +114,24 @@ fun DoctorNavigator() {
             composable(route = Screens.DoctorProfileRoute.route) {
                 //val viewModel : BookmarkViewModel = hiltViewModel()
                 //val state = viewModel.state.value
-                val doctor = Doctor(id = 1,
-                    name = "tefoo",
-                    description = "",
-                    title = "Abdelrahman Tarif",
-                    url = "",
-                    urlToImage = "",)
+                val doctor = Doctor(
+                    id = 1,
+                    speciality = "Dentist",
+                    bio = "he is the best around here",
+                    name = "Abdelrahman Tarif",
+                    address = "",
+                    phoneNumber = "0123456789",
+                    dateOfBirth = "12/12/2023",
+                    gender = Gender.MALE,
+                    email = "",
+                    image = "",
+                    password = "",
+                    wage = 0.0
+                    )
                 DoctorProfileScreen(
                     doctor = doctor,
-                    navController = navController
+                    navController = navController,
+                    viewModel = viewModel
                 )
             }
 

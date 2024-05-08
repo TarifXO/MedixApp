@@ -24,16 +24,15 @@ import androidx.compose.ui.unit.sp
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.datesColor
 import com.example.medix.ui.theme.orange
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun DaySelection(
-    onClick : () -> Unit,
     onTitleSelected : (String) -> Unit
     ) {
 
-    val dateList = listOf(
-        "Today, 23 Feb","Tomorrow, 24 Feb","Thursday 25 Feb","Friday, 26 Feb"
-    )
+    val dateList = generateDateList()
     var selectedItem by remember {
         mutableStateOf(dateList.first())
     }
@@ -89,6 +88,18 @@ fun CustomToggleButtonList(
             )
         )
     }
+}
+
+fun generateDateList(): List<String> {
+    val dateList = mutableListOf<String>()
+    val formatter = DateTimeFormatter.ofPattern("EEEE, d MMM")
+    for (i in 0 until 4) {
+        val date = LocalDate.now().plusDays(i.toLong())
+        val formattedDate = date.format(formatter)
+        dateList.add(formattedDate)
+    }
+
+    return dateList
 }
 
 

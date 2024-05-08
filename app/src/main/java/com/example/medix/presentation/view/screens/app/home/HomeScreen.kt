@@ -173,7 +173,7 @@ fun HomeScreen(
 
                 for (doctor in doctors) {
                     Text(
-                        text = doctor.name,
+                        text = doctor.speciality,
                         modifier = Modifier
                             .padding(12.dp)
                             .size(120.dp, 140.dp)

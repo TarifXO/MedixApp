@@ -5,14 +5,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 
 @Composable
 fun NavGraph(
+    viewModel: AuthViewModel,
     startDestination: String
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = startDestination) {
-        authGraph(navController)
+        authGraph(viewModel = viewModel, navController)
 
 
         navigation(
@@ -20,7 +22,9 @@ fun NavGraph(
             startDestination = Screens.MedixNavigatorScreen.route
         ){
             composable(route = Screens.MedixNavigatorScreen.route){
-                MedixNavigator()
+                MedixNavigator(
+                    viewModel = viewModel,
+                )
             }
         }
 
@@ -29,7 +33,9 @@ fun NavGraph(
             startDestination = Screens.DoctorNavigatorScreen.route
         ){
             composable(route = Screens.DoctorNavigatorScreen.route){
-                DoctorNavigator()
+                DoctorNavigator(
+                    viewModel = viewModel,
+                )
             }
         }
     }

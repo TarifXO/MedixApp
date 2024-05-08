@@ -47,6 +47,7 @@ import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
+import java.time.LocalTime
 
 @Composable
 fun AppointmentScreen(
@@ -156,7 +157,6 @@ fun AppointmentScreen(
         }
 
         DaySelection(
-            onClick = {},
             onTitleSelected = { selectedDay = it }
         )
 
@@ -187,9 +187,8 @@ fun AppointmentScreen(
                 )
 
             DayHourSelection(
-                dates = listOf(
-                    "1:00 PM", "1:30 PM", "2:00 PM" , "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM"
-                ),
+                startTime = LocalTime.of(13, 0),
+                endTime = LocalTime.of(16, 30),
                 currentSelectedDate = selectedAfternoonHour,
                 onDateSelected = { selectedAfternoonHour = it },
                 onHourSelected = {
@@ -206,14 +205,13 @@ fun AppointmentScreen(
             )
 
             DayHourSelection(
-                dates = listOf(
-                    "5:00 PM", "5:30 PM", "6:00 PM" , "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM"
-                ),
-                currentSelectedDate = selectedEveningHour,
-                onDateSelected = { selectedEveningHour = it },
+                startTime = LocalTime.of(17, 0),
+                endTime = LocalTime.of(20, 30),
+                currentSelectedDate = selectedAfternoonHour,
+                onDateSelected = { selectedAfternoonHour = it },
                 onHourSelected = {
-                    selectedEveningHour = it
-                    selectedAfternoonHour = ""
+                    selectedAfternoonHour = it
+                    selectedEveningHour = ""
                 }
             )
 

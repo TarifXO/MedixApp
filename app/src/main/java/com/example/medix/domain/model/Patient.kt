@@ -1,10 +1,12 @@
 package com.example.medix.domain.model
 
 data class Patient(
-    val id: Int,
+    val id: Int, // Unique identifier
     val name: String,
-    val description: String,
-    val title: String,
-    val url: String,
-    val urlToImage: String
+    val email: String,
+    val password: String,
+    val phoneNumber: String,
+    val image: String,
+    val dateOfBirth: String,
+    val gender: Gender
 )

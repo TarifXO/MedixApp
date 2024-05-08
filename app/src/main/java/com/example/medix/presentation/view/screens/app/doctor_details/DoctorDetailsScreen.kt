@@ -40,6 +40,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.Gender
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.TopBar
@@ -97,7 +98,7 @@ fun DoctorDetails(
                         .height(120.dp)
                         .clip(MaterialTheme.shapes.large),
                         contentScale = ContentScale.Crop,
-                        model = ImageRequest.Builder(context).data(doctor.urlToImage).build()
+                        model = ImageRequest.Builder(context).data(doctor.image).build()
                         , contentDescription = null
                     )
 
@@ -107,7 +108,7 @@ fun DoctorDetails(
                     ) {
                         Spacer(modifier = Modifier.height(15.dp))
 
-                        Text(text = doctor.title,
+                        Text(text = doctor.name,
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             color = blackText,
@@ -118,7 +119,7 @@ fun DoctorDetails(
                             .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(text = doctor.name,
+                            Text(text = doctor.speciality,
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 15.sp,
                                 color = mixture
@@ -289,11 +290,17 @@ fun DoctorDetailsPreview(){
             navController = rememberNavController(),
             doctor = Doctor(
                 id = 1,
-                name = "tefoo",
-                description = "",
-                title = "Abdelrahman Tarif",
-                url = "",
-                urlToImage = ""
+                speciality = "Dentist",
+                bio = "he is the best around here",
+                name = "Abdelrahman Tarif",
+                address = "",
+                phoneNumber = "0123456789",
+                dateOfBirth = "12/12/2023",
+                gender = Gender.MALE,
+                email = "",
+                image = "",
+                password = "",
+                wage = 0.0
             )
         )
     }

@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.Gender
 import com.example.medix.presentation.Dimens.articleCardSize
-import com.example.medix.presentation.Dimens.extraSmallPadding
 import com.example.medix.presentation.Dimens.extraSmallPadding2
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
@@ -84,7 +84,7 @@ fun PatientAppointmentCard(
                 .height(articleCardSize),
             verticalArrangement = Arrangement.SpaceAround
         ) {
-            Text(text = doctor.title,
+            Text(text = doctor.name,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = blackText,
@@ -124,11 +124,17 @@ fun PatientAppointmentCardPreview(){
         PatientAppointmentCard(
             doctor = Doctor(
                 id = 1,
-                name = "tefoo",
-                description = "",
-                title = "Abdelrahman Tarif",
-                url = "",
-                urlToImage = "",
+                speciality = "Dentist",
+                bio = "he is the best around here",
+                name = "Abdelrahman Tarif",
+                address = "",
+                phoneNumber = "0123456789",
+                dateOfBirth = "12/12/2023",
+                gender = Gender.MALE,
+                email = "",
+                image = "",
+                password = "",
+                wage = 0.0
             )
         )
     }

@@ -25,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.Gender
 import com.example.medix.domain.model.Patient
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentScreen
@@ -38,10 +39,13 @@ import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiScreen
 import com.example.medix.presentation.view.screens.app.medix_model.MedixModel
 import com.example.medix.presentation.view.screens.app.patient_appointments.PatientAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileScreen
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
-fun MedixNavigator() {
+fun MedixNavigator(
+    viewModel: AuthViewModel?
+) {
 
     val bottomNavigationItem = remember {
         listOf(
@@ -238,11 +242,18 @@ fun MedixNavigator() {
                 }
             ) {
                 val doctor = Doctor(id = 1,
-                    name = "tefoo",
-                    description = "",
-                    title = "Abdelrahman Tarif",
-                    url = "",
-                    urlToImage = "",)
+                    speciality = "Dentist",
+                    bio = "he is the best around here",
+                    name = "Abdelrahman Tarif",
+                    address = "",
+                    phoneNumber = "0123456789",
+                    dateOfBirth = "12/12/2023",
+                    gender = Gender.MALE,
+                    email = "",
+                    image = "",
+                    password = "",
+                    wage = 0.0
+                )
                 DoctorDetails(
                     navigateUp = { navController.navigateUp() },
                     navController = navController,
@@ -386,15 +397,20 @@ fun MedixNavigator() {
             composable(route = Screens.PatientProfileRoute.route) {
                 //val viewModel : BookmarkViewModel = hiltViewModel()
                 //val state = viewModel.state.value
-                val patient = Patient(id = 1,
-                    name = "tefoo",
-                    description = "",
-                    title = "Abdelrahman Tarif",
-                    url = "",
-                    urlToImage = "",)
+                val patient = Patient(
+                    id = 1,
+                    phoneNumber = "12013",
+                    email = "he needs some medical help",
+                    name = "Youssef Hawash",
+                    image = "",
+                    dateOfBirth = "",
+                    gender = Gender.MALE,
+                    password = "123456789"
+                )
                 PatientProfileScreen(
                     patient = patient,
-                    navController = navController
+                    navController = navController,
+                    viewModel = viewModel
                 )
             }
 

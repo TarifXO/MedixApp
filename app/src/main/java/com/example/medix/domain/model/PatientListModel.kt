@@ -5,11 +5,13 @@ fun generateFakePagingItemsForPatients(count: Int): List<Patient> {
     for (i in 0 until count) {
         val item = Patient(
             id = i,
-            name = "Patient $i",
-            description = "he needs some medical help",
-            title = "Youssef Hawash",
-            url = "",
-            urlToImage = ""
+            phoneNumber = "Patient $i",
+            email = "he needs some medical help",
+            name = "Youssef Hawash",
+            image = "",
+            dateOfBirth = "",
+            gender = Gender.MALE,
+            password = "123456789"
         )
         items.add(item)
     }

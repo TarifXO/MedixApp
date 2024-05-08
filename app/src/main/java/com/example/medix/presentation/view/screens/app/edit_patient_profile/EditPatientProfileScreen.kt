@@ -51,9 +51,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.medix.R
+import com.example.medix.domain.model.Gender
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
-import com.example.medix.presentation.view.components.Gender
 import com.example.medix.presentation.view.components.GenderSelection
 import com.example.medix.presentation.view.components.TopBar
 import com.example.medix.ui.theme.MedixTheme
