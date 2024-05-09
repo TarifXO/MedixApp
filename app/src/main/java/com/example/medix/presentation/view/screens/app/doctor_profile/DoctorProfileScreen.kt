@@ -421,7 +421,7 @@ fun DoctorProfileScreen(
                     .clickable {
                                viewModel?.logout()
                         navController.navigate(Screens.LoginRoute.route) {
-                            popUpTo(Screens.HomeRoute.route) {
+                            popUpTo(Screens.LoginRoute.route) {
                                 inclusive = true
                             }
                         }

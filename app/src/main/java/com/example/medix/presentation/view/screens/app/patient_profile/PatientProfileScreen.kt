@@ -420,7 +420,11 @@ fun PatientProfileScreen(
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
                         viewModel?.logout()
-                        navController.navigate(Screens.LoginRoute.route)
+                        navController.navigate(Screens.LoginRoute.route) {
+                            popUpTo(Screens.LoginRoute.route) {
+                                inclusive = true
+                            }
+                        }
                     },
                 //contentAlignment = Alignment.Center
             ) {

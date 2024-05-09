@@ -23,7 +23,7 @@ fun NavGraph(
         ){
             composable(route = Screens.MedixNavigatorScreen.route){
                 MedixNavigator(
-                    viewModel = viewModel,
+                    viewModel = viewModel
                 )
             }
         }

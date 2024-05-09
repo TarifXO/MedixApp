@@ -31,6 +31,7 @@ import com.example.medix.presentation.view.screens.app.doctor_appointments.Docto
 import com.example.medix.presentation.view.screens.app.doctor_profile.DoctorProfileScreen
 import com.example.medix.presentation.view.screens.app.edit_doctor_profile.EditDoctorProfileScreen
 import com.example.medix.presentation.view.screens.auth.AuthViewModel
+import com.example.medix.presentation.view.screens.auth.log_in.LogInScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
@@ -102,6 +103,20 @@ fun DoctorNavigator(
             modifier = Modifier
                 .padding(bottom = bottomPadding)
         ) {
+            composable(route = Screens.LoginRoute.route) {
+                val currentBackStackEntry = navController.currentBackStackEntryAsState().value
+                val currentRoute = currentBackStackEntry?.destination?.route
+                if (currentRoute == Screens.DoctorProfileRoute.route) {
+                    navController.navigate(Screens.LoginRoute.route) {
+                        popUpTo(Screens.LoginRoute.route) {
+                            inclusive = true
+                        }
+                    }
+                } else {
+                    LogInScreen(viewModel, navController)
+                }
+            }
+
             composable(route = Screens.DoctorAppointmentsRoute.route) {
                 //val viewModel : SearchViewModel = hiltViewModel()
                 //val state = viewModel.state.value
