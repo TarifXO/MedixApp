@@ -1,5 +1,6 @@
-package com.example.medix.data.authentication
+package com.example.medix.domain.repository
 
+import com.example.medix.data.authentication.Resource
 import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {

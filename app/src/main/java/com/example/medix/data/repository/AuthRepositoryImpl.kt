@@ -1,6 +1,8 @@
-package com.example.medix.data.authentication
+package com.example.medix.data.repository
 
+import com.example.medix.data.authentication.Resource
 import com.example.medix.data.authentication.utils.await
+import com.example.medix.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest

@@ -1,7 +1,7 @@
 package com.example.medix.di
 
-import com.example.medix.data.authentication.AuthRepository
-import com.example.medix.data.authentication.AuthRepositoryImpl
+import com.example.medix.domain.repository.AuthRepository
+import com.example.medix.data.repository.AuthRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
