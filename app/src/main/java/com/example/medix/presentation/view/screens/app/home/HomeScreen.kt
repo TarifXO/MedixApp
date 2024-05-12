@@ -22,10 +22,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,9 +38,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
+import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.User
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.navigation.Screens
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
@@ -52,7 +57,11 @@ fun HomeScreen(
     doctors: List<Doctor>,
     navigateToDoctors: () -> Unit,
     navController: NavController,
+    viewModel: AuthViewModel?
 ) {
+
+    LocalContext.current
+    val userData = viewModel?.userData?.collectAsState()
 
     Column(
         modifier = Modifier
@@ -99,7 +108,7 @@ fun HomeScreen(
 
                     Spacer(modifier = Modifier.height(5.dp))
 
-                    Text(text = "Abdelrahman",
+                    Text(text = (userData?.value as Resource.Success<User>).result.name,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp,
@@ -300,6 +309,7 @@ fun HomePreview() {
         HomeScreen(doctors = fakePagingItems,
             navigateToDoctors = {},
             navController = rememberNavController(),
+            viewModel = null
         )
     }
 }

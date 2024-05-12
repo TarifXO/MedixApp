@@ -165,7 +165,8 @@ fun MedixNavigator(
                             doctor = fakePagingItems
                         )
                     },
-                    navController = navController
+                    navController = navController,
+                    viewModel = viewModel
                 )
             }
 

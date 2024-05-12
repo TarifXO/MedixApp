@@ -26,7 +26,7 @@ class DoctorsRepositoryImpl(
         ).flow
     }
 
-    override suspend fun getDoctorById(id: Int, ): Doctor {
+    override suspend fun getDoctorById(id: Int): Doctor {
         return medixApi.getDoctorById(id)
     }
 

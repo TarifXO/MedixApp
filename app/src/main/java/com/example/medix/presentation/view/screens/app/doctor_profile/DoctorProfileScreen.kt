@@ -21,6 +21,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,8 +44,10 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
+import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.Gender
+import com.example.medix.domain.model.User
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ToggleButton
@@ -61,6 +66,8 @@ fun DoctorProfileScreen(
     viewModel: AuthViewModel?
 ){
     val context = LocalContext.current
+    val userData = viewModel?.userData?.collectAsState()
+
 
     Column(
         modifier = Modifier
@@ -136,7 +143,7 @@ fun DoctorProfileScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = viewModel?.currentUser?.displayName ?: "",
+                        text = (userData?.value as Resource.Success<User>).result.name,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = blackText,
@@ -144,7 +151,7 @@ fun DoctorProfileScreen(
                     )
 
                     Text(
-                        text = viewModel?.currentUser?.email ?: "",
+                        text = (userData.value as Resource.Success<User>).result.email,
                         style = TextStyle(
                             fontWeight = FontWeight.Normal,
                             fontSize = 15.sp,
@@ -419,7 +426,7 @@ fun DoctorProfileScreen(
                     .clip(RoundedCornerShape(12.dp))
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
-                               viewModel?.logout()
+                        viewModel?.logout()
                         navController.navigate(Screens.LoginRoute.route) {
                             popUpTo(Screens.LoginRoute.route) {
                                 inclusive = true

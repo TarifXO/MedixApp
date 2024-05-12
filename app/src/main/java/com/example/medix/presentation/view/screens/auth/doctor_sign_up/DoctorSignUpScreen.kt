@@ -306,7 +306,7 @@ fun DoctorSignUpScreen(
                 backgroundColor = secondary,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                    viewModel?.signup(fullName, email, password)
+                    viewModel?.signup(fullName, email, password, isDoctor = true, isPatient = false)
                     /*navController.navigate(Screens.DoctorNavigation.route){
                         popUpTo(Screens.AuthRoute.route)
                     }*/

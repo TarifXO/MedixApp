@@ -306,7 +306,7 @@ fun PatientSignUpScreen(
                 backgroundColor = secondary,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                viewModel?.signup(fullName, email, password)
+                viewModel?.signup(fullName, email, password, isDoctor = false, isPatient = true)
                 }
             )
 
