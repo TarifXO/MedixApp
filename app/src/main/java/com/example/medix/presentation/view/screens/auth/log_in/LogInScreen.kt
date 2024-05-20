@@ -42,11 +42,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
-import com.example.medix.data.authentication.Resource
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.Sheet
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
@@ -55,7 +53,7 @@ import com.example.medix.ui.theme.secondary
 
 @Composable
 fun LogInScreen(
-    viewModel: AuthViewModel?,
+    //viewModel: AuthViewModel?,
     navController: NavController
 ) {
     var email by remember { mutableStateOf("") }
@@ -65,7 +63,7 @@ fun LogInScreen(
     var showBottomSheet by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
-    val loginFlow = viewModel?.loginFlow?.collectAsState()
+    //val loginFlow = viewModel?.loginFlow?.collectAsState()
 
     Box(
         modifier = Modifier
@@ -257,10 +255,10 @@ fun LogInScreen(
                 backgroundColor = secondary,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                    viewModel?.login(email, password)
-                    /*navController.navigate(Screens.MedixNavigation.route){
+                    //viewModel?.login(email, password)
+                    navController.navigate(Screens.MedixNavigation.route){
                         popUpTo(Screens.AuthRoute.route)
-                    }*/
+                    }
                 }
             )
 
@@ -399,7 +397,7 @@ fun LogInScreen(
             }
         }
 
-        loginFlow?.value?.let {
+        /*loginFlow?.value?.let {
             when(it) {
                 is Resource.Failure -> {
                     val context = LocalContext.current
@@ -420,7 +418,7 @@ fun LogInScreen(
                 }
 
             }
-        }
+        }*/
     }
 }
 
@@ -428,7 +426,7 @@ fun LogInScreen(
 @Composable
 fun PreviewLogInScreen() {
     LogInScreen(
-        viewModel = null,
+        //viewModel = null,
         rememberNavController()
     )
 }

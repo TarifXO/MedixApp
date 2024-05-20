@@ -44,7 +44,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.medix.data.authentication.Resource
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
@@ -55,7 +54,7 @@ import com.example.medix.ui.theme.secondary
 
 @Composable
 fun DoctorSignUpScreen(
-    viewModel: AuthViewModel?,
+    //viewModel: AuthViewModel?,
     navController: NavController
 ) {
     var fullName by remember { mutableStateOf("") }
@@ -64,7 +63,7 @@ fun DoctorSignUpScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
-    val signupFlow = viewModel?.signupFlow?.collectAsState()
+    //val signupFlow = viewModel?.signupFlow?.collectAsState()
 
     Box(
         modifier = Modifier
@@ -306,10 +305,10 @@ fun DoctorSignUpScreen(
                 backgroundColor = secondary,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                    viewModel?.signup(fullName, email, password, isDoctor = true, isPatient = false)
-                    /*navController.navigate(Screens.DoctorNavigation.route){
+                    //viewModel?.signup(fullName, email, password, isDoctor = true, isPatient = false)
+                    navController.navigate(Screens.DoctorNavigation.route){
                         popUpTo(Screens.AuthRoute.route)
-                    }*/
+                    }
                 }
             )
 
@@ -418,7 +417,7 @@ fun DoctorSignUpScreen(
             }
         }
 
-        signupFlow?.value?.let {
+        /*signupFlow?.value?.let {
             when(it) {
                 is Resource.Failure -> {
                     val context = LocalContext.current
@@ -439,7 +438,7 @@ fun DoctorSignUpScreen(
                 }
 
             }
-        }
+        }*/
     }
 }
 
@@ -447,6 +446,6 @@ fun DoctorSignUpScreen(
 @Composable
 fun DoctorSignUpScreenPreview() {
     DoctorSignUpScreen(
-        viewModel = null,
+        //viewModel = null,
         rememberNavController())
 }

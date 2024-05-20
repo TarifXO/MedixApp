@@ -10,14 +10,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import com.example.medix.presentation.navigation.NavGraph
 import com.example.medix.presentation.navigation.Screens
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.MedixTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<AuthViewModel>()
+    //private val viewModel by viewModels<AuthViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
@@ -27,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)){
                     val startDestination = Screens.AuthRoute.route
                     NavGraph(
-                        viewModel = viewModel,
+                        //viewModel = viewModel,
                         startDestination = startDestination
                     )
 

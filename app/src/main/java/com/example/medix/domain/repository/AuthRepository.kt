@@ -3,7 +3,7 @@ package com.example.medix.domain.repository
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.User
 
-interface AuthRepository {
+/*interface AuthRepository {
     val currentUser: User?
     suspend fun login(
         email: String,
@@ -19,7 +19,7 @@ interface AuthRepository {
     fun logout()
 
     suspend fun getUserData(): User?
-}
+}*/
 
 /*interface AuthRepository {
     suspend fun login(email: String, password: String): Resource<String>

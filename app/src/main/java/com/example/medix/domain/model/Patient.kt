@@ -10,3 +10,8 @@ data class Patient(
     val dateOfBirth: String,
     val gender: Gender
 )
+
+enum class Gender {
+    Male,
+    Female
+}

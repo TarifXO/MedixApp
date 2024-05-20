@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -25,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.LazyPagingItems
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.Dimens
@@ -41,7 +41,7 @@ import com.example.medix.ui.theme.mixture
 @Composable
 fun DoctorsScreen(
     navigateUp : () -> Unit,
-    doctors : List<Doctor>,
+    doctors : LazyPagingItems<Doctor>?,
     navController: NavController
 ){
     val chipItems = listOf("Option 1", "Option 2", "Option 3")
@@ -103,24 +103,10 @@ fun DoctorsScreen(
 
         DoctorsList(
             modifier = Modifier.padding(horizontal = Dimens.mediumPadding1),
-            doctors = doctors,
+            doctors = doctors!!,
             onClick = {
                 navController.navigate(Screens.DoctorDetailsRoute.route)
             }
-        )
-    }
-}
-
-
-@Preview
-@Composable
-fun DoctorsScreenPreview(){
-    val fakePagingItems = generateFakePagingItems(20)
-    MedixTheme {
-        DoctorsScreen(
-            navigateUp = {},
-            doctors = fakePagingItems,
-            navController = rememberNavController()
         )
     }
 }

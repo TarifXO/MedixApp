@@ -4,14 +4,13 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.medix.data.remote.MedixApi
-import com.example.medix.data.remote.paging.DoctorsByName
-import com.example.medix.data.remote.paging.DoctorsBySpecialization
 import com.example.medix.data.remote.paging.DoctorsPagingSource
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.repository.DoctorsRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class DoctorsRepositoryImpl(
+class DoctorsRepositoryImpl @Inject constructor(
     private val medixApi: MedixApi
 ) : DoctorsRepository {
     override  fun getDoctors(doctors : List<String>): Flow<PagingData<Doctor>> {
@@ -26,11 +25,11 @@ class DoctorsRepositoryImpl(
         ).flow
     }
 
-    override suspend fun getDoctorById(id: Int): Doctor {
+    /*override suspend fun getDoctorById(id: Int): Doctor {
         return medixApi.getDoctorById(id)
-    }
+    }*/
 
-    override fun getDoctorsBySpecialization(specialization: String, doctors : List<String>): Flow<PagingData<Doctor>> {
+    /*override fun getDoctorsBySpecialization(specialization: String, doctors : List<String>): Flow<PagingData<Doctor>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
@@ -48,5 +47,5 @@ class DoctorsRepositoryImpl(
             ),
             pagingSourceFactory = { DoctorsByName(medixApi, name) }
         ).flow
-    }
+    }*/
 }

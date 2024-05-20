@@ -10,7 +10,7 @@ fun generateFakePagingItemsForPatients(count: Int): List<Patient> {
             name = "Youssef Hawash",
             image = "",
             dateOfBirth = "",
-            gender = Gender.MALE,
+            gender = Gender.Male,
             password = "123456789"
         )
         items.add(item)

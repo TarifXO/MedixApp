@@ -18,20 +18,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.Gender
-import com.example.medix.domain.model.Patient
+import com.example.medix.domain.model.User
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentScreen
 import com.example.medix.presentation.view.screens.app.change_patient_password.ChangePatientPassword
 import com.example.medix.presentation.view.screens.app.doctor_details.DoctorDetails
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsScreen
+import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
 import com.example.medix.presentation.view.screens.app.edit_patient_profile.EditPatientProfileScreen
 import com.example.medix.presentation.view.screens.app.favourites.FavouritesScreen
 import com.example.medix.presentation.view.screens.app.home.HomeScreen
@@ -39,13 +41,12 @@ import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiScreen
 import com.example.medix.presentation.view.screens.app.medix_model.MedixModel
 import com.example.medix.presentation.view.screens.app.patient_appointments.PatientAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileScreen
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.presentation.view.screens.auth.log_in.LogInScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
 fun MedixNavigator(
-    viewModel: AuthViewModel?
+    //viewModel: AuthViewModel?
 ) {
 
     val bottomNavigationItem = remember {
@@ -147,7 +148,7 @@ fun MedixNavigator(
                         }
                     }
                 } else {
-                    LogInScreen(viewModel, navController)
+                    LogInScreen(navController)
                 }
             }
 
@@ -157,6 +158,7 @@ fun MedixNavigator(
                 //val viewModel : HomeViewModel = hiltViewModel()
                 //val articles = viewModel.news.collectAsLazyPagingItems()
                 val fakePagingItems = generateFakePagingItems(20)
+                val user : User? = null
                 HomeScreen(
                     doctors = fakePagingItems,
                     navigateToDoctors = {
@@ -166,7 +168,8 @@ fun MedixNavigator(
                         )
                     },
                     navController = navController,
-                    viewModel = viewModel
+                    //viewModel = viewModel,
+                    user = user
                 )
             }
 
@@ -212,13 +215,12 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
-                //val viewModel: DetailsViewModel = hiltViewModel()
-
                 //navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")?.let { article ->
-                val fakePagingItems = remember { generateFakePagingItems(20) }
+                val viewModel : DoctorsViewModel = hiltViewModel()
+                val doctors = viewModel.doctors.collectAsLazyPagingItems()
                 DoctorsScreen(
                     navigateUp = { navController.navigateUp() },
-                    doctors = fakePagingItems,
+                    doctors = doctors,
                     navController = navController
                 )
                 //}
@@ -257,18 +259,20 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
-                val doctor = Doctor(id = 1,
+                val doctor = Doctor(
+                    id = 1,
                     speciality = "Dentist",
                     bio = "he is the best around here",
                     name = "Abdelrahman Tarif",
                     address = "",
-                    phoneNumber = "0123456789",
+                    phone = "0123456789",
                     dateOfBirth = "12/12/2023",
-                    gender = Gender.MALE,
+                    gender = "Male",
                     email = "",
                     image = "",
-                    password = "",
-                    wage = 0.0
+                    wage = 0.0,
+                    favorites = 0,
+                    appointments = 0
                 )
                 DoctorDetails(
                     navigateUp = { navController.navigateUp() },
@@ -413,20 +417,11 @@ fun MedixNavigator(
             composable(route = Screens.PatientProfileRoute.route) {
                 //val viewModel : BookmarkViewModel = hiltViewModel()
                 //val state = viewModel.state.value
-                val patient = Patient(
-                    id = 1,
-                    phoneNumber = "12013",
-                    email = "he needs some medical help",
-                    name = "Youssef Hawash",
-                    image = "",
-                    dateOfBirth = "",
-                    gender = Gender.MALE,
-                    password = "123456789"
-                )
+                val user : User? = null
                 PatientProfileScreen(
-                    patient = patient,
                     navController = navController,
-                    viewModel = viewModel
+                    //viewModel = viewModel,
+                    user = user
                 )
             }
 

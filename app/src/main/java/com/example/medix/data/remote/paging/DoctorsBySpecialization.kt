@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.example.medix.data.remote.MedixApi
 import com.example.medix.domain.model.Doctor
 
-class DoctorsBySpecialization(
+/*class DoctorsBySpecialization(
     private val medixApi: MedixApi,
     private val specialization: String
 ) : PagingSource<Int, Doctor>() {
@@ -34,4 +34,4 @@ class DoctorsBySpecialization(
             )
         }
     }
-}
+}*/

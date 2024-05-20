@@ -48,8 +48,8 @@ fun RadioGroup(selectedGender: Gender?, onGenderSelected: (Gender) -> Unit) {
         horizontalArrangement = Arrangement.Center
     ) {
         RadioButton(
-            selected = selectedGender == Gender.MALE,
-            onClick = { onGenderSelected(Gender.MALE) },
+            selected = selectedGender == Gender.Male,
+            onClick = { onGenderSelected(Gender.Male) },
             colors = RadioButtonColors(
                 unselectedColor = lightBackground,
                 selectedColor = orange,
@@ -68,8 +68,8 @@ fun RadioGroup(selectedGender: Gender?, onGenderSelected: (Gender) -> Unit) {
         Spacer(modifier = Modifier.width(30.dp))
 
         RadioButton(
-            selected = selectedGender == Gender.FEMALE,
-            onClick = { onGenderSelected(Gender.FEMALE) },
+            selected = selectedGender == Gender.Female,
+            onClick = { onGenderSelected(Gender.Female) },
             colors = RadioButtonColors(
                 unselectedColor = lightBackground,
                 selectedColor = orange,

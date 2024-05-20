@@ -1,9 +1,8 @@
 package com.example.medix.domain.useCases.auth
 
 import com.example.medix.data.authentication.Resource
-import com.example.medix.domain.repository.AuthRepository
 
-class LogOutUseCase(private val authRepository: AuthRepository) {
+/*class LogOutUseCase(private val authRepository: AuthRepository) {
     operator fun invoke(): Resource<Unit> {
         return try {
             authRepository.logout()
@@ -12,4 +11,4 @@ class LogOutUseCase(private val authRepository: AuthRepository) {
             Resource.Failure(e)
         }
     }
-}
+}*/

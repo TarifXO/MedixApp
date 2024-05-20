@@ -453,10 +453,10 @@ fun EditDoctorProfileScreen(
                 ) {
                     GenderSelection { gender ->
                         when (gender) {
-                            Gender.MALE -> {
+                            Gender.Male -> {
 
                             }
-                            Gender.FEMALE -> {
+                            Gender.Female -> {
 
                             }
                         }

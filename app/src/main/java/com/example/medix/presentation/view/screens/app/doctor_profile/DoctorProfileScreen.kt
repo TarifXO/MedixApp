@@ -21,9 +21,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,7 +30,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,15 +40,11 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
-import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.Gender
-import com.example.medix.domain.model.User
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ToggleButton
 import com.example.medix.presentation.view.components.TopBarTitleOnly
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
@@ -63,10 +55,10 @@ import com.example.medix.ui.theme.secondary
 fun DoctorProfileScreen(
     doctor: Doctor,
     navController: NavController,
-    viewModel: AuthViewModel?
+    //viewModel: AuthViewModel?
 ){
     val context = LocalContext.current
-    val userData = viewModel?.userData?.collectAsState()
+    //val userData = viewModel?.userData?.collectAsState()
 
 
     Column(
@@ -142,24 +134,43 @@ fun DoctorProfileScreen(
                         .height(80.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = (userData?.value as Resource.Success<User>).result.name,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        color = blackText,
-                        maxLines = 1,
-                    )
-
-                    Text(
-                        text = (userData.value as Resource.Success<User>).result.email,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 15.sp,
-                            color = Color.Black,
-                            lineHeight = 15.sp
-                        ),
-                        modifier = Modifier.width(180.dp)
-                    )
+                    /*when (val resource = userData?.value) {
+                        is Resource.Success -> {
+                            Text(
+                                text = resource.data.name,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp,
+                                color = blackText,
+                                maxLines = 1,
+                            )
+                            Text(
+                                text = resource.data.email,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 15.sp,
+                                    color = Color.Black,
+                                    lineHeight = 15.sp
+                                ),
+                                modifier = Modifier.width(180.dp)
+                            )
+                        }
+                        is Resource.Failure -> {
+                            Text(
+                                text = "Failed to load user data",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp,
+                                color = Color.Red,
+                            )
+                        }
+                        is Resource.Loading, null -> {
+                            Text(
+                                text = "Loading...",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp,
+                                color = Color.Gray,
+                            )
+                        }
+                    }*/
 
                     Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
 
@@ -426,7 +437,7 @@ fun DoctorProfileScreen(
                     .clip(RoundedCornerShape(12.dp))
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
-                        viewModel?.logout()
+                        //viewModel?.logout()
                         navController.navigate(Screens.LoginRoute.route) {
                             popUpTo(Screens.LoginRoute.route) {
                                 inclusive = true
@@ -476,15 +487,16 @@ fun DoctorProfileScreenPreview(){
             bio = "he is the best around here",
             name = "Abdelrahman Tarif",
             address = "",
-            phoneNumber = "0123456789",
+            phone = "0123456789",
             dateOfBirth = "12/12/2023",
-            gender = Gender.MALE,
+            gender = "Male",
             email = "",
             image = "",
-            password = "",
-            wage = 0.0
+            wage = 0.0,
+            favorites = 0,
+            appointments = 0
         ),
         navController = rememberNavController(),
-        viewModel = null
+        //viewModel = null
     )
 }

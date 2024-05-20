@@ -1,16 +1,14 @@
 package com.example.medix.data.repository
 
 import com.example.medix.data.authentication.Resource
-import com.example.medix.data.authentication.utils.await
 import com.example.medix.domain.model.User
-import com.example.medix.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
-class AuthRepositoryImpl @Inject constructor(
+/*class AuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
 ) : AuthRepository {
     override val currentUser: User?
@@ -76,10 +74,11 @@ class AuthRepositoryImpl @Inject constructor(
         return if (currentUser != null) {
             val name = currentUser.displayName ?: ""
             val email = currentUser.email ?: ""
+            val password = currentUser.updatePassword("")
             User(
                 name = name,
                 email = email,
-                password = "",
+                password = password.toString(),
                 isDoctor = false,
                 isPatient = false,
                 phone = null,
@@ -132,4 +131,4 @@ class AuthRepositoryImpl @Inject constructor(
     override fun logout() {
         firebaseAuth.signOut()
     }*/
-}
+}*/

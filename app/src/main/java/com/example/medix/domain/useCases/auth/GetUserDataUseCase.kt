@@ -2,9 +2,8 @@ package com.example.medix.domain.useCases.auth
 
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.User
-import com.example.medix.domain.repository.AuthRepository
 
-class GetUserDataUseCase(private val authRepository: AuthRepository) {
+/*class GetUserDataUseCase(private val authRepository: AuthRepository) {
 
     suspend operator fun invoke(): Resource<User> {
         return try {
@@ -18,4 +17,4 @@ class GetUserDataUseCase(private val authRepository: AuthRepository) {
             Resource.Failure(e)
         }
     }
-}
+}*/

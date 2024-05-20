@@ -4,14 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.User
-import com.example.medix.domain.useCases.auth.MedixUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
+/*@HiltViewModel
 class AuthViewModel @Inject constructor(
     private val medixUseCases: MedixUseCases
 ) : ViewModel() {
@@ -34,11 +33,10 @@ class AuthViewModel @Inject constructor(
                 _userData.value = getUserData()
             }
             is Resource.Failure -> {
-                // Handle failure case
-                // For example, you might display an error message to the user
+
             }
             is Resource.Loading -> {
-                // Handle loading state if necessary
+
             }
         }
         _loginFlow.value = result
@@ -55,11 +53,10 @@ class AuthViewModel @Inject constructor(
                 _userData.value = getUserData()
             }
             is Resource.Failure -> {
-                // Handle failure case
-                // For example, you might display an error message to the user
+
             }
             is Resource.Loading -> {
-                // Handle loading state if necessary
+
             }
         }
         _signupFlow.value = result
@@ -75,4 +72,4 @@ class AuthViewModel @Inject constructor(
     private suspend fun getUserData(): Resource<User> {
         return medixUseCases.getUserDataUseCase()
     }
-}
+}*/

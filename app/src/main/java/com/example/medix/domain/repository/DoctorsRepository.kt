@@ -1,18 +1,14 @@
 package com.example.medix.domain.repository
 
 import androidx.paging.PagingData
-import com.example.medix.domain.model.Appointments
 import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.Patient
-import com.example.medix.domain.model.User
 import kotlinx.coroutines.flow.Flow
-import okhttp3.Credentials
 
 interface DoctorsRepository {
     fun getDoctors(doctors : List<String>): Flow<PagingData<Doctor>>
-    suspend fun getDoctorById(id: Int): Doctor
-    fun getDoctorsBySpecialization(specialization: String, doctors : List<String>): Flow<PagingData<Doctor>>
-    fun searchDoctorsByName(name: String, doctors : List<String>): Flow<PagingData<Doctor>>
+    //suspend fun getDoctorById(id: Int): Doctor
+    //fun getDoctorsBySpecialization(specialization: String, doctors : List<String>): Flow<PagingData<Doctor>>
+    //fun searchDoctorsByName(name: String, doctors : List<String>): Flow<PagingData<Doctor>>
     //suspend fun getAppointments(doctorsId: Int, patientId: Int, page: Int, pageSize: Int): List<Appointments>
     //suspend fun createAppointment(appointment: Appointments)
     //suspend fun deleteAppointment(appointmentId: Int)

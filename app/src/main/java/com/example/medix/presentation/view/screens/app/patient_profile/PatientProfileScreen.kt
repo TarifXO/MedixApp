@@ -50,7 +50,6 @@ import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ToggleButton
 import com.example.medix.presentation.view.components.TopBarTitleOnly
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
@@ -59,12 +58,12 @@ import com.example.medix.ui.theme.secondary
 
 @Composable
 fun PatientProfileScreen(
-    viewModel: AuthViewModel?,
-    patient: Patient,
-    navController: NavController
+    //viewModel: AuthViewModel?,
+    navController: NavController,
+    user: User?
 ){
     val context = LocalContext.current
-    val userData = viewModel?.userData?.collectAsState()
+    //val userData = viewModel?.userData?.collectAsState()
 
     Column(
         modifier = Modifier
@@ -124,13 +123,15 @@ fun PatientProfileScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ){
-                AsyncImage(modifier = Modifier
+                AsyncImage(
+                    model = ImageRequest.Builder(context = context).data(user?.image)
+                        .build(),
+                    modifier = Modifier
                     .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
                     .size(60.dp)
                     .clip(MaterialTheme.shapes.medium),
                     contentScale = ContentScale.Crop,
-                    model = ImageRequest.Builder(context).data(patient.image).build()
-                    , contentDescription = null
+                    contentDescription = null
                 )
 
                 Column(
@@ -139,24 +140,43 @@ fun PatientProfileScreen(
                         .height(80.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = (userData?.value as Resource.Success<User>).result.name,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        color = blackText,
-                        maxLines = 1,
-                    )
-
-                    Text(
-                        text = (userData.value as Resource.Success<User>).result.email,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 15.sp,
-                            color = Color.Black,
-                            lineHeight = 15.sp
-                        ),
-                        modifier = Modifier.width(180.dp)
-                    )
+                    /*when (val resource = userData?.value) {
+                        is Resource.Success -> {
+                            Text(
+                                text = resource.data.name,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp,
+                                color = blackText,
+                                maxLines = 1,
+                            )
+                            Text(
+                                text = resource.data.email,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 15.sp,
+                                    color = Color.Black,
+                                    lineHeight = 15.sp
+                                ),
+                                modifier = Modifier.width(180.dp)
+                            )
+                        }
+                        is Resource.Failure -> {
+                            Text(
+                                text = "Failed to load user data",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp,
+                                color = Color.Red,
+                            )
+                        }
+                        is Resource.Loading, null -> {
+                            Text(
+                                text = "Loading...",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp,
+                                color = Color.Gray,
+                            )
+                        }
+                    }*/
 
                     Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
 
@@ -423,7 +443,7 @@ fun PatientProfileScreen(
                     .clip(RoundedCornerShape(12.dp))
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
-                        viewModel?.logout()
+                        //viewModel?.logout()
                         navController.navigate(Screens.LoginRoute.route) {
                             popUpTo(Screens.LoginRoute.route) {
                                 inclusive = true
@@ -467,17 +487,8 @@ fun PatientProfileScreen(
 @Composable
 fun PatientProfileScreenPreview(){
     PatientProfileScreen(
-        patient = Patient(
-            id = 1,
-            phoneNumber = "12013",
-            email = "he needs some medical help",
-            name = "Youssef Hawash",
-            image = "",
-            dateOfBirth = "",
-            gender = Gender.MALE,
-            password = "123456789"
-        ),
         navController = rememberNavController(),
-         viewModel = null
+        //viewModel = null,
+        user = null
     )
 }

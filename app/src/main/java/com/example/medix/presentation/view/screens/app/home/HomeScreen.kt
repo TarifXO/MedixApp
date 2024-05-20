@@ -1,5 +1,6 @@
 package com.example.medix.presentation.view.screens.app.home
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,13 +21,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -35,15 +39,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.medix.R
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.Gender
 import com.example.medix.domain.model.User
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.navigation.Screens
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
@@ -54,14 +61,15 @@ import com.example.medix.ui.theme.orange
 
 @Composable
 fun HomeScreen(
+    user : User?,
     doctors: List<Doctor>,
     navigateToDoctors: () -> Unit,
     navController: NavController,
-    viewModel: AuthViewModel?
+    //viewModel: AuthViewModel?
 ) {
 
-    LocalContext.current
-    val userData = viewModel?.userData?.collectAsState()
+    val context = LocalContext.current
+    //val userData = viewModel?.userData?.collectAsState()
 
     Column(
         modifier = Modifier
@@ -108,21 +116,50 @@ fun HomeScreen(
 
                     Spacer(modifier = Modifier.height(5.dp))
 
-                    Text(text = (userData?.value as Resource.Success<User>).result.name,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            color = Color.White
-                        )
-                    )
+                    /*when (val resource = userData?.value) {
+                        is Resource.Success -> {
+                            Text(
+                                text = resource.data.name,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    color = Color.White
+                                )
+                            )
+                        }
+
+                        is Resource.Failure -> {
+                            Text(
+                                text = "Failed to load user",
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    color = Color.Red
+                                )
+                            )
+                        }
+
+                        is Resource.Loading, null -> {
+                            Text(
+                                text = "Loading...",
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    color = Color.Gray
+                                )
+                            )
+                        }
+                    }*/
                 }
 
-                Image(
-                    painterResource(id = R.drawable.tefoo),
+                AsyncImage(
+                    model = ImageRequest.Builder(context = context).data(user?.image)
+                        .build(),
                     contentDescription = null,
                     modifier = Modifier
                         .size(50.dp)
-                        .align(Alignment.CenterVertically)
+                        .clip(MaterialTheme.shapes.medium),
+                    contentScale = ContentScale.Crop
                 )
             }
         }
@@ -306,10 +343,26 @@ fun HomeScreen(
 fun HomePreview() {
     val fakePagingItems = generateFakePagingItems(20)
     MedixTheme {
-        HomeScreen(doctors = fakePagingItems,
+        HomeScreen(
+            user = User(
+                name = "tefoo",
+                 email = "" ,
+             password = "",
+         isPatient = false,
+         isDoctor = false,
+         phone = "",
+         dateOfBirth = "",
+         gender = Gender.Male,
+         speciality = "",
+         bio = "",
+         address = "",
+         wage = 0.0,
+         image = ""
+            ),
+            doctors = fakePagingItems,
             navigateToDoctors = {},
             navController = rememberNavController(),
-            viewModel = null
+            //viewModel = null
         )
     }
 }

@@ -2,9 +2,8 @@ package com.example.medix.domain.useCases.auth
 
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.User
-import com.example.medix.domain.repository.AuthRepository
 
-class SignUpUseCase(private val authRepository: AuthRepository) {
+/*class SignUpUseCase(private val authRepository: AuthRepository) {
 
     suspend operator fun invoke(
         name: String, email: String, password: String, isDoctor: Boolean, isPatient: Boolean
@@ -12,7 +11,7 @@ class SignUpUseCase(private val authRepository: AuthRepository) {
         return try {
             val result = authRepository.signup(name, email, password, isDoctor, isPatient)
             if (result is Resource.Success) {
-                Resource.Success(result.result)
+                Resource.Success(result.data)
             } else {
                 Resource.Failure(Exception("Failed to sign up"))
             }
@@ -20,4 +19,4 @@ class SignUpUseCase(private val authRepository: AuthRepository) {
             Resource.Failure(e)
         }
     }
-}
+}*/

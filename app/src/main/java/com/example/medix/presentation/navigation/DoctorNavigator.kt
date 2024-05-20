@@ -24,19 +24,17 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.Gender
 import com.example.medix.domain.model.generateFakePagingItemsForPatients
 import com.example.medix.presentation.view.screens.app.change_doctor_password.ChangeDoctorPassword
 import com.example.medix.presentation.view.screens.app.doctor_appointments.DoctorAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.doctor_profile.DoctorProfileScreen
 import com.example.medix.presentation.view.screens.app.edit_doctor_profile.EditDoctorProfileScreen
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.presentation.view.screens.auth.log_in.LogInScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
 fun DoctorNavigator(
-    viewModel: AuthViewModel?
+    //viewModel: AuthViewModel?
 ) {
     val bottomNavigationItem = remember {
         listOf(
@@ -113,7 +111,7 @@ fun DoctorNavigator(
                         }
                     }
                 } else {
-                    LogInScreen(viewModel, navController)
+                    LogInScreen(navController)
                 }
             }
 
@@ -135,18 +133,19 @@ fun DoctorNavigator(
                     bio = "he is the best around here",
                     name = "Abdelrahman Tarif",
                     address = "",
-                    phoneNumber = "0123456789",
+                    phone = "0123456789",
                     dateOfBirth = "12/12/2023",
-                    gender = Gender.MALE,
+                    gender = "Male",
                     email = "",
                     image = "",
-                    password = "",
-                    wage = 0.0
-                    )
+                    wage = 0.0,
+                    favorites = 0,
+                    appointments = 0
+                )
                 DoctorProfileScreen(
                     doctor = doctor,
                     navController = navController,
-                    viewModel = viewModel
+                    //viewModel = viewModel
                 )
             }
 
