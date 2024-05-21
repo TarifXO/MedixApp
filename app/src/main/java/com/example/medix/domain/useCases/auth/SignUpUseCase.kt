@@ -1,8 +1,5 @@
 package com.example.medix.domain.useCases.auth
 
-import com.example.medix.data.authentication.Resource
-import com.example.medix.domain.model.User
-
 /*class SignUpUseCase(private val authRepository: AuthRepository) {
 
     suspend operator fun invoke(

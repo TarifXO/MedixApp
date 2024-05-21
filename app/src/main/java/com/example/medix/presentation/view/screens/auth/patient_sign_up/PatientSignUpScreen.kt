@@ -42,8 +42,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.data.authentication.Resource
+import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
@@ -54,7 +56,7 @@ import com.example.medix.ui.theme.secondary
 
 @Composable
 fun PatientSignUpScreen(
-    //viewModel: AuthViewModel?,
+    viewModel: AuthViewModel?,
     navController: NavController
 ) {
     var fullName by remember { mutableStateOf("") }
@@ -63,7 +65,7 @@ fun PatientSignUpScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
-    //val signupFlow = viewModel?.signupFlow?.collectAsState()
+    val signupFlow = viewModel?.signupFlow?.collectAsState()
 
     Box(
         modifier = Modifier
@@ -305,10 +307,25 @@ fun PatientSignUpScreen(
                 backgroundColor = secondary,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                //viewModel?.signup(fullName, email, password, isDoctor = false, isPatient = true)
-                    navController.navigate(Screens.MedixNavigation.route){
+                    val registerRequest = RegisterRequest(
+                        username = fullName,
+                        email = email,
+                        password = password,
+                        isPatient = true,
+                        isDoctor = false,
+                        phone = "",
+                        dateOfBirth = "",
+                        gender = "",
+                        speciality = null,
+                        bio = null,
+                        address = null,
+                        wage = null,
+                        image = null
+                    )
+                    viewModel?.signup(registerRequest)
+                    /*navController.navigate(Screens.MedixNavigation.route){
                         popUpTo(Screens.AuthRoute.route)
-                    }
+                    }*/
                 }
             )
 
@@ -417,28 +434,24 @@ fun PatientSignUpScreen(
             }
         }
 
-        /*signupFlow?.value?.let {
-            when(it) {
+        signupFlow?.value?.let {
+            when (it) {
+                is Resource.Loading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
                 is Resource.Failure -> {
                     val context = LocalContext.current
                     Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
                 }
-                Resource.Loading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                    )
-                }
                 is Resource.Success -> {
                     LaunchedEffect(Unit) {
-                        navController.navigate(Screens.MedixNavigation.route){
+                        navController.navigate(Screens.MedixNavigation.route) {
                             popUpTo(Screens.AuthRoute.route)
                         }
                     }
                 }
-
             }
-        }*/
+        }
     }
 }
 
@@ -446,7 +459,7 @@ fun PatientSignUpScreen(
 @Composable
 fun PreviewSignUpScreen() {
     PatientSignUpScreen(
-        //viewModel = null,
+        viewModel = null,
         rememberNavController()
     )
 }

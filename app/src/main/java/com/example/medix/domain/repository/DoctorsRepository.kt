@@ -8,7 +8,7 @@ interface DoctorsRepository {
     fun getDoctors(doctors : List<String>): Flow<PagingData<Doctor>>
     //suspend fun getDoctorById(id: Int): Doctor
     //fun getDoctorsBySpecialization(specialization: String, doctors : List<String>): Flow<PagingData<Doctor>>
-    //fun searchDoctorsByName(name: String, doctors : List<String>): Flow<PagingData<Doctor>>
+    fun searchDoctorsByName(name: String, doctors : List<String>): Flow<PagingData<Doctor>>
     //suspend fun getAppointments(doctorsId: Int, patientId: Int, page: Int, pageSize: Int): List<Appointments>
     //suspend fun createAppointment(appointment: Appointments)
     //suspend fun deleteAppointment(appointmentId: Int)

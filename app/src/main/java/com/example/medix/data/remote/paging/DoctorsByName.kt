@@ -4,13 +4,12 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.medix.data.remote.MedixApi
 import com.example.medix.domain.model.Doctor
+import okhttp3.RequestBody.Companion.toRequestBody
 
-/*class DoctorsByNamePagingSource(
+class DoctorsByName(
     private val medixApi: MedixApi,
     private val name: String
 ) : PagingSource<Int, Doctor>() {
-
-    private var allDoctors: List<Doctor>? = null
 
     override fun getRefreshKey(state: PagingState<Int, Doctor>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -24,11 +23,7 @@ import com.example.medix.domain.model.Doctor
         val pageSize = params.loadSize
 
         return try {
-            if (allDoctors == null) {
-                allDoctors = medixApi.searchDoctorsByName(name)
-            }
-
-            val doctors = allDoctors ?: emptyList()
+            val doctors = medixApi.searchDoctor(name.toRequestBody())
             val start = (page - 1) * pageSize
             val end = minOf(start + pageSize, doctors.size)
             val paginatedDoctors = doctors.subList(start, end)
@@ -42,4 +37,4 @@ import com.example.medix.domain.model.Doctor
             LoadResult.Error(e)
         }
     }
-}*/
+}

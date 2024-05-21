@@ -2,9 +2,16 @@ package com.example.medix.di
 
 import com.example.medix.data.remote.MedixApi
 import com.example.medix.data.repository.DoctorsRepositoryImpl
+import com.example.medix.data.repository.UserRepositoryImpl
 import com.example.medix.domain.repository.DoctorsRepository
+import com.example.medix.domain.repository.UserRepository
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
 import com.example.medix.domain.useCases.doctors.GetDoctorsUseCase
+import com.example.medix.domain.useCases.user.LogInUseCase
+import com.example.medix.domain.useCases.user.RegisterUseCase
+import com.example.medix.domain.useCases.user.UpdateDoctorUseCase
+import com.example.medix.domain.useCases.user.UpdatePatientUseCase
+import com.example.medix.domain.useCases.user.UserUseCases
 import com.example.medix.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -83,6 +90,19 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideUserUseCases(
+        userRepository: UserRepository
+    ) : UserUseCases {
+        return UserUseCases(
+            logInUseCase = LogInUseCase(userRepository),
+            registerUseCase = RegisterUseCase(userRepository),
+            updatePatientUseCase = UpdatePatientUseCase(userRepository),
+            updateDoctorUseCase = UpdateDoctorUseCase(userRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
     fun provideDoctorsUseCases(
         doctorsRepository: DoctorsRepository
     ) : DoctorsUseCases {
@@ -94,4 +114,8 @@ class AppModule {
     @Provides
     @Singleton
     fun provideDoctorsRepository(medixApi: MedixApi): DoctorsRepository = DoctorsRepositoryImpl(medixApi)
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(medixApi: MedixApi): UserRepository = UserRepositoryImpl(medixApi)
 }

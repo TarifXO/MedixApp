@@ -79,7 +79,7 @@ fun DoctorCard(
                 maxLines = 1,
                 )
 
-            Text(text = "Specialist Dentist",
+            Text(text = doctor.speciality,
                 fontWeight = FontWeight.Normal,
                 fontSize = 15.sp,
                 color = mixture
@@ -87,14 +87,14 @@ fun DoctorCard(
 
             Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
 
-            RatingBar(
+            /*RatingBar(
                 modifier = Modifier
                     .size(25.dp),
                 rating = rating,
                 starsColor = starsColor
             ){
                 rating = it
-            }
+            }*/
         }
 
         Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))

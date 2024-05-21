@@ -1,12 +1,5 @@
 package com.example.medix.data.repository
 
-import com.example.medix.data.authentication.Resource
-import com.example.medix.domain.model.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
-
 
 /*class AuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,

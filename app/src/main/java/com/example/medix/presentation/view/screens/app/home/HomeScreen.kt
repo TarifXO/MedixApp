@@ -1,6 +1,5 @@
 package com.example.medix.presentation.view.screens.app.home
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,16 +37,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
-import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.Gender
-import com.example.medix.domain.model.User
+import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.ui.theme.MedixTheme
@@ -57,11 +52,12 @@ import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
+import java.io.File
 
 
 @Composable
 fun HomeScreen(
-    user : User?,
+    user : RegisterRequest?,
     doctors: List<Doctor>,
     navigateToDoctors: () -> Unit,
     navController: NavController,
@@ -344,20 +340,20 @@ fun HomePreview() {
     val fakePagingItems = generateFakePagingItems(20)
     MedixTheme {
         HomeScreen(
-            user = User(
-                name = "tefoo",
-                 email = "" ,
-             password = "",
-         isPatient = false,
-         isDoctor = false,
-         phone = "",
-         dateOfBirth = "",
-         gender = Gender.Male,
-         speciality = "",
-         bio = "",
-         address = "",
-         wage = 0.0,
-         image = ""
+            user = RegisterRequest(
+                username = "tefoo",
+                email = "" ,
+                password = "",
+                isPatient = false,
+                isDoctor = false,
+                phone = "",
+                dateOfBirth = "",
+                gender = "Gender.Male",
+                speciality = "",
+                bio = "",
+                address = "",
+                wage = 0.0,
+                image = File("path/to/mock/image.jpg")
             ),
             doctors = fakePagingItems,
             navigateToDoctors = {},

@@ -27,7 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.User
+import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentScreen
 import com.example.medix.presentation.view.screens.app.change_patient_password.ChangePatientPassword
@@ -41,12 +41,13 @@ import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiScreen
 import com.example.medix.presentation.view.screens.app.medix_model.MedixModel
 import com.example.medix.presentation.view.screens.app.patient_appointments.PatientAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileScreen
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.presentation.view.screens.auth.log_in.LogInScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
 fun MedixNavigator(
-    //viewModel: AuthViewModel?
+    authViewModel: AuthViewModel?
 ) {
 
     val bottomNavigationItem = remember {
@@ -148,7 +149,7 @@ fun MedixNavigator(
                         }
                     }
                 } else {
-                    LogInScreen(navController)
+                    LogInScreen(authViewModel, navController)
                 }
             }
 
@@ -158,7 +159,7 @@ fun MedixNavigator(
                 //val viewModel : HomeViewModel = hiltViewModel()
                 //val articles = viewModel.news.collectAsLazyPagingItems()
                 val fakePagingItems = generateFakePagingItems(20)
-                val user : User? = null
+                val user : RegisterRequest? = null
                 HomeScreen(
                     doctors = fakePagingItems,
                     navigateToDoctors = {
@@ -216,8 +217,8 @@ fun MedixNavigator(
                 }
             ) {
                 //navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")?.let { article ->
-                val viewModel : DoctorsViewModel = hiltViewModel()
-                val doctors = viewModel.doctors.collectAsLazyPagingItems()
+                val doctorViewModel : DoctorsViewModel = hiltViewModel()
+                val doctors = doctorViewModel.doctors.collectAsLazyPagingItems()
                 DoctorsScreen(
                     navigateUp = { navController.navigateUp() },
                     doctors = doctors,
@@ -417,7 +418,7 @@ fun MedixNavigator(
             composable(route = Screens.PatientProfileRoute.route) {
                 //val viewModel : BookmarkViewModel = hiltViewModel()
                 //val state = viewModel.state.value
-                val user : User? = null
+                val user : RegisterRequest? = null
                 PatientProfileScreen(
                     navController = navController,
                     //viewModel = viewModel,

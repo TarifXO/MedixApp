@@ -29,12 +29,13 @@ import com.example.medix.presentation.view.screens.app.change_doctor_password.Ch
 import com.example.medix.presentation.view.screens.app.doctor_appointments.DoctorAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.doctor_profile.DoctorProfileScreen
 import com.example.medix.presentation.view.screens.app.edit_doctor_profile.EditDoctorProfileScreen
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.presentation.view.screens.auth.log_in.LogInScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
 fun DoctorNavigator(
-    //viewModel: AuthViewModel?
+    authViewModel: AuthViewModel?
 ) {
     val bottomNavigationItem = remember {
         listOf(
@@ -111,7 +112,7 @@ fun DoctorNavigator(
                         }
                     }
                 } else {
-                    LogInScreen(navController)
+                    LogInScreen(authViewModel, navController)
                 }
             }
 

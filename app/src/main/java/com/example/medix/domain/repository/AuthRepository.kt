@@ -1,8 +1,5 @@
 package com.example.medix.domain.repository
 
-import com.example.medix.data.authentication.Resource
-import com.example.medix.domain.model.User
-
 /*interface AuthRepository {
     val currentUser: User?
     suspend fun login(
