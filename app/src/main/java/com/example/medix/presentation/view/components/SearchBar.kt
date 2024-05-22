@@ -33,7 +33,7 @@ fun SearchBar(
     text : String,
     readOnly : Boolean,
     onClick : (() -> Unit)? = null,
-    onValueChange : (String) -> Unit,
+    onValueChange : (String) -> Unit
 ) {
     val interactionSource = remember {
         MutableInteractionSource()
@@ -80,11 +80,9 @@ fun SearchBar(
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
-                onSearch = {
-
-                }
+                onSearch = { onValueChange(text) }
             ),
-            textStyle = MaterialTheme.typography.bodySmall,
+            textStyle = MaterialTheme.typography.bodyLarge,
             interactionSource = interactionSource
         )
     }
@@ -94,6 +92,10 @@ fun SearchBar(
 @Composable
 fun SearchBarPreview(){
     MedixTheme {
-        SearchBar(text = "", readOnly = false, onValueChange = {})
+        SearchBar(
+            text = "",
+            readOnly = false,
+            onValueChange = {},
+        )
     }
 }

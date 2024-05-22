@@ -16,10 +16,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -40,7 +36,6 @@ import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
-import com.example.medix.ui.theme.starsColor
 
 @Composable
 fun DoctorCard(
@@ -48,7 +43,7 @@ fun DoctorCard(
     onClick: (Doctor) -> Unit
 ){
     val context = LocalContext.current
-    var rating by remember { mutableDoubleStateOf(0.0) }
+    //var rating by remember { mutableDoubleStateOf(0.0) }
 
     Row(modifier = Modifier
         .fillMaxWidth()

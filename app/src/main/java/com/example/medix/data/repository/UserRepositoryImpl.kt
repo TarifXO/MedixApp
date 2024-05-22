@@ -1,16 +1,20 @@
 package com.example.medix.data.repository
 
+import com.example.medix.data.authentication.Resource
 import com.example.medix.data.remote.MedixApi
 import com.example.medix.domain.model.DoctorUpdateRequest
 import com.example.medix.domain.model.LogInRequest
 import com.example.medix.domain.model.PatientUpdateRequest
 import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -25,6 +29,41 @@ class UserRepositoryImpl @Inject constructor(
             email = email,
             password = password
         )
+    }
+
+    override suspend fun forgotPassword(email: String): Resource<Unit> {
+        return withContext(Dispatchers.IO) {
+            val email = email.toRequestBody("text/plain".toMediaTypeOrNull())
+            try {
+                medixApi.forgotPassword(email)
+            } catch (e: Exception) {
+                Resource.Failure(e)
+            }
+        }
+    }
+
+    override suspend fun resetPassword(
+        password: String,
+        confirmPassword: String,
+        email: String,
+        token: String
+    ) : Resource<Unit> {
+        return try {
+            val password = password.toRequestBody("text/plain".toMediaTypeOrNull())
+            val confirmPassword = confirmPassword.toRequestBody("text/plain".toMediaTypeOrNull())
+            val email = email.toRequestBody("text/plain".toMediaTypeOrNull())
+            val token = token.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            val response = medixApi.resetPassword(password, confirmPassword, email, token)
+
+            if (response is Resource.Success) {
+                Resource.Success(Unit)
+            } else {
+                Resource.Failure(Exception("Failed to reset password"))
+            }
+        } catch (e: Exception) {
+            Resource.Failure(e)
+        }
     }
 
     override suspend fun registerUser(registerRequest: RegisterRequest) {

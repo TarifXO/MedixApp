@@ -50,9 +50,9 @@ fun DoctorsList(
             verticalArrangement = Arrangement.spacedBy(mediumPadding1),
             contentPadding = PaddingValues(all = extraSmallPadding2)
         ) {
-            items(count = doctors.itemCount) { it ->
-                doctors[it]?.let {
-                    DoctorCard(doctor = it) { onClick(it) }
+            items(count = doctors.itemCount) {
+                doctors[it]?.let { doctor ->
+                    DoctorCard(doctor = doctor) { onClick(doctor) }
                 }
             }
         }
@@ -75,25 +75,21 @@ fun handlePagingResult(
             ShimmerEffect()
             false
         }
-
         error != null -> {
             EmptyScreen(
                 error = error
             )
             false
         }
-
         doctors.itemCount == 0 -> {
             EmptyScreen()
             false
         }
-
         else -> {
             true
         }
     }
 }
-
 
 @Composable
 private fun ShimmerEffect() {

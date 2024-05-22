@@ -14,16 +14,20 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.paging.compose.LazyPagingItems
-import com.example.medix.domain.model.Doctor
+import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ChipWithSubItems
@@ -37,9 +41,11 @@ import com.example.medix.ui.theme.mixture
 @Composable
 fun DoctorsScreen(
     navigateUp : () -> Unit,
-    doctors : LazyPagingItems<Doctor>?,
-    navController: NavController
+    navController: NavController,
+    viewModel: DoctorsViewModel = hiltViewModel()
 ){
+    val searchText by viewModel.searchQuery.collectAsState()
+    val doctors = viewModel.doctors.collectAsLazyPagingItems()
     val chipItems = listOf("Option 1", "Option 2", "Option 3")
 
     Column(
@@ -64,7 +70,11 @@ fun DoctorsScreen(
 
                 Spacer(modifier = Modifier.height(45.dp))
 
-                SearchBar(text = "", readOnly = false, onValueChange = {})
+                SearchBar(
+                    text = searchText,
+                    readOnly = false,
+                    onValueChange = { viewModel.searchDoctors(it) },
+                    )
 
             }
         }
@@ -99,10 +109,19 @@ fun DoctorsScreen(
 
         DoctorsList(
             modifier = Modifier.padding(horizontal = Dimens.mediumPadding1),
-            doctors = doctors!!,
-            onClick = {
-                navController.navigate(Screens.DoctorDetailsRoute.route)
+            doctors = doctors,
+            onClick = { doctor ->
+                navController.navigate("${Screens.DoctorDetailsRoute.route}/${doctor.id}")
             }
         )
     }
+}
+
+@Preview
+@Composable
+fun DoctorsScreenPreview() {
+    DoctorsScreen(
+        navigateUp = {},
+        navController = rememberNavController()
+    )
 }

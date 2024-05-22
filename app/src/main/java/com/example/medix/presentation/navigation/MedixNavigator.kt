@@ -24,7 +24,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.RegisterRequest
@@ -218,10 +217,9 @@ fun MedixNavigator(
             ) {
                 //navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")?.let { article ->
                 val doctorViewModel : DoctorsViewModel = hiltViewModel()
-                val doctors = doctorViewModel.doctors.collectAsLazyPagingItems()
                 DoctorsScreen(
                     navigateUp = { navController.navigateUp() },
-                    doctors = doctors,
+                    viewModel = doctorViewModel,
                     navController = navController
                 )
                 //}
@@ -260,25 +258,9 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
-                val doctor = Doctor(
-                    id = 1,
-                    speciality = "Dentist",
-                    bio = "he is the best around here",
-                    name = "Abdelrahman Tarif",
-                    address = "",
-                    phone = "0123456789",
-                    dateOfBirth = "12/12/2023",
-                    gender = "Male",
-                    email = "",
-                    image = "",
-                    wage = 0.0,
-                    favorites = 0,
-                    appointments = 0
-                )
                 DoctorDetails(
                     navigateUp = { navController.navigateUp() },
                     navController = navController,
-                    doctor = doctor
                 )
             }
 
@@ -530,3 +512,13 @@ private fun navigateToDoctors(
         route = Screens.DoctorsRoute.route
     )
 }
+
+/*private fun navigateToDoctorDetails(
+    navController: NavController,
+    doctor: Doctor,
+) {
+    navController.currentBackStackEntry?.savedStateHandle?.set("doctors", doctor)
+    navController.navigate(
+        route = Screens.DoctorDetailsRoute.route
+    )
+}*/

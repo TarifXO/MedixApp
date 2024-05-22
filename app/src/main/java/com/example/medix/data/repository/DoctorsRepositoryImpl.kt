@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.medix.data.remote.MedixApi
+import com.example.medix.data.remote.paging.DoctorsByName
 import com.example.medix.data.remote.paging.DoctorsPagingSource
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.repository.DoctorsRepository
@@ -25,9 +26,24 @@ class DoctorsRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    /*override suspend fun getDoctorById(id: Int): Doctor {
+    override fun searchDoctorsByName(
+        name: String,
+        doctors: List<String>
+    ): Flow<PagingData<Doctor>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                DoctorsByName(medixApi, name)
+            }
+        ).flow
+    }
+
+    override suspend fun getDoctorById(id: Int): Doctor {
         return medixApi.getDoctorById(id)
-    }*/
+    }
 
     /*override fun getDoctorsBySpecialization(specialization: String, doctors : List<String>): Flow<PagingData<Doctor>> {
         return Pager(

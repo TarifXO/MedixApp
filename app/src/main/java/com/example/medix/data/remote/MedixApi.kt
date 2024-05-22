@@ -20,6 +20,9 @@ interface MedixApi {
     suspend fun getDoctors(
     ): List<Doctor>
 
+    @GET("api/Doctors/{id}")
+    suspend fun getDoctorById(@Path("id") id: Int): Doctor
+
     @Multipart
     @GET("api/Doctors/SearchDoctor/Name")
     suspend fun searchDoctor(
@@ -34,6 +37,22 @@ interface MedixApi {
         @Part("Email") email: RequestBody,
         @Part("Password") password: RequestBody
     )
+
+    @Multipart
+    @POST("/api/Authentication/ForgotPassword")
+    suspend fun forgotPassword(
+        @Part("email") email: RequestBody
+    ): Resource<Unit>
+
+    @Multipart
+    @POST("/api/Authentication/ResetPassword")
+    suspend fun resetPassword(
+        @Part("Password") password: RequestBody,
+        @Part("ConfirmPassword") confirmPassword: RequestBody,
+        @Part("Email") email: RequestBody,
+        @Part("token") token: RequestBody
+    ): Resource<Unit>
+
     @Multipart
     @POST("api/Authentication/Register")
     suspend fun register(
@@ -51,6 +70,8 @@ interface MedixApi {
         @Part("Address") address: RequestBody?,
         @Part("Wage") wage: RequestBody?
     ): Resource<Unit>
+
+
 
     @Multipart
     @PUT("api/Doctors/{id}")

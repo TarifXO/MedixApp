@@ -21,6 +21,10 @@ class AuthViewModel @Inject constructor(
     val signupFlow: StateFlow<Resource<Unit>?> = _signupFlow
     private val _loginFlow = MutableStateFlow<Resource<Unit>?>(null)
     val loginFlow: StateFlow<Resource<Unit>?> = _loginFlow
+    private val _forgotPasswordFlow = MutableStateFlow<Resource<Unit>?>(null)
+    val forgotPasswordFlow: StateFlow<Resource<Unit>?> = _forgotPasswordFlow
+    private val _resetPasswordFlow = MutableStateFlow<Resource<Unit>?>(null)
+    val resetPasswordFlow: StateFlow<Resource<Unit>?> = _resetPasswordFlow
 
     fun signup(registerRequest: RegisterRequest) {
         viewModelScope.launch {
@@ -42,6 +46,35 @@ class AuthViewModel @Inject constructor(
                 handleResource(resource, _loginFlow)
             } catch (e: Exception) {
                 _loginFlow.value = Resource.Failure(e)
+            }
+        }
+    }
+
+    fun forgotPassword(email: String) {
+        viewModelScope.launch {
+            _forgotPasswordFlow.value = Resource.Loading
+            try {
+                val resource = userUseCases.forgotPasswordUseCase.execute(email)
+                handleResource(resource, _forgotPasswordFlow)
+            } catch (e: Exception) {
+                _forgotPasswordFlow.value = Resource.Failure(e)
+            }
+        }
+    }
+
+    fun resetPassword(
+        password: String,
+        confirmPassword: String,
+        email: String,
+        token: String
+    ) {
+        viewModelScope.launch {
+            _resetPasswordFlow.value = Resource.Loading
+            try {
+                val resource = userUseCases.resetPasswordUseCase.execute(password, confirmPassword, email, token)
+                handleResource(resource, _resetPasswordFlow)
+            } catch (e: Exception) {
+                _resetPasswordFlow.value = Resource.Failure(e)
             }
         }
     }

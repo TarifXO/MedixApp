@@ -62,7 +62,7 @@ fun Sheet(
     onClose: () -> Unit
 ) {
     var isResetPasswordMode by remember { mutableStateOf(false) }
-    var isVerificationMode by remember { mutableStateOf(false) } // Track whether in verification mode
+    var isOtpMode by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     var text by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -90,12 +90,12 @@ fun Sheet(
             ) {
                 // Check if in verification mode to change title
                 val titleText = when {
-                        isVerificationMode -> "Enter 4 digits code"
+                        isOtpMode -> "Enter 4 digits code"
                         isResetPasswordMode -> "Set new password"
                         else -> "Forgot password"
                     }
                 val infoText = when {
-                    isVerificationMode -> "Enter the 4 digits code that you received on your email."
+                    isOtpMode -> "Enter the 4 digits code that you received on your email."
                     isResetPasswordMode -> "Set the new password for your account so you can login and access all the features."
                     else -> "Enter your email for the verification process, we will send 4 digits code to your email."
                 }
@@ -123,7 +123,7 @@ fun Sheet(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                if (!isVerificationMode && !isResetPasswordMode) {
+                if (!isOtpMode && !isResetPasswordMode) {
                     TextField(
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.White,
@@ -150,19 +150,19 @@ fun Sheet(
                         placeholder = { Text(text = "Email", color = blackText)},
                     )
                 }
-                if (isVerificationMode) {
+                if (isOtpMode) {
                     // Verification code TextFields
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
                         OTPTextField(
                             text,
-                            4,
+                            6,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .align(Alignment.CenterVertically)
                         ) {
                             text = it
-                            if (text.length == 4) {
+                            if (text.length == 6) {
                                 focusManager.clearFocus()
                             }
                         }
@@ -275,13 +275,13 @@ fun Sheet(
                         backgroundColor = orange,
                         padding = PaddingValues(16.dp,10.dp,16.dp,0.dp),
                         onClick = {
-                            if (isVerificationMode) {
-                                isVerificationMode = false
+                            if (isOtpMode) {
+                                isOtpMode = false
                                 isResetPasswordMode = true
                             } else if (isResetPasswordMode) {
-                                onClose() // Close the bottom sheet when in reset password mode
+                                onClose()
                             } else {
-                                isVerificationMode = true
+                                isOtpMode = true
                                 isResetPasswordMode = false
                             }
                         }

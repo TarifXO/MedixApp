@@ -50,11 +50,3 @@ data class PatientUpdateRequest(
     val gender: String,
     val image: File?
 ) : Parcelable
-
-data class SignUpParams(
-    val name: String,
-    val email: String,
-    val password: String,
-    val isPatient: Boolean,
-    val isDoctor: Boolean,
-)

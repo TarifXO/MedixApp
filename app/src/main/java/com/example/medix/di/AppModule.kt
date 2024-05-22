@@ -6,9 +6,13 @@ import com.example.medix.data.repository.UserRepositoryImpl
 import com.example.medix.domain.repository.DoctorsRepository
 import com.example.medix.domain.repository.UserRepository
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
+import com.example.medix.domain.useCases.doctors.GetDoctorByIdUseCase
 import com.example.medix.domain.useCases.doctors.GetDoctorsUseCase
+import com.example.medix.domain.useCases.doctors.SearchDoctorsUseCase
+import com.example.medix.domain.useCases.user.ForgotPasswordUseCase
 import com.example.medix.domain.useCases.user.LogInUseCase
 import com.example.medix.domain.useCases.user.RegisterUseCase
+import com.example.medix.domain.useCases.user.ResetPasswordUseCase
 import com.example.medix.domain.useCases.user.UpdateDoctorUseCase
 import com.example.medix.domain.useCases.user.UpdatePatientUseCase
 import com.example.medix.domain.useCases.user.UserUseCases
@@ -95,6 +99,8 @@ class AppModule {
     ) : UserUseCases {
         return UserUseCases(
             logInUseCase = LogInUseCase(userRepository),
+            forgotPasswordUseCase = ForgotPasswordUseCase(userRepository),
+            resetPasswordUseCase = ResetPasswordUseCase(userRepository),
             registerUseCase = RegisterUseCase(userRepository),
             updatePatientUseCase = UpdatePatientUseCase(userRepository),
             updateDoctorUseCase = UpdateDoctorUseCase(userRepository)
@@ -107,7 +113,10 @@ class AppModule {
         doctorsRepository: DoctorsRepository
     ) : DoctorsUseCases {
         return DoctorsUseCases(
-            getDoctors = GetDoctorsUseCase(doctorsRepository)
+            getDoctors = GetDoctorsUseCase(doctorsRepository),
+            searchDoctors = SearchDoctorsUseCase(doctorsRepository),
+            getDoctorById = GetDoctorByIdUseCase(doctorsRepository),
+            doctorsRepository = doctorsRepository
         )
     }
 
