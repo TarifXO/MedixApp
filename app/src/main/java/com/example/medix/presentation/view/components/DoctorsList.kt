@@ -1,11 +1,13 @@
 package com.example.medix.presentation.view.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
@@ -50,9 +52,14 @@ fun DoctorsList(
             verticalArrangement = Arrangement.spacedBy(mediumPadding1),
             contentPadding = PaddingValues(all = extraSmallPadding2)
         ) {
-            items(count = doctors.itemCount) {
-                doctors[it]?.let { doctor ->
-                    DoctorCard(doctor = doctor) { onClick(doctor) }
+            items(doctors.itemCount) { index ->
+                val doctor = doctors[index]
+                if (doctor != null) {
+                    DoctorCard(doctor = doctor, onClick = onClick)
+                } else {
+                    // Log the null value occurrence
+                    Log.e("DoctorsList", "Doctor at index $index is null")
+                    Text(text = "Loading...")
                 }
             }
         }

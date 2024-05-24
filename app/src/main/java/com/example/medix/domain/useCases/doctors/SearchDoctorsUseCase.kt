@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 class SearchDoctorsUseCase(
     private val doctorsRepository: DoctorsRepository
 ) {
-    operator fun invoke(name: String, doctors: List<String>) : Flow<PagingData<Doctor>> {
-        return doctorsRepository.searchDoctorsByName(name, doctors)
+    operator fun invoke(name: String) : Flow<PagingData<Doctor>> {
+        return doctorsRepository.searchDoctorsByName(name)
     }
 }

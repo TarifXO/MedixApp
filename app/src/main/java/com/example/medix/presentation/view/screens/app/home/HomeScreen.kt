@@ -214,15 +214,17 @@ fun HomeScreen(
 
 
                 for (doctor in doctors) {
-                    Text(
-                        text = doctor.speciality,
-                        modifier = Modifier
-                            .padding(12.dp)
-                            .size(120.dp, 140.dp)
-                            .shadow(10.dp, shape = RoundedCornerShape(12.dp))
-                            .background(lightMixture),
-                        textAlign = TextAlign.Center
-                    )
+                    doctor.speciality?.let {
+                        Text(
+                            text = it,
+                            modifier = Modifier
+                                .padding(12.dp)
+                                .size(120.dp, 140.dp)
+                                .shadow(10.dp, shape = RoundedCornerShape(12.dp))
+                                .background(lightMixture),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
 

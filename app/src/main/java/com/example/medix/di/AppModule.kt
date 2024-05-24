@@ -116,7 +116,7 @@ class AppModule {
             getDoctors = GetDoctorsUseCase(doctorsRepository),
             searchDoctors = SearchDoctorsUseCase(doctorsRepository),
             getDoctorById = GetDoctorByIdUseCase(doctorsRepository),
-            doctorsRepository = doctorsRepository
+
         )
     }
 

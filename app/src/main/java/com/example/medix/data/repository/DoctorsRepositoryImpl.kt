@@ -9,16 +9,17 @@ import com.example.medix.data.remote.paging.DoctorsPagingSource
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.repository.DoctorsRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class DoctorsRepositoryImpl @Inject constructor(
     private val medixApi: MedixApi
 ) : DoctorsRepository {
-    override  fun getDoctors(doctors : List<String>): Flow<PagingData<Doctor>> {
+
+    override  fun getDoctors(): Flow<PagingData<Doctor>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 10,
-                enablePlaceholders = false
+                pageSize = 30
             ),
             pagingSourceFactory = {
                 DoctorsPagingSource(medixApi)
@@ -28,12 +29,10 @@ class DoctorsRepositoryImpl @Inject constructor(
 
     override fun searchDoctorsByName(
         name: String,
-        doctors: List<String>
     ): Flow<PagingData<Doctor>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 10,
-                enablePlaceholders = false
+                pageSize = 20
             ),
             pagingSourceFactory = {
                 DoctorsByName(medixApi, name)

@@ -2,6 +2,7 @@ package com.example.medix.presentation.navigation
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -18,19 +19,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentScreen
 import com.example.medix.presentation.view.screens.app.change_patient_password.ChangePatientPassword
-import com.example.medix.presentation.view.screens.app.doctor_details.DoctorDetails
+import com.example.medix.presentation.view.screens.app.doctor_details.DoctorDetailsScreen
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsScreen
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
 import com.example.medix.presentation.view.screens.app.edit_patient_profile.EditPatientProfileScreen
@@ -217,10 +220,14 @@ fun MedixNavigator(
             ) {
                 //navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")?.let { article ->
                 val doctorViewModel : DoctorsViewModel = hiltViewModel()
+                val doctors = doctorViewModel.doctors.collectAsLazyPagingItems()
                 DoctorsScreen(
+                    doctors = doctors,
                     navigateUp = { navController.navigateUp() },
                     viewModel = doctorViewModel,
-                    navController = navController
+                    navigateToDoctorDetails = { doctor ->
+                        navigateToDoctorDetails(navController, doctor)
+                    }
                 )
                 //}
             }
@@ -258,12 +265,14 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
-                DoctorDetails(
-                    navigateUp = { navController.navigateUp() },
-                    navController = navController,
-                )
+                navController.previousBackStackEntry?.savedStateHandle?.get<Doctor?>("doctor")?.let { doctor ->
+                    DoctorDetailsScreen(
+                        doctor = doctor,
+                        navigateUp = { navController.navigateUp() },
+                        navController = navController
+                    )
+                }
             }
-
 
             composable(
                 route = Screens.AppointmentRoute.route,
@@ -507,18 +516,18 @@ private fun navigateToDoctors(
     navController: NavController,
     doctor: List<Doctor>,
 ) {
-    navController.currentBackStackEntry?.savedStateHandle?.set("doctor", doctor)
+    navController.currentBackStackEntry?.savedStateHandle?.set("doctors", doctor)
     navController.navigate(
         route = Screens.DoctorsRoute.route
     )
 }
 
-/*private fun navigateToDoctorDetails(
+private fun navigateToDoctorDetails(
     navController: NavController,
     doctor: Doctor,
 ) {
-    navController.currentBackStackEntry?.savedStateHandle?.set("doctors", doctor)
+    navController.currentBackStackEntry?.savedStateHandle?.set("doctor", doctor)
     navController.navigate(
         route = Screens.DoctorDetailsRoute.route
     )
-}*/
+}

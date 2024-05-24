@@ -74,11 +74,13 @@ fun DoctorCard(
                 maxLines = 1,
                 )
 
-            Text(text = doctor.speciality,
-                fontWeight = FontWeight.Normal,
-                fontSize = 15.sp,
-                color = mixture
-            )
+            doctor.speciality?.let {
+                Text(text = it,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 15.sp,
+                    color = mixture
+                )
+            }
 
             Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
 
@@ -122,7 +124,8 @@ fun DoctorCardPreview(){
                 image = "",
                 wage = 0.0,
                 favorites = 0,
-                appointments = 0
+                appointments = 0,
+                imagefile = ""
             ),
             onClick = {}
         )

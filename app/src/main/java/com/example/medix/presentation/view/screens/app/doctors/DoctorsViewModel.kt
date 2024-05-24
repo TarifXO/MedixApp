@@ -12,10 +12,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,23 +34,27 @@ class DoctorsViewModel @Inject constructor(
     val doctors: Flow<PagingData<Doctor>> = _searchQuery
         .flatMapLatest { query ->
             if (query.isEmpty()) {
-                doctorsUseCase.getDoctors(listOf())
+                doctorsUseCase.getDoctors()
             } else {
-                doctorsUseCase.searchDoctors(query, listOf())
+                doctorsUseCase.searchDoctors(query)
             }
         }
         .cachedIn(viewModelScope)
+
+
+    //val doctors = doctorsUseCase.getDoctors().cachedIn(viewModelScope)
+
 
     fun searchDoctors(name: String) {
         _searchQuery.value = name
     }
 
-    private val getDoctorByIdUseCase: GetDoctorByIdUseCase by lazy {
+    /*private val getDoctorByIdUseCase: GetDoctorByIdUseCase by lazy {
         GetDoctorByIdUseCase(doctorsUseCase.doctorsRepository)
     }
 
     fun getDoctorById(id: Int): Flow<Doctor> = flow {
         emit(getDoctorByIdUseCase(id))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(Dispatchers.IO)*/
 
 }

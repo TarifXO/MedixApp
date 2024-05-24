@@ -494,7 +494,8 @@ fun DoctorProfileScreenPreview(){
             image = "",
             wage = 0.0,
             favorites = 0,
-            appointments = 0
+            appointments = 0,
+            imagefile = ""
         ),
         navController = rememberNavController(),
         //viewModel = null

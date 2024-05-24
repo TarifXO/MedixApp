@@ -27,7 +27,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ChipWithSubItems
@@ -41,12 +44,13 @@ import com.example.medix.ui.theme.mixture
 @Composable
 fun DoctorsScreen(
     navigateUp : () -> Unit,
-    navController: NavController,
-    viewModel: DoctorsViewModel = hiltViewModel()
+    navigateToDoctorDetails : (Doctor) -> Unit,
+    viewModel: DoctorsViewModel = hiltViewModel(),
+    doctors: LazyPagingItems<Doctor>
 ){
     val searchText by viewModel.searchQuery.collectAsState()
-    val doctors = viewModel.doctors.collectAsLazyPagingItems()
     val chipItems = listOf("Option 1", "Option 2", "Option 3")
+    //val fake = generateFakePagingItems(20)
 
     Column(
         modifier = Modifier
@@ -73,7 +77,7 @@ fun DoctorsScreen(
                 SearchBar(
                     text = searchText,
                     readOnly = false,
-                    onValueChange = { viewModel.searchDoctors(it) },
+                    onValueChange = {  },
                     )
 
             }
@@ -110,18 +114,9 @@ fun DoctorsScreen(
         DoctorsList(
             modifier = Modifier.padding(horizontal = Dimens.mediumPadding1),
             doctors = doctors,
-            onClick = { doctor ->
-                navController.navigate("${Screens.DoctorDetailsRoute.route}/${doctor.id}")
+            onClick = {
+                navigateToDoctorDetails(it)
             }
         )
     }
-}
-
-@Preview
-@Composable
-fun DoctorsScreenPreview() {
-    DoctorsScreen(
-        navigateUp = {},
-        navController = rememberNavController()
-    )
 }
