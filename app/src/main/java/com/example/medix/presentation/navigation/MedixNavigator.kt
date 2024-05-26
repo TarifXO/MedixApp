@@ -270,13 +270,11 @@ fun MedixNavigator(
                 SearchDoctorsScreen(
                     state = state.value,
                     event = searchDoctorViewModel::onEvent,
-                    navigateToDetails = { doctor ->
-                        navigateToDoctorDetails(
-                            navController = navController,
-                            doctorId = doctor.id
-                        )
+                    navigateToDoctorDetails = { doctorId ->
+                        navigateToDoctorDetails(navController, doctorId)
                     },
                     navigateUp = { navController.navigateUp() },
+                    viewModel = searchDoctorViewModel
 
                 )
             }

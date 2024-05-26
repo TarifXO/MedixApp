@@ -1,6 +1,8 @@
 package com.example.medix.presentation.view.screens.app.doctors_search
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
@@ -17,6 +19,17 @@ class SearchDoctorsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(SearchState())
     val state: StateFlow<SearchState> = _state
+
+    private val _navigateToDoctorDetails = MutableLiveData<Int?>()
+    val navigateToDoctorDetails: LiveData<Int?> = _navigateToDoctorDetails
+
+    fun onDoctorClicked(doctorId: Int) {
+        _navigateToDoctorDetails.value = doctorId
+    }
+
+    fun onDoctorDetailsNavigated() {
+        _navigateToDoctorDetails.value = null
+    }
 
     fun onEvent(event: SearchEvent) {
         when (event) {

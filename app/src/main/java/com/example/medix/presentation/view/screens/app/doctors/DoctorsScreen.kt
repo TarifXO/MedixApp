@@ -79,7 +79,7 @@ fun DoctorsScreen(
                 Spacer(modifier = Modifier.height(45.dp))
 
                 SearchBar(
-                    modifier = Modifier.padding(horizontal = Dimens.mediumPadding1),
+                    modifier = Modifier.padding(horizontal = 10.dp),
                     text = "",
                     readOnly = true,
                     onValueChange = {},
