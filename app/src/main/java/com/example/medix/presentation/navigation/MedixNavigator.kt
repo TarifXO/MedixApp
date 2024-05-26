@@ -2,7 +2,6 @@ package com.example.medix.presentation.navigation
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import android.widget.Toast
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -13,20 +12,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.navigation.navArgument
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.RegisterRequest
@@ -36,6 +36,8 @@ import com.example.medix.presentation.view.screens.app.change_patient_password.C
 import com.example.medix.presentation.view.screens.app.doctor_details.DoctorDetailsScreen
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsScreen
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
+import com.example.medix.presentation.view.screens.app.doctors_search.SearchDoctorsScreen
+import com.example.medix.presentation.view.screens.app.doctors_search.SearchDoctorsViewModel
 import com.example.medix.presentation.view.screens.app.edit_patient_profile.EditPatientProfileScreen
 import com.example.medix.presentation.view.screens.app.favourites.FavouritesScreen
 import com.example.medix.presentation.view.screens.app.home.HomeScreen
@@ -220,20 +222,18 @@ fun MedixNavigator(
             ) {
                 //navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")?.let { article ->
                 val doctorViewModel : DoctorsViewModel = hiltViewModel()
-                val doctors = doctorViewModel.doctors.collectAsLazyPagingItems()
                 DoctorsScreen(
-                    doctors = doctors,
                     navigateUp = { navController.navigateUp() },
+                    navigateToSearch = { navController.navigate(Screens.SearchDoctorsRoute.route) },
                     viewModel = doctorViewModel,
-                    navigateToDoctorDetails = { doctor ->
-                        navigateToDoctorDetails(navController, doctor)
+                    navigateToDoctorDetails = { doctorId ->
+                        navigateToDoctorDetails(navController, doctorId)
                     }
                 )
-                //}
             }
-            
+
             composable(
-                route = Screens.DoctorDetailsRoute.route,
+                route = Screens.SearchDoctorsRoute.route,
                 enterTransition = {
                     slideInHorizontally(
                         initialOffsetX = { fullWidth ->
@@ -265,13 +265,63 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
-                navController.previousBackStackEntry?.savedStateHandle?.get<Doctor?>("doctor")?.let { doctor ->
-                    DoctorDetailsScreen(
-                        doctor = doctor,
-                        navigateUp = { navController.navigateUp() },
-                        navController = navController
-                    )
+                val searchDoctorViewModel : SearchDoctorsViewModel = hiltViewModel()
+                val state = searchDoctorViewModel.state.collectAsState()
+                SearchDoctorsScreen(
+                    state = state.value,
+                    event = searchDoctorViewModel::onEvent,
+                    navigateToDetails = { doctor ->
+                        navigateToDoctorDetails(
+                            navController = navController,
+                            doctorId = doctor.id
+                        )
+                    },
+                    navigateUp = { navController.navigateUp() },
+
+                )
+            }
+            
+            composable(
+                route = Screens.DoctorDetailsRoute.route,
+                arguments = listOf(navArgument("doctorId") { type = NavType.IntType }),
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth ->
+                            -fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth ->
+                            fullWidth },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) + fadeOut(animationSpec = tween(100))
                 }
+            ) {
+                    backStackEntry ->
+                val doctorId = backStackEntry.arguments?.getInt("doctorId") ?: return@composable
+                DoctorDetailsScreen(
+                    doctorId = doctorId,
+                    navigateUp = { navController.popBackStack() },
+                    navController = navController
+                )
             }
 
             composable(
@@ -524,10 +574,9 @@ private fun navigateToDoctors(
 
 private fun navigateToDoctorDetails(
     navController: NavController,
-    doctor: Doctor,
+    doctorId: Int,
 ) {
-    navController.currentBackStackEntry?.savedStateHandle?.set("doctor", doctor)
     navController.navigate(
-        route = Screens.DoctorDetailsRoute.route
+        route = Screens.DoctorDetailsRoute.route.replace("{doctorId}", doctorId.toString())
     )
 }

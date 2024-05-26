@@ -14,43 +14,47 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.Dimens
-import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ChipWithSubItems
 import com.example.medix.presentation.view.components.DoctorsList
-import com.example.medix.presentation.view.components.SearchBar
 import com.example.medix.presentation.view.components.TopBar
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
+import com.example.medix.presentation.view.components.SearchBar
 
 @Composable
 fun DoctorsScreen(
     navigateUp : () -> Unit,
-    navigateToDoctorDetails : (Doctor) -> Unit,
+    navigateToSearch: () -> Unit,
+    navigateToDoctorDetails : (Int) -> Unit,
     viewModel: DoctorsViewModel = hiltViewModel(),
-    doctors: LazyPagingItems<Doctor>
 ){
-    val searchText by viewModel.searchQuery.collectAsState()
+    val doctors = viewModel.getAllDoctors().collectAsLazyPagingItems()
+    //var searchQuery by remember { mutableStateOf("") }
+    //val searchText by viewModel.searchQuery.collectAsState()
     val chipItems = listOf("Option 1", "Option 2", "Option 3")
     //val fake = generateFakePagingItems(20)
+
+    val navigateToDoctorDetails = viewModel.navigateToDoctorDetails.observeAsState()
+
+    LaunchedEffect(navigateToDoctorDetails.value) {
+        navigateToDoctorDetails.value?.let { doctorId ->
+            navigateToDoctorDetails(doctorId)
+            viewModel.onDoctorDetailsNavigated()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -75,10 +79,15 @@ fun DoctorsScreen(
                 Spacer(modifier = Modifier.height(45.dp))
 
                 SearchBar(
-                    text = searchText,
-                    readOnly = false,
-                    onValueChange = {  },
-                    )
+                    modifier = Modifier.padding(horizontal = Dimens.mediumPadding1),
+                    text = "",
+                    readOnly = true,
+                    onValueChange = {},
+                    onClick = {
+                        navigateToSearch()
+                    },
+                    onSearch = {}
+                )
 
             }
         }
@@ -114,8 +123,8 @@ fun DoctorsScreen(
         DoctorsList(
             modifier = Modifier.padding(horizontal = Dimens.mediumPadding1),
             doctors = doctors,
-            onClick = {
-                navigateToDoctorDetails(it)
+            onClick = { doctor ->
+                doctor.id.let { viewModel.onDoctorClicked(it) }
             }
         )
     }

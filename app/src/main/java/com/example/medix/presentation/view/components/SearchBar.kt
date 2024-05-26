@@ -1,5 +1,6 @@
 package com.example.medix.presentation.view.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -30,10 +31,12 @@ import com.example.medix.ui.theme.mixture
 
 @Composable
 fun SearchBar(
+    modifier: Modifier = Modifier,
     text : String,
     readOnly : Boolean,
     onClick : (() -> Unit)? = null,
-    onValueChange : (String) -> Unit
+    onValueChange : (String) -> Unit,
+    onSearch : () -> Unit
 ) {
     val interactionSource = remember {
         MutableInteractionSource()
@@ -45,12 +48,12 @@ fun SearchBar(
         }
     }
 
-    Box {
+    Box(modifier = modifier) {
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
-                .padding(start = 15.dp, end = 15.dp),
+                .padding(start = 10.dp, end = 10.dp),
             value = text,
             onValueChange = onValueChange,
             readOnly = readOnly,
@@ -80,7 +83,9 @@ fun SearchBar(
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
-                onSearch = { onValueChange(text) }
+                onSearch = {
+                    onSearch()
+                }
             ),
             textStyle = MaterialTheme.typography.bodyLarge,
             interactionSource = interactionSource
@@ -88,14 +93,13 @@ fun SearchBar(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun SearchBarPreview(){
     MedixTheme {
-        SearchBar(
-            text = "",
-            readOnly = false,
-            onValueChange = {},
-        )
+        SearchBar(text = "", readOnly = false, onValueChange = {}) {
+
+        }
     }
 }

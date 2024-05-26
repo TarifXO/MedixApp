@@ -4,6 +4,7 @@ import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.Doctor
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -16,17 +17,16 @@ interface MedixApi {
 
 
     //Doctors
-    @GET("api/Doctors")
+    @GET("/api/Doctors")
     suspend fun getDoctors(
     ): List<Doctor>
 
-    @GET("api/Doctors/{id}")
-    suspend fun getDoctorById(@Path("id") id: Int): Doctor
+    @GET("/api/Doctors/{id}")
+    fun getDoctorById(@Path("id") id: Int): Call<Doctor>
 
-    @Multipart
-    @GET("api/Doctors/SearchDoctor/Name")
+    @GET("/api/Doctors/SearchDoctor/{Name}")
     suspend fun searchDoctor(
-        @Part("Name") name: RequestBody
+        @Path("Name") name: String
     ): List<Doctor>
 
 

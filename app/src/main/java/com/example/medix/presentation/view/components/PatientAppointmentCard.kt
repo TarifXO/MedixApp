@@ -83,12 +83,14 @@ fun PatientAppointmentCard(
                 .height(articleCardSize),
             verticalArrangement = Arrangement.SpaceAround
         ) {
-            Text(text = doctor.name,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = blackText,
-                maxLines = 1,
-            )
+            doctor.name?.let {
+                Text(text = it,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = blackText,
+                    maxLines = 1,
+                )
+            }
 
             Text(text = "Specialist Dentist",
                 fontWeight = FontWeight.Normal,

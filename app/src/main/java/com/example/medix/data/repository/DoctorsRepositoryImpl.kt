@@ -4,12 +4,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.medix.data.remote.MedixApi
-import com.example.medix.data.remote.paging.DoctorsByName
 import com.example.medix.data.remote.paging.DoctorsPagingSource
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.repository.DoctorsRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Response
 import javax.inject.Inject
 
 class DoctorsRepositoryImpl @Inject constructor(
@@ -27,20 +29,13 @@ class DoctorsRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun searchDoctorsByName(
+    override suspend fun searchDoctorsByName(
         name: String,
-    ): Flow<PagingData<Doctor>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 20
-            ),
-            pagingSourceFactory = {
-                DoctorsByName(medixApi, name)
-            }
-        ).flow
+    ): List<Doctor> {
+        return medixApi.searchDoctor(name)
     }
 
-    override suspend fun getDoctorById(id: Int): Doctor {
+    override fun getDoctorById(id: Int): Call<Doctor> {
         return medixApi.getDoctorById(id)
     }
 
