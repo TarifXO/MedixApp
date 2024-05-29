@@ -4,12 +4,11 @@ import androidx.paging.PagingData
 import com.example.medix.domain.model.Doctor
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
-import retrofit2.Response
 
 interface DoctorsRepository {
     fun getDoctors(): Flow<PagingData<Doctor>>
     fun getDoctorById(id: Int): Call<Doctor>
-    //fun getDoctorsBySpecialization(specialization: String, doctors : List<String>): Flow<PagingData<Doctor>>
+    fun getDoctorsBySpeciality(specialization: String): Flow<PagingData<Doctor>>
     suspend fun searchDoctorsByName(name: String): List<Doctor>
     //suspend fun getAppointments(doctorsId: Int, patientId: Int, page: Int, pageSize: Int): List<Appointments>
     //suspend fun createAppointment(appointment: Appointments)

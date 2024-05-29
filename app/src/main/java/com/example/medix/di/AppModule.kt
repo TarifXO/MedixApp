@@ -1,12 +1,16 @@
 package com.example.medix.di
 
+import android.content.Context
 import com.example.medix.data.remote.MedixApi
+import com.example.medix.data.repository.DataStoreRepositoryImpl
 import com.example.medix.data.repository.DoctorsRepositoryImpl
 import com.example.medix.data.repository.UserRepositoryImpl
+import com.example.medix.domain.repository.DataStoreRepository
 import com.example.medix.domain.repository.DoctorsRepository
 import com.example.medix.domain.repository.UserRepository
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
 import com.example.medix.domain.useCases.doctors.GetDoctorByIdUseCase
+import com.example.medix.domain.useCases.doctors.GetDoctorsBySpecialization
 import com.example.medix.domain.useCases.doctors.GetDoctorsUseCase
 import com.example.medix.domain.useCases.doctors.SearchDoctorsUseCase
 import com.example.medix.domain.useCases.user.ForgotPasswordUseCase
@@ -20,6 +24,7 @@ import com.example.medix.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -71,27 +76,6 @@ class AppModule {
         return retrofit.create(MedixApi::class.java)
     }
 
-    /*@Provides
-    @Singleton
-    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
-
-    @Provides
-    @Singleton
-    fun provideAuthRepository(impl: AuthRepositoryImpl): AuthRepository = impl*/
-
-    /*@Provides
-    @Singleton
-    fun provideMedixUseCases(
-        authRepository: AuthRepository
-    ) : MedixUseCases {
-        return MedixUseCases(
-            logInUseCase = LogInUseCase(authRepository),
-            signUpUseCase = SignUpUseCase(authRepository),
-            getUserDataUseCase = GetUserDataUseCase(authRepository),
-            logOutUseCase = LogOutUseCase(authRepository)
-        )
-    }*/
-
     @Provides
     @Singleton
     fun provideUserUseCases(
@@ -116,7 +100,7 @@ class AppModule {
             getDoctors = GetDoctorsUseCase(doctorsRepository),
             searchDoctors = SearchDoctorsUseCase(doctorsRepository),
             getDoctorById = GetDoctorByIdUseCase(doctorsRepository),
-
+            getDoctorsBySpeciality = GetDoctorsBySpecialization(doctorsRepository)
         )
     }
 
@@ -127,4 +111,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideUserRepository(medixApi: MedixApi): UserRepository = UserRepositoryImpl(medixApi)
+
+    @Provides
+    @Singleton
+    fun provideDataStoreRepository(@ApplicationContext context: Context): DataStoreRepository {
+        return DataStoreRepositoryImpl(context)
+    }
 }

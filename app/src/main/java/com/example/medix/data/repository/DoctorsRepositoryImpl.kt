@@ -4,14 +4,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.medix.data.remote.MedixApi
+import com.example.medix.data.remote.paging.DoctorsBySpecialization
 import com.example.medix.data.remote.paging.DoctorsPagingSource
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.repository.DoctorsRepository
 import kotlinx.coroutines.flow.Flow
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
-import retrofit2.Response
 import javax.inject.Inject
 
 class DoctorsRepositoryImpl @Inject constructor(
@@ -39,23 +37,12 @@ class DoctorsRepositoryImpl @Inject constructor(
         return medixApi.getDoctorById(id)
     }
 
-    /*override fun getDoctorsBySpecialization(specialization: String, doctors : List<String>): Flow<PagingData<Doctor>> {
+    override fun getDoctorsBySpeciality(specialization: String): Flow<PagingData<Doctor>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 10,
-                enablePlaceholders = false
+                pageSize = 10
             ),
             pagingSourceFactory = { DoctorsBySpecialization(medixApi, specialization) }
         ).flow
     }
-
-    override  fun searchDoctorsByName(name: String, doctors : List<String>): Flow<PagingData<Doctor>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 10,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { DoctorsByName(medixApi, name) }
-        ).flow
-    }*/
 }

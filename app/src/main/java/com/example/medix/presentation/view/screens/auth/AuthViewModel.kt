@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.LogInRequest
 import com.example.medix.domain.model.RegisterRequest
+import com.example.medix.domain.repository.DataStoreRepository
 import com.example.medix.domain.useCases.user.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val userUseCases: UserUseCases
+    private val userUseCases: UserUseCases,
+    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
     private val _signupFlow = MutableStateFlow<Resource<Unit>?>(null)
@@ -32,6 +34,9 @@ class AuthViewModel @Inject constructor(
             try {
                 val resource = userUseCases.registerUseCase.execute(registerRequest)
                 handleResource(resource, _signupFlow)
+                if (resource is Resource.Success) {
+                    dataStoreRepository.saveUserEmail(registerRequest.email) // Save user email
+                }
             } catch (e: Exception) {
                 _signupFlow.value = Resource.Failure(e)
             }
@@ -44,6 +49,9 @@ class AuthViewModel @Inject constructor(
             try {
                 val resource = userUseCases.logInUseCase.execute(loginRequest)
                 handleResource(resource, _loginFlow)
+                if (resource is Resource.Success) {
+                    dataStoreRepository.saveUserEmail(loginRequest.email) // Save user email
+                }
             } catch (e: Exception) {
                 _loginFlow.value = Resource.Failure(e)
             }

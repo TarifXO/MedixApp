@@ -6,4 +6,5 @@ data class DoctorsUseCases(
     val getDoctors: GetDoctorsUseCase,
     val searchDoctors: SearchDoctorsUseCase,
     val getDoctorById: GetDoctorByIdUseCase,
+    val getDoctorsBySpeciality: GetDoctorsBySpecialization
 )
