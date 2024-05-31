@@ -43,7 +43,8 @@ fun Modifier.shimmerEffect() = this.then(
 fun DoctorCardShimmerEffect(
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier){
+    Row(modifier = modifier.
+    padding(start = 10.dp)){
         Box(modifier = Modifier
             .size(Dimens.articleCardSize)
             .clip(MaterialTheme.shapes.medium)
@@ -77,9 +78,28 @@ fun DoctorCardShimmerEffect(
     }
 }
 
+@Composable
+fun PopularDoctorCardShimmerEffect(
+    modifier: Modifier = Modifier
+) {
+    Box(modifier
+        .padding(start = 8.dp, top = 10.dp, bottom = 4.dp)
+        .size(125.dp, 150.dp)
+        .clip(MaterialTheme.shapes.medium)
+        .shimmerEffect()
+    )
+}
+
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ArticleCardShimmerEffectPreview(){
     DoctorCardShimmerEffect()
+}
+
+@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PopularDoctorCardShimmerEffectPreview(){
+    PopularDoctorCardShimmerEffect()
 }

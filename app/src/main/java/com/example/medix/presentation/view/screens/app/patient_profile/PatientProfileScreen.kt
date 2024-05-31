@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,11 +33,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
@@ -50,15 +50,16 @@ import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
 import com.example.medix.ui.theme.secondary
+import kotlinx.coroutines.launch
 
 @Composable
 fun PatientProfileScreen(
-    //viewModel: AuthViewModel?,
+    viewModel: PatientProfileViewModel = hiltViewModel(),
     navController: NavController,
     user: RegisterRequest?
 ){
     val context = LocalContext.current
-    //val userData = viewModel?.userData?.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -122,9 +123,9 @@ fun PatientProfileScreen(
                     model = ImageRequest.Builder(context = context).data(user?.image)
                         .build(),
                     modifier = Modifier
-                    .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
-                    .size(60.dp)
-                    .clip(MaterialTheme.shapes.medium),
+                        .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
+                        .size(60.dp)
+                        .clip(MaterialTheme.shapes.medium),
                     contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
@@ -250,9 +251,9 @@ fun PatientProfileScreen(
                     .shadow(0.dp, shape = RoundedCornerShape(20.dp))
                     .clip(RoundedCornerShape(20.dp))
                     .clickable {
-                               navController.navigate(
-                                   Screens.ChangePatientPasswordRoute.route
-                               )
+                        navController.navigate(
+                            Screens.ChangePatientPasswordRoute.route
+                        )
                     },
                 verticalArrangement = Arrangement.Center
             ) {
@@ -438,14 +439,16 @@ fun PatientProfileScreen(
                     .clip(RoundedCornerShape(12.dp))
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
-                        //viewModel?.logout()
-                        navController.navigate(Screens.LoginRoute.route) {
-                            popUpTo(Screens.LoginRoute.route) {
-                                inclusive = true
+                        coroutineScope.launch {
+                            viewModel.logout {
+                                navController.navigate(Screens.LoginRoute.route) {
+                                    popUpTo(Screens.LoginRoute.route) {
+                                        inclusive = true
+                                    }
+                                }
                             }
                         }
-                    },
-                //contentAlignment = Alignment.Center
+                    }
             ) {
                 Row(
                     modifier = Modifier
@@ -478,12 +481,11 @@ fun PatientProfileScreen(
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun PatientProfileScreenPreview(){
     PatientProfileScreen(
         navController = rememberNavController(),
-        //viewModel = null,
         user = null
     )
-}
+}*/

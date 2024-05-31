@@ -2,6 +2,8 @@ package com.example.medix.data.remote
 
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.LoginResponse
+import com.example.medix.domain.model.Patient
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -40,7 +42,7 @@ interface MedixApi {
     suspend fun logIn(
         @Part("Email") email: RequestBody,
         @Part("Password") password: RequestBody
-    )
+    ) : LoginResponse
 
     @Multipart
     @POST("/api/Authentication/ForgotPassword")
@@ -73,7 +75,7 @@ interface MedixApi {
         @Part("bio") bio: RequestBody?,
         @Part("Address") address: RequestBody?,
         @Part("Wage") wage: RequestBody?
-    ): Resource<Unit>
+    )
 
 
 
@@ -92,6 +94,10 @@ interface MedixApi {
         @Part("wage") wage: RequestBody,
         @Part image: MultipartBody.Part?
     ): Resource<Unit>
+
+    // Patients
+    @GET("/api/Patients/{id}")
+    fun getPatientById(@Path("id") id: Int): Call<Patient>
 
     @Multipart
     @PUT("api/Patients/{id}")

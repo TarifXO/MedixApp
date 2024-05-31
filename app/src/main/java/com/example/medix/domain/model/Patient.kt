@@ -1,14 +1,14 @@
 package com.example.medix.domain.model
 
 data class Patient(
-    val id: Int, // Unique identifier
+    val id: Int,
     val name: String,
     val email: String,
     val password: String,
     val phoneNumber: String,
     val image: String,
     val dateOfBirth: String,
-    val gender: Gender
+    val gender: String
 )
 
 enum class Gender {

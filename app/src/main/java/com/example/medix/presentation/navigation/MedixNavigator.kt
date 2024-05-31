@@ -28,7 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.medix.R
-import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.Patient
 import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentScreen
@@ -41,10 +41,12 @@ import com.example.medix.presentation.view.screens.app.doctors_search.SearchDoct
 import com.example.medix.presentation.view.screens.app.edit_patient_profile.EditPatientProfileScreen
 import com.example.medix.presentation.view.screens.app.favourites.FavouritesScreen
 import com.example.medix.presentation.view.screens.app.home.HomeScreen
+import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
 import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiScreen
 import com.example.medix.presentation.view.screens.app.medix_model.MedixModel
 import com.example.medix.presentation.view.screens.app.patient_appointments.PatientAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileScreen
+import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileViewModel
 import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.presentation.view.screens.auth.log_in.LogInScreen
 
@@ -160,21 +162,16 @@ fun MedixNavigator(
             composable(
                 route = Screens.HomeRoute.route,
             ) {
-                //val viewModel : HomeViewModel = hiltViewModel()
-                //val articles = viewModel.news.collectAsLazyPagingItems()
-                val fakePagingItems = generateFakePagingItems(20)
-                val user : RegisterRequest? = null
+                val viewModel : DoctorsViewModel = hiltViewModel()
+                val authViewModel : PatientsViewModel = hiltViewModel()
+                val user : Patient? = null
                 HomeScreen(
-                    doctors = fakePagingItems,
-                    navigateToDoctors = {
-                        navigateToDoctors(
-                            navController = navController,
-                            doctor = fakePagingItems
-                        )
-                    },
                     navController = navController,
-                    //viewModel = viewModel,
-                    user = user
+                    navigateToDoctorDetails = { doctorId ->
+                        navigateToDoctorDetails(navController, doctorId)
+                    },
+                    doctorsViewModel = viewModel,
+                    patientsViewModel = authViewModel
                 )
             }
 
@@ -455,12 +452,12 @@ fun MedixNavigator(
             }
 
             composable(route = Screens.PatientProfileRoute.route) {
-                //val viewModel : BookmarkViewModel = hiltViewModel()
+                val viewModel : PatientProfileViewModel = hiltViewModel()
                 //val state = viewModel.state.value
                 val user : RegisterRequest? = null
                 PatientProfileScreen(
                     navController = navController,
-                    //viewModel = viewModel,
+                    viewModel = viewModel,
                     user = user
                 )
             }
@@ -558,16 +555,6 @@ private fun navigateToTab(navController: NavController, route : String) {
             launchSingleTop = true
         }
     }
-}
-
-private fun navigateToDoctors(
-    navController: NavController,
-    doctor: List<Doctor>,
-) {
-    navController.currentBackStackEntry?.savedStateHandle?.set("doctors", doctor)
-    navController.navigate(
-        route = Screens.DoctorsRoute.route
-    )
 }
 
 private fun navigateToDoctorDetails(

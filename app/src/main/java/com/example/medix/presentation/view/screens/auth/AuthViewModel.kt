@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.LogInRequest
+import com.example.medix.domain.model.LoginResponse
+import com.example.medix.domain.model.Profile
 import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.repository.DataStoreRepository
 import com.example.medix.domain.useCases.user.UserUseCases
@@ -35,7 +37,7 @@ class AuthViewModel @Inject constructor(
                 val resource = userUseCases.registerUseCase.execute(registerRequest)
                 handleResource(resource, _signupFlow)
                 if (resource is Resource.Success) {
-                    dataStoreRepository.saveUserEmail(registerRequest.email) // Save user email
+                    dataStoreRepository.saveUserEmail(registerRequest.email)
                 }
             } catch (e: Exception) {
                 _signupFlow.value = Resource.Failure(e)
@@ -48,14 +50,24 @@ class AuthViewModel @Inject constructor(
             _loginFlow.value = Resource.Loading
             try {
                 val resource = userUseCases.logInUseCase.execute(loginRequest)
-                handleResource(resource, _loginFlow)
+                handleResourceForLogin(resource, _loginFlow)
                 if (resource is Resource.Success) {
-                    dataStoreRepository.saveUserEmail(loginRequest.email) // Save user email
+                    val profile = resource.data.profile.firstOrNull()
+                    if (profile != null) {
+                        saveUserData(profile)
+                    } else {
+                        _loginFlow.value = Resource.Failure(Exception("Profile not found"))
+                    }
                 }
             } catch (e: Exception) {
                 _loginFlow.value = Resource.Failure(e)
             }
         }
+    }
+
+    private suspend fun saveUserData(profile: Profile) {
+        dataStoreRepository.saveUserId(profile.patient_id)
+        dataStoreRepository.saveUserEmail(profile.patient_email)
     }
 
     fun forgotPassword(email: String) {
@@ -88,6 +100,14 @@ class AuthViewModel @Inject constructor(
     }
 
     private fun handleResource(resource: Resource<Unit>, flow: MutableStateFlow<Resource<Unit>?>) {
+        when (resource) {
+            is Resource.Success -> flow.value = Resource.Success(Unit)
+            is Resource.Failure -> flow.value = Resource.Failure(resource.exception)
+            is Resource.Loading -> flow.value = Resource.Loading
+        }
+    }
+
+    private fun handleResourceForLogin(resource: Resource<LoginResponse>, flow: MutableStateFlow<Resource<Unit>?>) {
         when (resource) {
             is Resource.Success -> flow.value = Resource.Success(Unit)
             is Resource.Failure -> flow.value = Resource.Failure(resource.exception)

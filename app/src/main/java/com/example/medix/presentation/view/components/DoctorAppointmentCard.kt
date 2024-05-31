@@ -126,7 +126,7 @@ fun DoctorAppointmentCardPreview(){
                 name = "Youssef Hawash",
                 image = "",
                 dateOfBirth = "",
-                gender = Gender.Male,
+                gender = "",
                 password = "123456789"
             )
         )

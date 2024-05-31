@@ -422,25 +422,26 @@ fun LogInScreen(
         }
 
         loginFlow?.value?.let {
-            when(it) {
+            when (it) {
                 is Resource.Failure -> {
                     val context = LocalContext.current
                     Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
                 }
+
                 Resource.Loading -> {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .align(Alignment.Center)
                     )
                 }
+
                 is Resource.Success -> {
                     LaunchedEffect(Unit) {
-                        navController.navigate(Screens.MedixNavigation.route){
+                        navController.navigate(Screens.MedixNavigation.route) {
                             popUpTo(Screens.AuthRoute.route)
                         }
                     }
                 }
-
             }
         }
     }

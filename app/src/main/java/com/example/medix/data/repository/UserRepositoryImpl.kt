@@ -4,6 +4,7 @@ import com.example.medix.data.authentication.Resource
 import com.example.medix.data.remote.MedixApi
 import com.example.medix.domain.model.DoctorUpdateRequest
 import com.example.medix.domain.model.LogInRequest
+import com.example.medix.domain.model.LoginResponse
 import com.example.medix.domain.model.PatientUpdateRequest
 import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.repository.UserRepository
@@ -21,11 +22,11 @@ class UserRepositoryImpl @Inject constructor(
     private val medixApi: MedixApi
 ) : UserRepository {
 
-    override suspend fun loginUser(loginRequest: LogInRequest) {
+    override suspend fun loginUser(loginRequest: LogInRequest) : LoginResponse {
         val email = loginRequest.email.toRequestBody("text/plain".toMediaTypeOrNull())
         val password = loginRequest.password.toRequestBody("text/plain".toMediaTypeOrNull())
 
-        medixApi.logIn(
+        return medixApi.logIn(
             email = email,
             password = password
         )

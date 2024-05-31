@@ -42,10 +42,7 @@ fun DoctorsScreen(
     viewModel: DoctorsViewModel = hiltViewModel(),
 ){
     val doctors = viewModel.getAllDoctors().collectAsLazyPagingItems()
-    //var searchQuery by remember { mutableStateOf("") }
-    //val searchText by viewModel.searchQuery.collectAsState()
     val chipItems = listOf("Option 1", "Option 2", "Option 3")
-    //val fake = generateFakePagingItems(20)
 
     val navigateToDoctorDetails = viewModel.navigateToDoctorDetails.observeAsState()
 
@@ -118,7 +115,7 @@ fun DoctorsScreen(
             )
         }
 
-        Spacer(modifier = Modifier.padding(10.dp))
+        //Spacer(modifier = Modifier.padding(10.dp))
 
         DoctorsList(
             modifier = Modifier.padding(horizontal = Dimens.mediumPadding1),
