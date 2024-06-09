@@ -66,8 +66,8 @@ class AuthViewModel @Inject constructor(
     }
 
     private suspend fun saveUserData(profile: Profile) {
-        dataStoreRepository.saveUserId(profile.patient_id)
-        dataStoreRepository.saveUserEmail(profile.patient_email)
+        dataStoreRepository.saveUserId(profile.patientId)
+        dataStoreRepository.saveUserEmail(profile.patientEmail)
     }
 
     fun forgotPassword(email: String) {

@@ -37,13 +37,13 @@ data class LoginResponse(
 @Parcelize
 data class Profile(
     val profileType: String,
-    val patient_id: Int,
-    val patient_name: String,
-    val patient_phone: String?,
-    val patient_email: String,
-    val patient_date_of_birth: String?,
-    val patien_gender: String?,
-    val patient_image: String?
+    val patientId: Int,
+    val patientName: String,
+    val patientPhone: String?,
+    val patientEmail: String,
+    val patientDateOfBirth: String?,
+    val patientGender: String?,
+    val patientImage: String?
 ) : Parcelable
 
 @Parcelize
@@ -79,10 +79,21 @@ data class DoctorUpdateRequest(
 
 @Parcelize
 data class PatientUpdateRequest(
+    val id: Int,
     val name: String,
     val phone: String,
     val email: String,
     val dateOfBirth: String,
     val gender: String,
-    val image: File?
+    val image: String
+) : Parcelable
+
+@Parcelize
+data class PatientUpdateResponse(
+    val id: Int,
+    val name: String,
+    val phone: String,
+    val dateOfBirth: String,
+    val gender: String,
+    val imageUrl: String
 ) : Parcelable

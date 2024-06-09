@@ -96,7 +96,8 @@ fun HomeScreen(
                 .height(90.dp)
                 .padding(start = 25.dp, end = 25.dp)
                 .align(Alignment.Center),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(
                     modifier = Modifier

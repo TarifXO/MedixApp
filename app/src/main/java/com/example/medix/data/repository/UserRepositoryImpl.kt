@@ -6,6 +6,7 @@ import com.example.medix.domain.model.DoctorUpdateRequest
 import com.example.medix.domain.model.LogInRequest
 import com.example.medix.domain.model.LoginResponse
 import com.example.medix.domain.model.PatientUpdateRequest
+import com.example.medix.domain.model.PatientUpdateResponse
 import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -136,17 +138,18 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun updatePatient(
         id: Int,
         updateRequest: PatientUpdateRequest,
-    ) {
+    ): PatientUpdateResponse {
         val name = updateRequest.name.toRequestBody("text/plain".toMediaTypeOrNull())
         val phone = updateRequest.phone.toRequestBody("text/plain".toMediaTypeOrNull())
         val email = updateRequest.email.toRequestBody("text/plain".toMediaTypeOrNull())
         val dateOfBirth = updateRequest.dateOfBirth.toRequestBody("text/plain".toMediaTypeOrNull())
         val gender = updateRequest.gender.toRequestBody("text/plain".toMediaTypeOrNull())
-        val image = updateRequest.image?.let {
-            MultipartBody.Part.createFormData("image", it.name, it.asRequestBody("image/*".toMediaTypeOrNull()))
-        }
+        val image = if (updateRequest.image.isNotEmpty()) {
+            val file = File(updateRequest.image)
+            MultipartBody.Part.createFormData("Image", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))
+        } else null
 
-        medixApi.updatePatient(
+        return medixApi.updatePatient(
             id = id,
             name = name,
             phone = phone,

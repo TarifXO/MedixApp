@@ -5,6 +5,7 @@ import com.example.medix.domain.model.DoctorUpdateRequest
 import com.example.medix.domain.model.LogInRequest
 import com.example.medix.domain.model.LoginResponse
 import com.example.medix.domain.model.PatientUpdateRequest
+import com.example.medix.domain.model.PatientUpdateResponse
 import com.example.medix.domain.model.RegisterRequest
 import java.io.File
 
@@ -14,5 +15,5 @@ interface UserRepository{
     suspend fun resetPassword(password: String, confirmPassword: String, email: String, token : String) : Resource<Unit>
     suspend fun registerUser(registerRequest: RegisterRequest)
     suspend fun updateDoctor(id: Int, updateRequest: DoctorUpdateRequest)
-    suspend fun updatePatient(id: Int, updateRequest: PatientUpdateRequest)
+    suspend fun updatePatient(id: Int, updateRequest: PatientUpdateRequest) : PatientUpdateResponse
 }

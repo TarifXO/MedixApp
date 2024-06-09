@@ -51,9 +51,9 @@ fun DoctorCard(
         .background(Color.White)
         .clickable { onClick(doctor) },
         horizontalArrangement = Arrangement.SpaceEvenly
-        ){
+    ){
         AsyncImage(modifier = Modifier
-            .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
+            .padding(10.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
             .size(Dimens.articleCardSize)
             .clip(MaterialTheme.shapes.medium),
             contentScale = ContentScale.Crop,
@@ -63,7 +63,8 @@ fun DoctorCard(
 
         Column(
             modifier = Modifier
-                .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
+                .padding(10.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
+                .width(160.dp)
                 .height(Dimens.articleCardSize),
             verticalArrangement = Arrangement.SpaceAround
         ) {
@@ -96,13 +97,12 @@ fun DoctorCard(
             }*/
         }
 
-        Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
-
         Icon(
             painter = painterResource(id = R.drawable.not_saved_icon),
             contentDescription = null,
             modifier = Modifier
-                .padding(top = 10.dp, end = 5.dp),
+                .size(40.dp)
+                .padding(start = 0.dp, top = 10.dp, end = 10.dp, bottom = 0.dp),
             tint = lightMixture
         )
     }
@@ -125,8 +125,8 @@ fun DoctorCardPreview(){
                 email = "",
                 image = "",
                 wage = 0.0,
-                favorites = 0,
-                appointments = 0,
+                favorites = emptyList(),
+                appointments = emptyList(),
                 imagefile = ""
             ),
             onClick = {}

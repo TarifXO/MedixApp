@@ -28,8 +28,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.medix.R
-import com.example.medix.domain.model.Patient
-import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentScreen
 import com.example.medix.presentation.view.screens.app.change_patient_password.ChangePatientPassword
@@ -164,7 +162,6 @@ fun MedixNavigator(
             ) {
                 val viewModel : DoctorsViewModel = hiltViewModel()
                 val authViewModel : PatientsViewModel = hiltViewModel()
-                val user : Patient? = null
                 HomeScreen(
                     navController = navController,
                     navigateToDoctorDetails = { doctorId ->
@@ -275,7 +272,7 @@ fun MedixNavigator(
 
                 )
             }
-            
+
             composable(
                 route = Screens.DoctorDetailsRoute.route,
                 arguments = listOf(navArgument("doctorId") { type = NavType.IntType }),
@@ -452,13 +449,12 @@ fun MedixNavigator(
             }
 
             composable(route = Screens.PatientProfileRoute.route) {
-                val viewModel : PatientProfileViewModel = hiltViewModel()
-                //val state = viewModel.state.value
-                val user : RegisterRequest? = null
+                val patientProfileViewModel : PatientProfileViewModel = hiltViewModel()
+                val patientsViewModel : PatientsViewModel = hiltViewModel()
                 PatientProfileScreen(
                     navController = navController,
-                    viewModel = viewModel,
-                    user = user
+                    patientsProfileViewModel = patientProfileViewModel,
+                    patientsViewModel = patientsViewModel
                 )
             }
 

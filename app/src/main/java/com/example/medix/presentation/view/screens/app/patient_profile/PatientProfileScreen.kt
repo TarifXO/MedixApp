@@ -21,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +33,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,11 +43,11 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
-import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ToggleButton
 import com.example.medix.presentation.view.components.TopBarTitleOnly
+import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
@@ -54,12 +57,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PatientProfileScreen(
-    viewModel: PatientProfileViewModel = hiltViewModel(),
+    patientsProfileViewModel: PatientProfileViewModel = hiltViewModel(),
+    patientsViewModel: PatientsViewModel = hiltViewModel(),
     navController: NavController,
-    user: RegisterRequest?
 ){
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val user by patientsViewModel.selectedPatient.observeAsState()
 
     Column(
         modifier = Modifier
@@ -136,43 +140,27 @@ fun PatientProfileScreen(
                         .height(80.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    /*when (val resource = userData?.value) {
-                        is Resource.Success -> {
-                            Text(
-                                text = resource.data.name,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = blackText,
-                                maxLines = 1,
-                            )
-                            Text(
-                                text = resource.data.email,
-                                style = TextStyle(
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 15.sp,
-                                    color = Color.Black,
-                                    lineHeight = 15.sp
-                                ),
-                                modifier = Modifier.width(180.dp)
-                            )
-                        }
-                        is Resource.Failure -> {
-                            Text(
-                                text = "Failed to load user data",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = Color.Red,
-                            )
-                        }
-                        is Resource.Loading, null -> {
-                            Text(
-                                text = "Loading...",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = Color.Gray,
-                            )
-                        }
-                    }*/
+                    user?.let {
+                        Text(
+                            text = it.name,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = blackText,
+                            maxLines = 1,
+                        )
+                    }
+                    user?.let {
+                        Text(
+                            text = it.email,
+                            style = TextStyle(
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 15.sp,
+                                color = Color.Black,
+                                lineHeight = 15.sp
+                            ),
+                            modifier = Modifier.width(180.dp)
+                        )
+                    }
 
                     Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
 
@@ -440,7 +428,7 @@ fun PatientProfileScreen(
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
                         coroutineScope.launch {
-                            viewModel.logout {
+                            patientsProfileViewModel.logout {
                                 navController.navigate(Screens.LoginRoute.route) {
                                     popUpTo(Screens.LoginRoute.route) {
                                         inclusive = true

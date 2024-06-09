@@ -4,6 +4,7 @@ import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.LoginResponse
 import com.example.medix.domain.model.Patient
+import com.example.medix.domain.model.PatientUpdateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -103,11 +104,11 @@ interface MedixApi {
     @PUT("api/Patients/{id}")
     suspend fun updatePatient(
         @Path("id") id: Int,
-        @Part("name") name: RequestBody,
+        @Part("Name") name: RequestBody,
         @Part("phone") phone: RequestBody,
-        @Part("email") email: RequestBody,
-        @Part("dateOfBirth") dateOfBirth: RequestBody,
-        @Part("gender") gender: RequestBody,
+        @Part("Email") email: RequestBody,
+        @Part("Date_Of_birth") dateOfBirth: RequestBody,
+        @Part("Gender") gender: RequestBody,
         @Part image: MultipartBody.Part?
-    ): Resource<Unit>
+    ): PatientUpdateResponse
 }

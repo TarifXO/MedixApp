@@ -15,8 +15,8 @@ fun generateFakePagingItems(count: Int): List<Doctor> {
             email = "",
             image = "",
             wage = 0.0,
-            favorites = 0,
-            appointments = 0,
+            favorites = emptyList(),
+            appointments = emptyList(),
             imagefile = ""
         )
         items.add(item)

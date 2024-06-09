@@ -47,15 +47,18 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.medix.R
 import com.example.medix.domain.model.Gender
+import com.example.medix.domain.model.PatientUpdateRequest
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.GenderSelection
 import com.example.medix.presentation.view.components.TopBar
+import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
@@ -71,6 +74,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun EditPatientProfileScreen(
     navigateUp : () -> Unit,
+    patientsViewModel: PatientsViewModel = hiltViewModel(),
     navController : NavController
 ){
     val focusManager = LocalFocusManager.current
@@ -254,7 +258,8 @@ fun EditPatientProfileScreen(
                 Image(
                     painter = painterResource(id = R.drawable.pen_icon),
                     contentDescription = null,
-                    modifier = Modifier.align(Alignment.CenterEnd)
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
                         .padding(end = 12.dp),
                     colorFilter = ColorFilter.tint(color = blackText)
                 )
@@ -312,6 +317,20 @@ fun EditPatientProfileScreen(
                 backgroundColor = mixture,
                 padding = PaddingValues(10.dp, top = 25.dp, bottom = 25.dp, end = 10.dp),
                 onClick = {
+                    val updateRequest = patientsViewModel.selectedPatient.value?.id?.let {
+                        PatientUpdateRequest(
+                            id = it,
+                            name = name,
+                            email = "",
+                            phone = contactNumber,
+                            dateOfBirth = dateOfBirth,
+                            gender = "",
+                            image = selectedImageUri?.toString() ?: ""
+                        )
+                    }
+                    if (updateRequest != null) {
+                        patientsViewModel.updatePatient(updateRequest)
+                    }
                     navController.navigate(Screens.PatientProfileRoute.route){
                         popUpTo(Screens.PatientProfileRoute.route){
                             inclusive = true
@@ -330,7 +349,7 @@ fun EditPatientProfileScreenPreview(){
     MedixTheme {
         EditPatientProfileScreen(
             navigateUp = {},
-             navController = rememberNavController()
+            navController = rememberNavController()
         )
     }
 }

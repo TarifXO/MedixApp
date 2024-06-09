@@ -92,7 +92,7 @@ fun DoctorDetailsScreen(
             ) {
                 Box(modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(250.dp)
                     .shadow(3.dp, shape = RoundedCornerShape(12.dp))
                     .border(0.10.dp, Color.Gray, shape = RoundedCornerShape(12.dp))
                     .background(Color.White)
@@ -100,17 +100,16 @@ fun DoctorDetailsScreen(
                 ){
                     Column {
                         AsyncImage(modifier = Modifier
-                            .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
                             .fillMaxWidth()
-                            .height(120.dp)
-                            .clip(MaterialTheme.shapes.large),
+                            .height(180.dp),
                             contentScale = ContentScale.Crop,
+                            alignment = Alignment.TopCenter,
                             model = ImageRequest.Builder(context).data(it.image).build(), contentDescription = null
                         )
 
                         Column(
                             modifier = Modifier
-                                .padding(10.dp)
+                                .padding(start = 10.dp, end = 10.dp, top =0.dp, bottom =10.dp)
                         ) {
                             Spacer(modifier = Modifier.height(15.dp))
 
@@ -134,7 +133,7 @@ fun DoctorDetailsScreen(
                                         color = mixture
                                     )
                                 }
-                                Text(text = it.wage.toString(),
+                                Text(text = "${it.wage.toString()} EGP/hour",
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 15.sp,
                                     color = mixture

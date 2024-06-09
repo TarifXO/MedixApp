@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.medix.domain.model.Patient
+import com.example.medix.domain.model.PatientUpdateRequest
 import com.example.medix.domain.repository.DataStoreRepository
 import com.example.medix.domain.useCases.patients.PatientsUseCases
+import com.example.medix.domain.useCases.user.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -16,11 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class PatientsViewModel @Inject constructor(
     private val patientsUseCases: PatientsUseCases,
+    private val userUseCases: UserUseCases,
     private val dataStoreRepository: DataStoreRepository
 ) : ViewModel(){
 
     private val _patient = MutableLiveData<Patient?>()
     val selectedPatient: LiveData<Patient?> = _patient
+
 
     init {
         viewModelScope.launch {
@@ -47,6 +51,17 @@ class PatientsViewModel @Inject constructor(
                 })
             } catch (e: Exception) {
                 _patient.postValue(null)
+            }
+        }
+    }
+
+    fun updatePatient(updateRequest: PatientUpdateRequest) {
+        val patientId = _patient.value?.id ?: return
+        viewModelScope.launch {
+            try {
+                userUseCases.updatePatientUseCase.execute(patientId, updateRequest)
+                fetchPatientById(patientId)
+            } catch (_: Exception) {
             }
         }
     }
