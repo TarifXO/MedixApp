@@ -52,8 +52,7 @@ fun PopularDoctorCard(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(90.dp)
-                .clip(MaterialTheme.shapes.medium),
+                .height(90.dp),
             contentScale = ContentScale.Crop,
             alignment = Alignment.TopCenter
         )

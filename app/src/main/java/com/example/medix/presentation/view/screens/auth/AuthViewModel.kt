@@ -1,5 +1,6 @@
 package com.example.medix.presentation.view.screens.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.medix.data.authentication.Resource
@@ -68,6 +69,7 @@ class AuthViewModel @Inject constructor(
     private suspend fun saveUserData(profile: Profile) {
         dataStoreRepository.saveUserId(profile.patientId)
         dataStoreRepository.saveUserEmail(profile.patientEmail)
+        Log.d("AuthViewModel", "User data saved: ID = ${profile.patientId}, Email = ${profile.patientEmail}")
     }
 
     fun forgotPassword(email: String) {

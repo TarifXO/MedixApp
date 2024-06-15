@@ -142,7 +142,7 @@ fun HomeScreen(
                         contentDescription = null,
                         modifier = Modifier
                             .size(50.dp)
-                            .clip(MaterialTheme.shapes.medium),
+                            .clip(MaterialTheme.shapes.large),
                         contentScale = ContentScale.Crop
                     )
                 }

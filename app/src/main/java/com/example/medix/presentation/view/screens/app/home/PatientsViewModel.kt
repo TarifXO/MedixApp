@@ -1,5 +1,6 @@
 package com.example.medix.presentation.view.screens.app.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,7 @@ class PatientsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val userId = dataStoreRepository.getUserId() ?: return@launch
+            Log.d("PatientsViewModel", "Init block: Retrieved user ID: $userId")
             fetchPatientById(userId)
         }
     }

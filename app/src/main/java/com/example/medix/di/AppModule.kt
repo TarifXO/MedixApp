@@ -42,16 +42,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class AppModule {
 
-    /*@Provides
-    @Singleton
-    fun provideMedixApi(): MedixApi {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(MedixApi::class.java)
-    }*/
-
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {

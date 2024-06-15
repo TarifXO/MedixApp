@@ -28,7 +28,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -77,10 +79,11 @@ fun EditPatientProfileScreen(
     patientsViewModel: PatientsViewModel = hiltViewModel(),
     navController : NavController
 ){
+    val user by patientsViewModel.selectedPatient.observeAsState()
     val focusManager = LocalFocusManager.current
-    var name by remember { mutableStateOf("") }
-    var contactNumber by remember { mutableStateOf("") }
-    var dateOfBirth by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf(user?.name ?: "") }
+    var contactNumber by remember { mutableStateOf(user?.phoneNumber ?: "") }
+    var dateOfBirth by remember { mutableStateOf(user?.dateOfBirth ?: "") }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     val calendarState = rememberSheetState()
     var isCalendarDialogVisible by remember { mutableStateOf(false) }
@@ -97,6 +100,12 @@ fun EditPatientProfileScreen(
             }
         }
     )
+
+    LaunchedEffect(user) {
+        name = user?.name ?: ""
+        contactNumber = user?.phoneNumber ?: ""
+        dateOfBirth = user?.dateOfBirth ?: ""
+    }
 
     Column(
         modifier = Modifier
@@ -133,6 +142,17 @@ fun EditPatientProfileScreen(
                                 .padding(bottom = 16.dp)
                                 .align(Alignment.Center)
                         )
+                    } ?: run {
+                        user?.let {
+                            Image(
+                                painter = rememberAsyncImagePainter(it.image),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .padding(bottom = 16.dp)
+                                    .align(Alignment.Center)
+                            )
+                        }
                     }
 
                     Image(
@@ -247,7 +267,7 @@ fun EditPatientProfileScreen(
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(
-                    text = dateOfBirth.takeIf { it.isNotEmpty() } ?: "Date Of Birth",
+                    text = dateOfBirth.ifEmpty { "Date Of Birth" },
                     modifier = Modifier
                         .padding(start = 16.dp),
                     style = MaterialTheme.typography.bodyLarge,

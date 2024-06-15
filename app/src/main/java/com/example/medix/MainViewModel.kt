@@ -1,5 +1,6 @@
 package com.example.medix
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -23,7 +24,9 @@ class MainViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val email = dataStoreRepository.getUserEmail()
-            startDestination = if (email.isNullOrEmpty()) {
+            val userId = dataStoreRepository.getUserId()
+            Log.d("MainViewModel", "Retrieved user ID: $userId, Email: $email")
+            startDestination = if (email.isNullOrEmpty() || userId == 0) {
                 Screens.AuthRoute.route
             } else {
                 Screens.MedixNavigation.route

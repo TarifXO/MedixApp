@@ -1,6 +1,7 @@
 package com.example.medix.domain.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import java.io.File
 
@@ -37,13 +38,13 @@ data class LoginResponse(
 @Parcelize
 data class Profile(
     val profileType: String,
-    val patientId: Int,
-    val patientName: String,
-    val patientPhone: String?,
-    val patientEmail: String,
-    val patientDateOfBirth: String?,
-    val patientGender: String?,
-    val patientImage: String?
+    @SerializedName("patient_id") val patientId: Int,
+    @SerializedName("patient_name") val patientName: String,
+    @SerializedName("patient_phone") val patientPhone: String?,
+    @SerializedName("patient_email") val patientEmail: String,
+    @SerializedName("patient_date_of_birth") val patientDateOfBirth: String?,
+    @SerializedName("patien_gender") val patientGender: String?,
+    @SerializedName("patient_image") val patientImage: String?
 ) : Parcelable
 
 @Parcelize

@@ -1,6 +1,7 @@
 package com.example.medix.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -19,6 +20,7 @@ class DataStoreRepositoryImpl @Inject constructor(
 ) : DataStoreRepository {
 
     override suspend fun saveUserEmail(email: String) {
+        Log.d("DataStoreRepositoryImpl", "Saving email: $email")
         context.dataStore.edit { preferences ->
             preferences[USER_EMAIL_KEY] = email
         }
@@ -27,16 +29,20 @@ class DataStoreRepositoryImpl @Inject constructor(
     override suspend fun getUserEmail(): String? {
         return context.dataStore.data.map { preferences ->
             preferences[USER_EMAIL_KEY]
-        }.first()
+        }.first().also { email ->
+            Log.d("DataStoreRepositoryImpl", "Retrieved email: $email")
+        }
     }
 
     override suspend fun clearUserEmail() {
+        Log.d("DataStoreRepositoryImpl", "Clearing email")
         context.dataStore.edit { preferences ->
             preferences.remove(USER_EMAIL_KEY)
         }
     }
 
     override suspend fun saveUserId(userId: Int) {
+        Log.d("DataStoreRepositoryImpl", "Saving user ID: $userId")
         context.dataStore.edit { preferences ->
             preferences[USER_ID_KEY] = userId
         }
@@ -45,10 +51,13 @@ class DataStoreRepositoryImpl @Inject constructor(
     override suspend fun getUserId(): Int? {
         return context.dataStore.data.map { preferences ->
             preferences[USER_ID_KEY]
-        }.first()
+        }.first().also { userId ->
+            Log.d("DataStoreRepositoryImpl", "Retrieved user ID: $userId")
+        }
     }
 
     override suspend fun clearUserId() {
+        Log.d("DataStoreRepositoryImpl", "Clearing user ID")
         context.dataStore.edit { preferences ->
             preferences.remove(USER_ID_KEY)
         }
