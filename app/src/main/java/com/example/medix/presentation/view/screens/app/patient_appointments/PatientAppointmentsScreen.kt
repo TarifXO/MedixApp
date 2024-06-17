@@ -11,25 +11,41 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.generateFakePagingItems
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.medix.data.authentication.Resource
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.view.components.PatientAppointmentCard
 import com.example.medix.presentation.view.components.TopBarTitleOnly
+import com.example.medix.presentation.view.screens.app.appointment.AppointmentsViewModel
+import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
 
 @Composable
 fun PatientAppointmentsScreen(
-    doctors: List<Doctor>,
+    appointmentsViewModel : AppointmentsViewModel = hiltViewModel(),
+    patientsViewModel: PatientsViewModel = hiltViewModel()
 ){
+    val patientId = patientsViewModel.selectedPatient.value?.id
+    val appointmentsState by appointmentsViewModel.patientAppointmentsState.collectAsState()
+
+    LaunchedEffect(patientId) {
+        if (patientId != null) {
+            appointmentsViewModel.getPatientAppointments(patientId)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,25 +65,33 @@ fun PatientAppointmentsScreen(
             )
         }
 
-        LazyColumn(modifier = Modifier
-            .padding(20.dp, top = 20.dp, end = 20.dp, bottom = 0.dp)
-            .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(Dimens.mediumPadding1),
-            contentPadding = PaddingValues(all = Dimens.extraSmallPadding2)
-        ) {
-            items(count = doctors.lastIndex) {
-                PatientAppointmentCard(doctor = doctors[it])
+        when (val result = appointmentsState) {
+            is Resource.Loading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(text = "Loading...")
+                }
+            }
+
+            is Resource.Success -> {
+                val appointments = result.data
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(20.dp, top = 20.dp, end = 20.dp, bottom = 0.dp)
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(Dimens.mediumPadding1),
+                    contentPadding = PaddingValues(all = Dimens.extraSmallPadding2)
+                ) {
+                    items(appointments) { appointment ->
+                        PatientAppointmentCard(appointment = appointment)
+                    }
+                }
+            }
+
+            is Resource.Failure -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(text = "Failed to load appointments: ${result.exception.message}")
+                }
             }
         }
-
     }
-}
-
-@Preview
-@Composable
-fun PatientAppointmentsScreenPreview(){
-    val fakePagingItems = generateFakePagingItems(20)
-    PatientAppointmentsScreen(
-        doctors = fakePagingItems
-        )
 }

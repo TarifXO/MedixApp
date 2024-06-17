@@ -14,6 +14,7 @@ import com.example.medix.domain.repository.PatientsRepository
 import com.example.medix.domain.repository.UserRepository
 import com.example.medix.domain.useCases.appointments.AppointmentsUseCases
 import com.example.medix.domain.useCases.appointments.CreateAppointmentUseCase
+import com.example.medix.domain.useCases.appointments.PatientAppointmentsUseCase
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
 import com.example.medix.domain.useCases.doctors.GetDoctorByIdUseCase
 import com.example.medix.domain.useCases.doctors.GetDoctorsBySpecialization
@@ -139,7 +140,8 @@ class AppModule {
     fun provideAppointmentsUseCases(appointmentsRepository: AppointmentsRepository
     ) : AppointmentsUseCases {
         return AppointmentsUseCases(
-            createAppointmentUseCase = CreateAppointmentUseCase(appointmentsRepository)
+            createAppointmentUseCase = CreateAppointmentUseCase(appointmentsRepository),
+            patientAppointmentsUseCase = PatientAppointmentsUseCase(appointmentsRepository)
         )
     }
 

@@ -5,6 +5,7 @@ import com.example.medix.domain.model.AppointmentResponse
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.LoginResponse
 import com.example.medix.domain.model.Patient
+import com.example.medix.domain.model.PatientAppointmentsResponse
 import com.example.medix.domain.model.PatientUpdateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -15,6 +16,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MedixApi {
 
@@ -125,4 +127,9 @@ interface MedixApi {
         @Part("Hour") hour: RequestBody,
         @Part("Minute") minute: RequestBody
     ): AppointmentResponse
+
+    @GET("/api/Appointments/patient")
+    suspend fun getPatientAppointments(
+        @Query("patient_id") patientId: Int
+    ) : List<PatientAppointmentsResponse>
 }

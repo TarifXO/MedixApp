@@ -21,18 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medix.R
-import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.PatientAppointmentsResponse
 import com.example.medix.presentation.Dimens.articleCardSize
 import com.example.medix.presentation.Dimens.extraSmallPadding2
-import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
@@ -40,9 +37,8 @@ import com.example.medix.ui.theme.orange
 
 @Composable
 fun PatientAppointmentCard(
-    doctor: Doctor,
+    appointment : PatientAppointmentsResponse
 ){
-    val context = LocalContext.current
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -61,7 +57,7 @@ fun PatientAppointmentCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "24",
+                    text = appointment.date,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     color = orange,
@@ -83,16 +79,14 @@ fun PatientAppointmentCard(
                 .height(articleCardSize),
             verticalArrangement = Arrangement.SpaceAround
         ) {
-            doctor.name?.let {
-                Text(text = it,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    color = blackText,
-                    maxLines = 1,
-                )
-            }
+            Text(text = appointment.doctorName,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = blackText,
+                maxLines = 1,
+            )
 
-            Text(text = "Specialist Dentist",
+            Text(text = appointment.doctorSpeciality,
                 fontWeight = FontWeight.Normal,
                 fontSize = 15.sp,
                 color = mixture
@@ -100,7 +94,7 @@ fun PatientAppointmentCard(
 
             Spacer(modifier = Modifier.width(extraSmallPadding2))
 
-            Text(text = "6:00 PM",
+            Text(text = appointment.time,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp,
                 color = mixture
@@ -118,27 +112,12 @@ fun PatientAppointmentCard(
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun PatientAppointmentCardPreview(){
     MedixTheme {
         PatientAppointmentCard(
-            doctor = Doctor(
-                id = 1,
-                speciality = "Dentist",
-                bio = "he is the best around here",
-                name = "Abdelrahman Tarif",
-                address = "",
-                phone = "0123456789",
-                dateOfBirth = "12/12/2023",
-                gender = "Male",
-                email = "",
-                image = "",
-                wage = 0.0,
-                favorites = emptyList(),
-                appointments = emptyList(),
-                imagefile = ""
-            )
+
         )
     }
-}
+}*/

@@ -30,6 +30,7 @@ import androidx.navigation.navArgument
 import com.example.medix.R
 import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentScreen
+import com.example.medix.presentation.view.screens.app.appointment.AppointmentsViewModel
 import com.example.medix.presentation.view.screens.app.change_patient_password.ChangePatientPassword
 import com.example.medix.presentation.view.screens.app.doctor_details.DoctorDetailsScreen
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsScreen
@@ -173,11 +174,9 @@ fun MedixNavigator(
             }
 
             composable(route = Screens.PatientAppointmentsRoute.route) {
-                //val viewModel : SearchViewModel = hiltViewModel()
-                //val state = viewModel.state.value
-                val fakePagingItems = generateFakePagingItems(20)
+                val appointmentsViewModel : AppointmentsViewModel = hiltViewModel()
                 PatientAppointmentsScreen(
-                    doctors = fakePagingItems
+                    appointmentsViewModel = appointmentsViewModel
                 )
             }
 

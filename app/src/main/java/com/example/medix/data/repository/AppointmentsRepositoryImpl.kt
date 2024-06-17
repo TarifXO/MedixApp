@@ -3,6 +3,7 @@ package com.example.medix.data.repository
 import com.example.medix.data.remote.MedixApi
 import com.example.medix.domain.model.AppointmentRequest
 import com.example.medix.domain.model.AppointmentResponse
+import com.example.medix.domain.model.PatientAppointmentsResponse
 import com.example.medix.domain.repository.AppointmentsRepository
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -22,5 +23,9 @@ class AppointmentsRepositoryImpl @Inject constructor(
         val minute = appointmentRequest.minute.toString().toRequestBody("text/plain".toMediaType())
 
         return medixApi.createAppointment(doctorId, patientId, year, month, day, hour, minute)
+    }
+
+    override suspend fun getPatientAppointments(patientId: Int): List<PatientAppointmentsResponse> {
+        return medixApi.getPatientAppointments(patientId)
     }
 }

@@ -98,7 +98,7 @@ fun CustomToggleButtonList(
 fun generateDateList(): List<String> {
     val dateList = mutableListOf<String>()
     val formatter = DateTimeFormatter.ofPattern("EEEE, d MMM")
-    for (i in 0 until 4) {
+    for (i in 0 until 7) {
         val date = LocalDate.now().plusDays(i.toLong())
         val formattedDate = date.format(formatter)
         dateList.add(formattedDate)
@@ -106,7 +106,6 @@ fun generateDateList(): List<String> {
 
     return dateList
 }
-
 
 @Preview(showBackground = true)
 @Composable
