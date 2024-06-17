@@ -161,14 +161,14 @@ fun MedixNavigator(
                 route = Screens.HomeRoute.route,
             ) {
                 val viewModel : DoctorsViewModel = hiltViewModel()
-                val authViewModel : PatientsViewModel = hiltViewModel()
+                val patientsViewModel : PatientsViewModel = hiltViewModel()
                 HomeScreen(
                     navController = navController,
                     navigateToDoctorDetails = { doctorId ->
                         navigateToDoctorDetails(navController, doctorId)
                     },
                     doctorsViewModel = viewModel,
-                    patientsViewModel = authViewModel
+                    patientsViewModel = patientsViewModel
                 )
             }
 
@@ -318,6 +318,7 @@ fun MedixNavigator(
 
             composable(
                 route = Screens.AppointmentRoute.route,
+                arguments = listOf(navArgument("doctorId") { type = NavType.IntType }),
                 enterTransition = {
                     slideInHorizontally(
                         initialOffsetX = { fullWidth ->
@@ -349,9 +350,12 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
+                    backStackEntry ->
+                val doctorId = backStackEntry.arguments?.getInt("doctorId") ?: return@composable
                 AppointmentScreen(
+                    doctorId = doctorId,
                     navigateUp = { navController.navigateUp() } ,
-                    navController = navController
+                    navController = navController,
                 )
             }
 

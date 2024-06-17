@@ -21,7 +21,7 @@ sealed class Screens(val route : String) {
     data object MedixAiRoute : Screens("MedixAi")
     data object MedixModel : Screens("MedixModel")
     data object DoctorDetailsRoute : Screens("DoctorDetails/{doctorId}")
-    data object AppointmentRoute : Screens("Appointment")
+    data object AppointmentRoute : Screens("Appointment/{doctorId}")
     data object EditPatientProfileRoute : Screens("EditPatientProfile")
     data object EditDoctorProfileRoute : Screens("EditDoctorProfile")
     data object ChangePatientPasswordRoute : Screens("ChangePatientPassword")

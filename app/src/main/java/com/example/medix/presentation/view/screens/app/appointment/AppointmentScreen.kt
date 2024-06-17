@@ -50,10 +50,11 @@ import java.util.Locale
 
 @Composable
 fun AppointmentScreen(
+    doctorId: Int,
     navigateUp : () -> Unit,
     navController: NavController,
     appointmentsViewModel: AppointmentsViewModel = hiltViewModel(),
-    patientsViewModel: PatientsViewModel = hiltViewModel()
+    patientsViewModel: PatientsViewModel = hiltViewModel(),
 ) {
     var selectedDay by remember { mutableStateOf("") }
     var selectedHour by remember { mutableStateOf("") }
@@ -91,7 +92,6 @@ fun AppointmentScreen(
             )
         }
 
-
         Spacer(modifier = Modifier.height(10.dp))
 
         Text(
@@ -102,7 +102,6 @@ fun AppointmentScreen(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         )
-
 
         Column(
             modifier = Modifier
@@ -161,7 +160,7 @@ fun AppointmentScreen(
                     val dateTimeComponents = parseDateTime(selectedDay, selectedHour)
                     val appointmentRequest = user?.let {
                         AppointmentRequest(
-                            doctorId = 2, // replace with actual doctorId
+                            doctorId = doctorId,
                             patientId = it.id,
                             year = dateTimeComponents["Year"]!!,
                             month = dateTimeComponents["Month"]!!,

@@ -41,9 +41,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
-import com.example.medix.domain.model.Appointment
 import com.example.medix.domain.model.Doctor
-import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.TopBar
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
@@ -68,7 +66,7 @@ fun DoctorDetailsScreen(
     DoctorDetailsContent(
         doctor = doctor.value,
         navigateUp = navigateUp,
-        onBookAppointment = { navController.navigate(Screens.AppointmentRoute.route) }
+        onBookAppointment = { navController.navigate("Appointment/${doctor.value?.id}") }
     )
 }
 

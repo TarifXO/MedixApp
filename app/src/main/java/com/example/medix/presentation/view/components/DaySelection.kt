@@ -42,7 +42,7 @@ fun DaySelection(
 
     DisposableEffect(Unit) {
         onTitleSelected(selectedItem)
-        onDispose {  }
+        onDispose { }
     }
     LazyRow(
         modifier = Modifier
