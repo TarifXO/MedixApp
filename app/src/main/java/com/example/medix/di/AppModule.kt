@@ -2,14 +2,18 @@ package com.example.medix.di
 
 import android.content.Context
 import com.example.medix.data.remote.MedixApi
+import com.example.medix.data.repository.AppointmentsRepositoryImpl
 import com.example.medix.data.repository.DataStoreRepositoryImpl
 import com.example.medix.data.repository.DoctorsRepositoryImpl
 import com.example.medix.data.repository.PatientsRepositoryImpl
 import com.example.medix.data.repository.UserRepositoryImpl
+import com.example.medix.domain.repository.AppointmentsRepository
 import com.example.medix.domain.repository.DataStoreRepository
 import com.example.medix.domain.repository.DoctorsRepository
 import com.example.medix.domain.repository.PatientsRepository
 import com.example.medix.domain.repository.UserRepository
+import com.example.medix.domain.useCases.appointments.AppointmentsUseCases
+import com.example.medix.domain.useCases.appointments.CreateAppointmentUseCase
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
 import com.example.medix.domain.useCases.doctors.GetDoctorByIdUseCase
 import com.example.medix.domain.useCases.doctors.GetDoctorsBySpecialization
@@ -129,4 +133,17 @@ class AppModule {
     fun provideDataStoreRepository(@ApplicationContext context: Context): DataStoreRepository {
         return DataStoreRepositoryImpl(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideAppointmentsUseCases(appointmentsRepository: AppointmentsRepository
+    ) : AppointmentsUseCases {
+        return AppointmentsUseCases(
+            createAppointmentUseCase = CreateAppointmentUseCase(appointmentsRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppointmentsRepository(medixApi: MedixApi): AppointmentsRepository = AppointmentsRepositoryImpl(medixApi)
 }

@@ -1,5 +1,8 @@
 package com.example.medix.presentation.view.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -43,7 +46,9 @@ fun DaySelection(
     }
     LazyRow(
         modifier = Modifier
-            .padding(start = 20.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        contentPadding = PaddingValues(horizontal = 20.dp)
     ){
 
         items(dateList){ it ->

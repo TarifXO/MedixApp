@@ -44,10 +44,10 @@ fun DoctorsScreen(
     val doctors = viewModel.getAllDoctors().collectAsLazyPagingItems()
     val chipItems = listOf("Option 1", "Option 2", "Option 3")
 
-    val navigateToDoctorDetails = viewModel.navigateToDoctorDetails.observeAsState()
+    val navigateToDoctorDetailsScreen = viewModel.navigateToDoctorDetails.observeAsState()
 
-    LaunchedEffect(navigateToDoctorDetails.value) {
-        navigateToDoctorDetails.value?.let { doctorId ->
+    LaunchedEffect(navigateToDoctorDetailsScreen.value) {
+        navigateToDoctorDetailsScreen.value?.let { doctorId ->
             navigateToDoctorDetails(doctorId)
             viewModel.onDoctorDetailsNavigated()
         }

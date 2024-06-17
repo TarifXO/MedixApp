@@ -33,6 +33,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,6 +41,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
+import com.example.medix.domain.model.Appointment
+import com.example.medix.domain.model.Doctor
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.TopBar
@@ -55,13 +58,27 @@ fun DoctorDetailsScreen(
     navigateUp : () -> Unit,
     navController: NavController,
     viewModel: DoctorsViewModel = hiltViewModel()
-){
+) {
     LaunchedEffect(doctorId) {
         viewModel.fetchDoctorById(doctorId)
     }
 
-    val context = LocalContext.current
     val doctor = viewModel.selectedDoctor.observeAsState()
+
+    DoctorDetailsContent(
+        doctor = doctor.value,
+        navigateUp = navigateUp,
+        onBookAppointment = { navController.navigate(Screens.AppointmentRoute.route) }
+    )
+}
+
+@Composable
+fun DoctorDetailsContent(
+    doctor: Doctor?,
+    navigateUp: () -> Unit,
+    onBookAppointment: () -> Unit
+) {
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -81,40 +98,43 @@ fun DoctorDetailsScreen(
                 title = "Doctor Details",
                 onBackClick = navigateUp
             )
-
         }
 
-        doctor.value?.let {
+        doctor?.let {
             Column(
                 modifier = Modifier
                     .padding(20.dp)
                     .fillMaxSize()
             ) {
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(250.dp)
-                    .shadow(3.dp, shape = RoundedCornerShape(12.dp))
-                    .border(0.10.dp, Color.Gray, shape = RoundedCornerShape(12.dp))
-                    .background(Color.White)
-                    .clip(MaterialTheme.shapes.medium)
-                ){
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp)
+                        .shadow(3.dp, shape = RoundedCornerShape(12.dp))
+                        .border(0.10.dp, Color.Gray, shape = RoundedCornerShape(12.dp))
+                        .background(Color.White)
+                        .clip(MaterialTheme.shapes.medium)
+                ) {
                     Column {
-                        AsyncImage(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(180.dp),
+                        AsyncImage(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(180.dp),
                             contentScale = ContentScale.Crop,
                             alignment = Alignment.TopCenter,
-                            model = ImageRequest.Builder(context).data(it.image).build(), contentDescription = null
+                            model = ImageRequest.Builder(context).data(it.image).build(),
+                            contentDescription = null
                         )
 
                         Column(
                             modifier = Modifier
-                                .padding(start = 10.dp, end = 10.dp, top =0.dp, bottom =10.dp)
+                                .padding(start = 10.dp, end = 10.dp, top = 0.dp, bottom = 10.dp)
                         ) {
                             Spacer(modifier = Modifier.height(15.dp))
 
-                            it.name?.let {
-                                Text(text = it,
+                            it.name?.let { name ->
+                                Text(
+                                    text = name,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 18.sp,
                                     color = blackText,
@@ -122,18 +142,20 @@ fun DoctorDetailsScreen(
                                 )
                             }
 
-                            Row(modifier = Modifier
-                                .fillMaxWidth(),
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                it.speciality?.let {
-                                    Text(text = it,
+                                it.speciality?.let { speciality ->
+                                    Text(
+                                        text = speciality,
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 15.sp,
                                         color = mixture
                                     )
                                 }
-                                Text(text = "${it.wage.toString()} EGP/hour",
+                                Text(
+                                    text = "${it.wage} EGP/hour",
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 15.sp,
                                     color = mixture
@@ -142,14 +164,15 @@ fun DoctorDetailsScreen(
                         }
                     }
 
-                    Box(modifier = Modifier
-                        .size(60.dp)
-                        .padding(top = 20.dp, end = 20.dp)
-                        .shadow(5.dp, shape = RoundedCornerShape(100.dp))
-                        .align(Alignment.TopEnd)
-                        .clip(CircleShape)
-                        .background(Color.White)
-                    ){
+                    Box(
+                        modifier = Modifier
+                            .size(60.dp)
+                            .padding(top = 20.dp, end = 20.dp)
+                            .shadow(5.dp, shape = RoundedCornerShape(100.dp))
+                            .align(Alignment.TopEnd)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.not_saved_icon),
                             tint = lightMixture,
@@ -166,7 +189,8 @@ fun DoctorDetailsScreen(
                         .fillMaxSize()
                         .padding(10.dp)
                 ) {
-                    Text(text = "About Me",
+                    Text(
+                        text = "About Me",
                         fontWeight = FontWeight.Bold,
                         fontSize = 22.sp,
                         color = blackText
@@ -174,8 +198,9 @@ fun DoctorDetailsScreen(
 
                     Spacer(modifier = Modifier.height(5.dp))
 
-                    it.bio?.let {
-                        Text(text = it,
+                    it.bio?.let { bio ->
+                        Text(
+                            text = bio,
                             maxLines = 4,
                             fontWeight = FontWeight.Normal,
                             fontSize = 16.sp,
@@ -186,23 +211,18 @@ fun DoctorDetailsScreen(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.Top,
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        Box(
-                            modifier = Modifier.weight(1f)
-                        ) {
+                        Box(modifier = Modifier.weight(1f)) {
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 8.dp),
                                 horizontalAlignment = Alignment.Start
                             ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
                                     Image(
                                         painter = painterResource(id = R.drawable.address_icon),
                                         contentDescription = null,
@@ -221,9 +241,9 @@ fun DoctorDetailsScreen(
 
                                 Spacer(modifier = Modifier.height(8.dp))
 
-                                it.address?.let {
+                                it.address?.let { address ->
                                     Text(
-                                        text = it,
+                                        text = address,
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 18.sp,
                                         color = Color.Black,
@@ -235,18 +255,14 @@ fun DoctorDetailsScreen(
 
                         Spacer(modifier = Modifier.width(20.dp))
 
-                        Box(
-                            modifier = Modifier.weight(1f)
-                        ) {
+                        Box(modifier = Modifier.weight(1f)) {
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 8.dp),
                                 horizontalAlignment = Alignment.Start
                             ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
                                     Image(
                                         painter = painterResource(id = R.drawable.phone_icon),
                                         contentDescription = null,
@@ -265,9 +281,9 @@ fun DoctorDetailsScreen(
 
                                 Spacer(modifier = Modifier.height(8.dp))
 
-                                it.phone?.let {
+                                it.phone?.let { phone ->
                                     Text(
-                                        text = it,
+                                        text = phone,
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 18.sp,
                                         color = Color.Black
@@ -285,12 +301,35 @@ fun DoctorDetailsScreen(
                         textColor = Color.White,
                         backgroundColor = mixture,
                         padding = PaddingValues(0.dp),
-                        onClick = {
-                            navController.navigate(Screens.AppointmentRoute.route)
-                        }
+                        onClick = onBookAppointment
                     )
                 }
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun DoctorDetailsContentPreview() {
+    DoctorDetailsContent(
+        doctor = Doctor(
+            address = "123 Main St, Cityville",
+            appointments = emptyList(),
+            bio = "Experienced general practitioner with over 10 years in the medical field.",
+            dateOfBirth = "1980-01-01",
+            email = "doctor@example.com",
+            favorites = emptyList(),
+            gender = "Male",
+            id = 1,
+            image = "https://example.com/doctor.jpg",
+            imagefile = null,
+            name = "Dr. John Doe",
+            phone = "123-456-7890",
+            speciality = "General Practitioner",
+            wage = 500.0
+        ),
+        navigateUp = {},
+        onBookAppointment = {}
+    )
 }

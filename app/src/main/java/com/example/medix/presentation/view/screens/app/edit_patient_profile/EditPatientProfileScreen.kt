@@ -41,6 +41,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -72,40 +73,86 @@ import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditPatientProfileScreen(
-    navigateUp : () -> Unit,
+    navigateUp: () -> Unit,
     patientsViewModel: PatientsViewModel = hiltViewModel(),
-    navController : NavController
-){
+    navController: NavController
+) {
     val user by patientsViewModel.selectedPatient.observeAsState()
-    val focusManager = LocalFocusManager.current
     var name by remember { mutableStateOf(user?.name ?: "") }
     var contactNumber by remember { mutableStateOf(user?.phoneNumber ?: "") }
     var dateOfBirth by remember { mutableStateOf(user?.dateOfBirth ?: "") }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-    val calendarState = rememberSheetState()
-    var isCalendarDialogVisible by remember { mutableStateOf(false) }
-
-
-    fun handleImageSelection(uri: Uri) {
-        selectedImageUri = uri
-    }
-    val photoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri ->
-            if (uri != null) {
-                handleImageSelection(uri)
-            }
-        }
-    )
 
     LaunchedEffect(user) {
         name = user?.name ?: ""
         contactNumber = user?.phoneNumber ?: ""
         dateOfBirth = user?.dateOfBirth ?: ""
     }
+
+    EditPatientProfileContent(
+        navigateUp = navigateUp,
+        name = name,
+        onNameChange = { name = it },
+        contactNumber = contactNumber,
+        onContactNumberChange = { contactNumber = it },
+        dateOfBirth = dateOfBirth,
+        onDateOfBirthChange = { dateOfBirth = it },
+        selectedImageUri = selectedImageUri,
+        onImageSelected = { selectedImageUri = it },
+        userImageUri = user?.image,
+        onSave = {
+            val updateRequest = patientsViewModel.selectedPatient.value?.id?.let {
+                PatientUpdateRequest(
+                    id = it,
+                    name = name,
+                    email = "",
+                    phone = contactNumber,
+                    dateOfBirth = dateOfBirth,
+                    gender = "",
+                    image = selectedImageUri?.toString() ?: ""
+                )
+            }
+            if (updateRequest != null) {
+                patientsViewModel.updatePatient(updateRequest)
+            }
+            navController.navigate(Screens.PatientProfileRoute.route) {
+                popUpTo(Screens.PatientProfileRoute.route) {
+                    inclusive = true
+                }
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditPatientProfileContent(
+    navigateUp: () -> Unit,
+    name: String,
+    onNameChange: (String) -> Unit,
+    contactNumber: String,
+    onContactNumberChange: (String) -> Unit,
+    dateOfBirth: String,
+    onDateOfBirthChange: (String) -> Unit,
+    selectedImageUri: Uri?,
+    onImageSelected: (Uri) -> Unit,
+    userImageUri: String?,
+    onSave: () -> Unit
+) {
+    val focusManager = LocalFocusManager.current
+    val calendarState = rememberSheetState()
+    var isCalendarDialogVisible by remember { mutableStateOf(false) }
+
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            if (uri != null) {
+                onImageSelected(uri)
+            }
+        }
+    )
 
     Column(
         modifier = Modifier
@@ -132,21 +179,23 @@ fun EditPatientProfileScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Box(modifier = Modifier.size(130.dp)){
+                Box(modifier = Modifier.size(130.dp)) {
                     selectedImageUri?.let { uri ->
                         Image(
                             painter = rememberAsyncImagePainter(uri),
                             contentDescription = null,
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .size(120.dp)
                                 .padding(bottom = 16.dp)
                                 .align(Alignment.Center)
                         )
                     } ?: run {
-                        user?.let {
+                        userImageUri?.let {
                             Image(
-                                painter = rememberAsyncImagePainter(it.image),
+                                painter = rememberAsyncImagePainter(it),
                                 contentDescription = null,
+                                contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .size(120.dp)
                                     .padding(bottom = 16.dp)
@@ -191,7 +240,7 @@ fun EditPatientProfileScreen(
                     unfocusedTextColor = blackText
                 ),
                 value = name,
-                onValueChange = { name = it },
+                onValueChange = onNameChange,
                 textStyle = TextStyle(
                     fontSize = 20.sp
                 ),
@@ -211,7 +260,9 @@ fun EditPatientProfileScreen(
                     )
                 },
                 placeholder = {
-                    Text(text = "Name", style = MaterialTheme.typography.bodyLarge,
+                    Text(
+                        text = "Name",
+                        style = MaterialTheme.typography.bodyLarge,
                         color = mixture
                     )
                 }
@@ -227,7 +278,7 @@ fun EditPatientProfileScreen(
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 value = contactNumber,
-                onValueChange = { contactNumber = it },
+                onValueChange = onContactNumberChange,
                 textStyle = TextStyle(
                     fontSize = 20.sp
                 ),
@@ -247,7 +298,9 @@ fun EditPatientProfileScreen(
                     )
                 },
                 placeholder = {
-                    Text(text = "Contact Number", style = MaterialTheme.typography.bodyLarge,
+                    Text(
+                        text = "Contact Number",
+                        style = MaterialTheme.typography.bodyLarge,
                         color = mixture
                     )
                 }
@@ -285,7 +338,6 @@ fun EditPatientProfileScreen(
                 )
             }
 
-
             if (isCalendarDialogVisible) {
                 CalendarDialog(
                     state = calendarState,
@@ -295,7 +347,7 @@ fun EditPatientProfileScreen(
                         disabledDates = listOf(LocalDate.now().plusDays(7)),
                     ),
                     selection = CalendarSelection.Date {
-                        dateOfBirth = it.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                        onDateOfBirthChange(it.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                     }
                 )
             } else {
@@ -336,40 +388,28 @@ fun EditPatientProfileScreen(
                 textColor = Color.White,
                 backgroundColor = mixture,
                 padding = PaddingValues(10.dp, top = 25.dp, bottom = 25.dp, end = 10.dp),
-                onClick = {
-                    val updateRequest = patientsViewModel.selectedPatient.value?.id?.let {
-                        PatientUpdateRequest(
-                            id = it,
-                            name = name,
-                            email = "",
-                            phone = contactNumber,
-                            dateOfBirth = dateOfBirth,
-                            gender = "",
-                            image = selectedImageUri?.toString() ?: ""
-                        )
-                    }
-                    if (updateRequest != null) {
-                        patientsViewModel.updatePatient(updateRequest)
-                    }
-                    navController.navigate(Screens.PatientProfileRoute.route){
-                        popUpTo(Screens.PatientProfileRoute.route){
-                            inclusive = true
-                        }
-                    }
-                }
+                onClick = onSave
             )
         }
-
     }
 }
 
 @Preview
 @Composable
-fun EditPatientProfileScreenPreview(){
+fun EditPatientProfileScreenPreview() {
     MedixTheme {
-        EditPatientProfileScreen(
+        EditPatientProfileContent(
             navigateUp = {},
-            navController = rememberNavController()
+            name = "John Doe",
+            onNameChange = {},
+            contactNumber = "1234567890",
+            onContactNumberChange = {},
+            dateOfBirth = "01/01/2000",
+            onDateOfBirthChange = {},
+            selectedImageUri = null,
+            onImageSelected = {},
+            userImageUri = null,
+            onSave = {}
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.example.medix.data.remote
 
 import com.example.medix.data.authentication.Resource
+import com.example.medix.domain.model.AppointmentResponse
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.LoginResponse
 import com.example.medix.domain.model.Patient
@@ -35,6 +36,22 @@ interface MedixApi {
     suspend fun getDoctorBySpeciality(
         @Path("specilization") specialization: String
     ): List<Doctor>
+
+    @Multipart
+    @PUT("api/Doctors/{id}")
+    suspend fun updateDoctor(
+        @Path("id") id: Int,
+        @Part("name") name: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("dateOfBirth") dateOfBirth: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("speciality") speciality: RequestBody,
+        @Part("bio") bio: RequestBody,
+        @Part("address") address: RequestBody,
+        @Part("wage") wage: RequestBody,
+        @Part image: MultipartBody.Part?
+    ): Resource<Unit>
 
 
     //Authentication
@@ -79,23 +96,6 @@ interface MedixApi {
     )
 
 
-
-    @Multipart
-    @PUT("api/Doctors/{id}")
-    suspend fun updateDoctor(
-        @Path("id") id: Int,
-        @Part("name") name: RequestBody,
-        @Part("phone") phone: RequestBody,
-        @Part("email") email: RequestBody,
-        @Part("dateOfBirth") dateOfBirth: RequestBody,
-        @Part("gender") gender: RequestBody,
-        @Part("speciality") speciality: RequestBody,
-        @Part("bio") bio: RequestBody,
-        @Part("address") address: RequestBody,
-        @Part("wage") wage: RequestBody,
-        @Part image: MultipartBody.Part?
-    ): Resource<Unit>
-
     // Patients
     @GET("/api/Patients/{id}")
     fun getPatientById(@Path("id") id: Int): Call<Patient>
@@ -111,4 +111,18 @@ interface MedixApi {
         @Part("Gender") gender: RequestBody,
         @Part image: MultipartBody.Part?
     ): PatientUpdateResponse
+
+
+    //Appointments
+    @Multipart
+    @POST("/api/Appointments")
+    suspend fun createAppointment(
+        @Part("DoctorId") doctorId: RequestBody,
+        @Part("PatientId") patientId: RequestBody,
+        @Part("Year") year: RequestBody,
+        @Part("Month") month: RequestBody,
+        @Part("Day") day: RequestBody,
+        @Part("Hour") hour: RequestBody,
+        @Part("Minute") minute: RequestBody
+    ): AppointmentResponse
 }
