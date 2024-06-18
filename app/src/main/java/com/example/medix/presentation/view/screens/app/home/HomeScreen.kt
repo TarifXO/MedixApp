@@ -65,9 +65,7 @@ fun HomeScreen(
     val context = LocalContext.current
     val doctors = doctorsViewModel!!.getAllDoctors().collectAsLazyPagingItems()
     val navigateToDoctorDetailsScreen = doctorsViewModel.navigateToDoctorDetails.observeAsState()
-
     val user by patientsViewModel.selectedPatient.observeAsState()
-
 
     LaunchedEffect(navigateToDoctorDetailsScreen.value) {
             navigateToDoctorDetailsScreen.value?.let { doctorId ->

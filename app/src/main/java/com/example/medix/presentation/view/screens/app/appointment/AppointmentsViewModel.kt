@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.medix.data.authentication.Resource
+import com.example.medix.domain.model.AppointmentDeleteResponse
 import com.example.medix.domain.model.AppointmentRequest
 import com.example.medix.domain.model.AppointmentResponse
 import com.example.medix.domain.model.PatientAppointmentsResponse
@@ -21,6 +22,8 @@ class AppointmentsViewModel @Inject constructor(
     private val _appointmentState = MutableStateFlow<Resource<AppointmentResponse>>(Resource.Loading)
     private val _patientAppointmentsState = MutableStateFlow<Resource<List<PatientAppointmentsResponse>>>(Resource.Loading)
     val patientAppointmentsState: StateFlow<Resource<List<PatientAppointmentsResponse>>> = _patientAppointmentsState
+    private val _deleteAppointmentState = MutableStateFlow<Resource<AppointmentDeleteResponse>>(Resource.Loading)
+    val deleteAppointmentState: StateFlow<Resource<AppointmentDeleteResponse>> = _deleteAppointmentState
 
     fun createAppointment(appointmentRequest: AppointmentRequest) {
         viewModelScope.launch {
@@ -37,6 +40,19 @@ class AppointmentsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e("AppointmentsViewModel", "Error fetching appointments", e)
                 _patientAppointmentsState.value = Resource.Failure(e)
+            }
+        }
+    }
+
+    fun deleteAppointment(appointmentId: Int) {
+        viewModelScope.launch {
+            _deleteAppointmentState.value = Resource.Loading
+            try {
+                val response = appointmentsUseCases.deleteAppointmentUseCase(appointmentId)
+                _deleteAppointmentState.value = Resource.Success(response)
+            } catch (e: Exception) {
+                Log.e("AppointmentsViewModel", "Error deleting appointment", e)
+                _deleteAppointmentState.value = Resource.Failure(e)
             }
         }
     }

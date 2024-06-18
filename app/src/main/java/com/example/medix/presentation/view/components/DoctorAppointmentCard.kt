@@ -28,7 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medix.R
-import com.example.medix.domain.model.Gender
 import com.example.medix.domain.model.Patient
 import com.example.medix.presentation.Dimens
 import com.example.medix.ui.theme.MedixTheme
@@ -50,7 +49,7 @@ fun DoctorAppointmentCard(
     ){
         Box(modifier = Modifier
             .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
-            .size(Dimens.articleCardSize)
+            .size(Dimens.doctorCardSize)
             .clip(MaterialTheme.shapes.medium)
             .background(lightMixture),
             contentAlignment = Alignment.Center
@@ -78,7 +77,7 @@ fun DoctorAppointmentCard(
         Column(
             modifier = Modifier
                 .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
-                .height(Dimens.articleCardSize),
+                .height(Dimens.doctorCardSize),
             verticalArrangement = Arrangement.SpaceAround
         ) {
             Text(text = patient.name,

@@ -5,21 +5,27 @@ import com.example.medix.data.remote.MedixApi
 import com.example.medix.data.repository.AppointmentsRepositoryImpl
 import com.example.medix.data.repository.DataStoreRepositoryImpl
 import com.example.medix.data.repository.DoctorsRepositoryImpl
+import com.example.medix.data.repository.FavoritesRepositoryImpl
 import com.example.medix.data.repository.PatientsRepositoryImpl
 import com.example.medix.data.repository.UserRepositoryImpl
 import com.example.medix.domain.repository.AppointmentsRepository
 import com.example.medix.domain.repository.DataStoreRepository
 import com.example.medix.domain.repository.DoctorsRepository
+import com.example.medix.domain.repository.FavoritesRepository
 import com.example.medix.domain.repository.PatientsRepository
 import com.example.medix.domain.repository.UserRepository
 import com.example.medix.domain.useCases.appointments.AppointmentsUseCases
 import com.example.medix.domain.useCases.appointments.CreateAppointmentUseCase
+import com.example.medix.domain.useCases.appointments.DeleteAppointmentUseCase
 import com.example.medix.domain.useCases.appointments.PatientAppointmentsUseCase
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
 import com.example.medix.domain.useCases.doctors.GetDoctorByIdUseCase
 import com.example.medix.domain.useCases.doctors.GetDoctorsBySpecialization
 import com.example.medix.domain.useCases.doctors.GetDoctorsUseCase
 import com.example.medix.domain.useCases.doctors.SearchDoctorsUseCase
+import com.example.medix.domain.useCases.favorites.AddFavoritesUseCase
+import com.example.medix.domain.useCases.favorites.FavoritesUseCases
+import com.example.medix.domain.useCases.favorites.GetFavoritesUseCase
 import com.example.medix.domain.useCases.patients.GetPatientByIdUseCase
 import com.example.medix.domain.useCases.patients.PatientsUseCases
 import com.example.medix.domain.useCases.user.ForgotPasswordUseCase
@@ -141,11 +147,26 @@ class AppModule {
     ) : AppointmentsUseCases {
         return AppointmentsUseCases(
             createAppointmentUseCase = CreateAppointmentUseCase(appointmentsRepository),
-            patientAppointmentsUseCase = PatientAppointmentsUseCase(appointmentsRepository)
+            patientAppointmentsUseCase = PatientAppointmentsUseCase(appointmentsRepository),
+            deleteAppointmentUseCase = DeleteAppointmentUseCase(appointmentsRepository)
         )
     }
 
     @Provides
     @Singleton
     fun provideAppointmentsRepository(medixApi: MedixApi): AppointmentsRepository = AppointmentsRepositoryImpl(medixApi)
+
+    @Provides
+    @Singleton
+    fun provideFavoritesUseCases(favoritesRepository: FavoritesRepository
+    ) : FavoritesUseCases {
+        return FavoritesUseCases(
+            addFavoriteUseCase = AddFavoritesUseCase(favoritesRepository),
+            getFavoritesUseCase = GetFavoritesUseCase(favoritesRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoritesRepository(medixApi: MedixApi): FavoritesRepository = FavoritesRepositoryImpl(medixApi)
 }

@@ -1,6 +1,7 @@
 package com.example.medix.data.repository
 
 import com.example.medix.data.remote.MedixApi
+import com.example.medix.domain.model.AppointmentDeleteResponse
 import com.example.medix.domain.model.AppointmentRequest
 import com.example.medix.domain.model.AppointmentResponse
 import com.example.medix.domain.model.PatientAppointmentsResponse
@@ -27,5 +28,9 @@ class AppointmentsRepositoryImpl @Inject constructor(
 
     override suspend fun getPatientAppointments(patientId: Int): List<PatientAppointmentsResponse> {
         return medixApi.getPatientAppointments(patientId)
+    }
+
+    override suspend fun deleteAppointment(appointmentId: Int): AppointmentDeleteResponse {
+        return medixApi.deleteAppointment(appointmentId)
     }
 }

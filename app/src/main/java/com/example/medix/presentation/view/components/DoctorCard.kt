@@ -40,7 +40,8 @@ import com.example.medix.ui.theme.mixture
 @Composable
 fun DoctorCard(
     doctor: Doctor,
-    onClick: (Doctor) -> Unit
+    onClick: (Doctor) -> Unit,
+    onFavoriteClick: (Doctor) -> Unit
 ){
     val context = LocalContext.current
     //var rating by remember { mutableDoubleStateOf(0.0) }
@@ -54,7 +55,7 @@ fun DoctorCard(
     ){
         AsyncImage(modifier = Modifier
             .padding(10.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
-            .size(Dimens.articleCardSize)
+            .size(Dimens.doctorCardSize)
             .clip(MaterialTheme.shapes.medium),
             contentScale = ContentScale.Crop,
             model = ImageRequest.Builder(context).data(doctor.image).build()
@@ -65,7 +66,7 @@ fun DoctorCard(
             modifier = Modifier
                 .padding(10.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
                 .width(160.dp)
-                .height(Dimens.articleCardSize),
+                .height(Dimens.doctorCardSize),
             verticalArrangement = Arrangement.SpaceAround
         ) {
             doctor.name?.let {
@@ -87,6 +88,14 @@ fun DoctorCard(
 
             Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
 
+            doctor.wage?.let {
+                Text(text = "$it EGP",
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 15.sp,
+                    color = mixture
+                )
+            }
+
             /*RatingBar(
                 modifier = Modifier
                     .size(25.dp),
@@ -102,7 +111,8 @@ fun DoctorCard(
             contentDescription = null,
             modifier = Modifier
                 .size(40.dp)
-                .padding(start = 0.dp, top = 10.dp, end = 10.dp, bottom = 0.dp),
+                .padding(start = 0.dp, top = 10.dp, end = 10.dp, bottom = 0.dp)
+                .clickable { onFavoriteClick(doctor) },
             tint = lightMixture
         )
     }
@@ -129,7 +139,8 @@ fun DoctorCardPreview(){
                 appointments = emptyList(),
                 imagefile = ""
             ),
-            onClick = {}
+            onClick = {},
+            onFavoriteClick = {}
         )
     }
 }

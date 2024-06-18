@@ -6,19 +6,19 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Doctor(
     val address: String?,
-    val appointments: List<Appointment>?,
-    val bio: String?,
-    val dateOfBirth: String?,
-    val email: String?,
-    val favorites: List<Favorite>?,
-    val gender: String?,
+    val appointments: List<Appointment>? = null,
+    val bio: String? = null,
+    val dateOfBirth: String? = null,
+    val email: String? = null,
+    val favorites: List<Favorite>? = null,
+    val gender: String? = null,
     val id: Int,
-    val image: String?,
-    val imagefile : String?,
+    val image: String? = null,
+    val imagefile : String? = null,
     val name: String?,
-    val phone: String?,
-    val speciality: String?,
-    val wage: Double?
+    val phone: String? = null,
+    val speciality: String? = null,
+    val wage: Double? = null
 ) : Parcelable
 
 @Parcelize

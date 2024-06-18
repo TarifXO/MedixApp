@@ -16,7 +16,6 @@ fun NavGraph(
     NavHost(navController = navController, startDestination = startDestination) {
         authGraph(authViewModel, navController)
 
-
         navigation(
             route = Screens.MedixNavigation.route,
             startDestination = Screens.MedixNavigatorScreen.route

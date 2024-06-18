@@ -1,5 +1,6 @@
 package com.example.medix.presentation.view.screens.app.patient_appointments
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.medix.data.authentication.Resource
@@ -31,18 +33,44 @@ import com.example.medix.presentation.view.screens.app.appointment.AppointmentsV
 import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun PatientAppointmentsScreen(
     appointmentsViewModel : AppointmentsViewModel = hiltViewModel(),
     patientsViewModel: PatientsViewModel = hiltViewModel()
 ){
+    val context = LocalContext.current
     val patientId = patientsViewModel.selectedPatient.value?.id
     val appointmentsState by appointmentsViewModel.patientAppointmentsState.collectAsState()
+    val deleteState by appointmentsViewModel.deleteAppointmentState.collectAsState()
 
-    LaunchedEffect(patientId) {
+    LaunchedEffect(patientId, deleteState) {
         if (patientId != null) {
             appointmentsViewModel.getPatientAppointments(patientId)
+        }
+    }
+
+    LaunchedEffect(deleteState) {
+        when (deleteState) {
+            is Resource.Success -> {
+                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(
+                        context,
+                        "Appointment Cancelled Successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            is Resource.Failure -> {
+
+            }
+
+            Resource.Loading -> {
+
+            }
         }
     }
 
@@ -89,7 +117,7 @@ fun PatientAppointmentsScreen(
 
             is Resource.Failure -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = "Failed to load appointments: ${result.exception.message}")
+                    Text(text = "You Haven't Booked Any Appointments Yet!")
                 }
             }
         }

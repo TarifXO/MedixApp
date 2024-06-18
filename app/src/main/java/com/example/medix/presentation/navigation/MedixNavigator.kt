@@ -447,7 +447,7 @@ fun MedixNavigator(
                 val fakePagingItems = remember { generateFakePagingItems(20) }
                 FavouritesScreen(
                     navController = navController,
-                    doctors = fakePagingItems,
+                    //doctors = fakePagingItems,
                 )
             }
 

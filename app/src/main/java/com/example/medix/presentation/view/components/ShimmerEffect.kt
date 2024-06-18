@@ -46,7 +46,7 @@ fun DoctorCardShimmerEffect(
     Row(modifier = modifier.
     padding(start = 10.dp)){
         Box(modifier = Modifier
-            .size(Dimens.articleCardSize)
+            .size(Dimens.doctorCardSize)
             .clip(MaterialTheme.shapes.medium)
             .shimmerEffect()
         )
@@ -54,7 +54,7 @@ fun DoctorCardShimmerEffect(
         Column(
             modifier = Modifier
                 .padding(horizontal = Dimens.extraSmallPadding)
-                .height(Dimens.articleCardSize),
+                .height(Dimens.doctorCardSize),
             verticalArrangement = Arrangement.SpaceAround
         ) {
             Box(modifier = Modifier

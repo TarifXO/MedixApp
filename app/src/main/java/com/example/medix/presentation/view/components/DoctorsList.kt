@@ -22,7 +22,8 @@ import com.example.medix.presentation.view.screens.common.EmptyScreen
 fun DoctorsList(
     modifier: Modifier = Modifier,
     doctors : List<Doctor>,
-    onClick : (Doctor) -> Unit
+    onClick : (Doctor) -> Unit,
+    onFavoriteClick : (Doctor) -> Unit
 ) {
     if (doctors.isEmpty()){
         EmptyScreen()
@@ -33,7 +34,10 @@ fun DoctorsList(
     ) {
         items(count = doctors.size) {
             val doctor = doctors[it]
-            DoctorCard(doctor = doctor, onClick =  { onClick(doctor) })
+            DoctorCard(
+                doctor = doctor, onClick =  { onClick(doctor) },
+                onFavoriteClick = { onFavoriteClick(doctor)
+                })
         }
     }
 }
@@ -43,7 +47,8 @@ fun DoctorsList(
 fun DoctorsList(
     modifier: Modifier = Modifier,
     doctors : LazyPagingItems<Doctor>,
-    onClick : (Doctor) -> Unit
+    onClick : (Doctor) -> Unit,
+    onFavoriteClick : (Doctor) -> Unit
 ) {
     val handlePagingResult = handlePagingResult(doctors = doctors)
     if (handlePagingResult) {
@@ -55,7 +60,9 @@ fun DoctorsList(
             items(doctors.itemCount) { index ->
                 val doctor = doctors[index]
                 if (doctor != null) {
-                    DoctorCard(doctor = doctor, onClick = onClick)
+                    DoctorCard(
+                        doctor = doctor, onClick = onClick,
+                        onFavoriteClick = onFavoriteClick)
                 } else {
                     // Log the null value occurrence
                     Log.e("DoctorsList", "Doctor at index $index is null")

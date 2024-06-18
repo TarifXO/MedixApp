@@ -1,8 +1,11 @@
 package com.example.medix.data.remote
 
 import com.example.medix.data.authentication.Resource
+import com.example.medix.domain.model.AppointmentDeleteResponse
 import com.example.medix.domain.model.AppointmentResponse
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.FavoriteDoctorResponse
+import com.example.medix.domain.model.FavoritesResponse
 import com.example.medix.domain.model.LoginResponse
 import com.example.medix.domain.model.Patient
 import com.example.medix.domain.model.PatientAppointmentsResponse
@@ -10,6 +13,7 @@ import com.example.medix.domain.model.PatientUpdateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -132,4 +136,23 @@ interface MedixApi {
     suspend fun getPatientAppointments(
         @Query("patient_id") patientId: Int
     ) : List<PatientAppointmentsResponse>
+
+    @DELETE("/api/Appointments/delete")
+    suspend fun deleteAppointment(
+        @Query("appointment_id") appointmentId: Int
+    ): AppointmentDeleteResponse
+
+
+    //Favorites
+    @Multipart
+    @POST("/api/Favorites")
+    suspend fun addFavorite(
+        @Part("DoctorId") doctorId: RequestBody,
+        @Part("PatientId") patientId: RequestBody
+    ): FavoritesResponse
+
+    @GET("/api/Favorites/{patient_id}")
+    suspend fun getFavorites(
+        @Path("patient_id") patientId: Int
+    ): List<FavoriteDoctorResponse>
 }

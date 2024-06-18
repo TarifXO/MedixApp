@@ -1,6 +1,8 @@
 package com.example.medix.domain.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class AppointmentRequest(
     val doctorId : Int,
@@ -22,6 +24,7 @@ data class AppointmentResponse(
     val patient: String
 )
 
+@Parcelize
 data class PatientAppointmentsResponse(
     @SerializedName("appointment_id") val appointmentId: Int,
     @SerializedName("date") val date: String,
@@ -35,4 +38,12 @@ data class PatientAppointmentsResponse(
     @SerializedName("doctor_address") val doctorAddress: String,
     @SerializedName("doctor_wage") val doctorWage: Int,
     @SerializedName("doctor_Image") val doctorImage: String
+) : Parcelable
+
+data class AppointmentDeleteResponse(
+    @SerializedName("id") val id: Int,
+    @SerializedName("date") val date: String,
+    @SerializedName("time") val time: String,
+    @SerializedName("doctorId") val doctorId: Int,
+    @SerializedName("patientId") val patientId: Int
 )
