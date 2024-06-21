@@ -14,6 +14,7 @@ import com.example.medix.domain.repository.DoctorsRepository
 import com.example.medix.domain.repository.FavoritesRepository
 import com.example.medix.domain.repository.PatientsRepository
 import com.example.medix.domain.repository.UserRepository
+import com.example.medix.domain.useCases.ai.AiModelUseCase
 import com.example.medix.domain.useCases.appointments.AppointmentsUseCases
 import com.example.medix.domain.useCases.appointments.CreateAppointmentUseCase
 import com.example.medix.domain.useCases.appointments.DeleteAppointmentUseCase
@@ -24,6 +25,7 @@ import com.example.medix.domain.useCases.doctors.GetDoctorsBySpecialization
 import com.example.medix.domain.useCases.doctors.GetDoctorsUseCase
 import com.example.medix.domain.useCases.doctors.SearchDoctorsUseCase
 import com.example.medix.domain.useCases.favorites.AddFavoritesUseCase
+import com.example.medix.domain.useCases.favorites.DeleteFavoritesUseCase
 import com.example.medix.domain.useCases.favorites.FavoritesUseCases
 import com.example.medix.domain.useCases.favorites.GetFavoritesUseCase
 import com.example.medix.domain.useCases.patients.GetPatientByIdUseCase
@@ -162,11 +164,20 @@ class AppModule {
     ) : FavoritesUseCases {
         return FavoritesUseCases(
             addFavoriteUseCase = AddFavoritesUseCase(favoritesRepository),
-            getFavoritesUseCase = GetFavoritesUseCase(favoritesRepository)
+            getFavoritesUseCase = GetFavoritesUseCase(favoritesRepository),
+            deleteFavoriteUseCase = DeleteFavoritesUseCase(favoritesRepository)
         )
     }
 
     @Provides
     @Singleton
     fun provideFavoritesRepository(medixApi: MedixApi): FavoritesRepository = FavoritesRepositoryImpl(medixApi)
+
+
+    //Ai Model
+    @Provides
+    @Singleton
+    fun provideAiModelUseCase(okHttpClient: OkHttpClient): AiModelUseCase {
+        return AiModelUseCase(okHttpClient)
+    }
 }

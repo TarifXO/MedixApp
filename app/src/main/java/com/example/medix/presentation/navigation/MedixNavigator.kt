@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -28,7 +29,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.medix.R
-import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentScreen
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentsViewModel
 import com.example.medix.presentation.view.screens.app.change_patient_password.ChangePatientPassword
@@ -42,7 +42,8 @@ import com.example.medix.presentation.view.screens.app.favourites.FavouritesScre
 import com.example.medix.presentation.view.screens.app.home.HomeScreen
 import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
 import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiScreen
-import com.example.medix.presentation.view.screens.app.medix_model.MedixModel
+import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiViewModel
+import com.example.medix.presentation.view.screens.app.medix_model.MedixModelScreen
 import com.example.medix.presentation.view.screens.app.patient_appointments.PatientAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileScreen
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileViewModel
@@ -84,7 +85,6 @@ fun MedixNavigator(
     var selectedPatientItem by rememberSaveable {
         mutableStateOf(0)
     }
-    var selectedImageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
 
     selectedPatientItem = remember(key1 = patientBackStackState) {
         when (patientBackStackState?.destination?.route) {
@@ -392,12 +392,12 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
+                val viewModel : MedixAiViewModel = hiltViewModel()
                 MedixAiScreen(
                     navigateUp = { navController.navigateUp() },
-                ) { uri ->
-                    selectedImageUri = uri
-                    navController.navigate(Screens.MedixModel.route)
-                }
+                    viewModel = viewModel,
+                    navController = navController
+                )
             }
 
 
@@ -434,20 +434,17 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
-                MedixModel(
+                val viewModel : MedixAiViewModel = hiltViewModel()
+                MedixModelScreen(
                     navigateUp = { navController.navigateUp() },
-                    selectedImageUri = selectedImageUri
+                    viewModel = viewModel,
                 )
             }
 
 
             composable(route = Screens.FavouritesRoute.route) {
-                //val viewModel : BookmarkViewModel = hiltViewModel()
-                //val state = viewModel.state.value
-                val fakePagingItems = remember { generateFakePagingItems(20) }
                 FavouritesScreen(
                     navController = navController,
-                    //doctors = fakePagingItems,
                 )
             }
 

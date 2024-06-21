@@ -1,6 +1,6 @@
 package com.example.medix.presentation.view.screens.app.medix_model
 
-import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,23 +23,27 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.medix.R
 import com.example.medix.presentation.view.components.CustomLayout
 import com.example.medix.presentation.view.components.TopBar
+import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.secondary
 
 @Composable
-fun MedixModel(
+fun MedixModelScreen(
     navigateUp : () -> Unit,
-    selectedImageUri: Uri?
+    viewModel: MedixAiViewModel = hiltViewModel(),
 ){
     val iconPainter = painterResource(id = R.drawable.model_ai_icon)
-    val text = "Your generated text here saio labs i epibsja oibe fklb aslb ib al bjkfl abkl fb ibakls bfl k labslkfb  slafh l sasf ..."
+    val imageUrl = viewModel.imageUrl.value
+    val result = viewModel.result.value
 
+    Log.d("MedixModelScreen", "imageUrl: $imageUrl, result: $result")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -89,7 +93,7 @@ fun MedixModel(
                 .align(Alignment.End)
             ){
                 Image(
-                    painter = rememberAsyncImagePainter(selectedImageUri),
+                    painter = rememberAsyncImagePainter(imageUrl),
                     contentDescription = null,
                     modifier = Modifier
                         .size(130.dp, 150.dp)
@@ -100,19 +104,19 @@ fun MedixModel(
 
             CustomLayout(
                 icon = iconPainter,
-                text = text
+                text = result.toString()
             )
         }
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun MedixModelPreview(){
     MedixTheme {
-        MedixModel(
+        MedixModelScreen(
             navigateUp = {},
-            selectedImageUri = null
+            viewModel : MedixAiViewModezl()
         )
     }
-}
+}*/

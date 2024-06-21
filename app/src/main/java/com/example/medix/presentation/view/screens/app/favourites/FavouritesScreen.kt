@@ -18,10 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,13 +30,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.FavoriteDoctorResponse
-import com.example.medix.domain.model.generateFakePagingItems
 import com.example.medix.presentation.Dimens
-import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.DoctorCard
-import com.example.medix.presentation.view.components.DoctorsList
 import com.example.medix.presentation.view.components.TopBarTitleOnly
-import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
 import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
@@ -45,16 +41,13 @@ import com.example.medix.ui.theme.mixture
 fun FavouritesScreen(
     navController: NavController,
     favoritesViewModel: FavoritesViewModel = hiltViewModel(),
-    patientsViewModel: PatientsViewModel = hiltViewModel()
+    patientsViewModel: PatientsViewModel = hiltViewModel(),
     ){
-
-    val patientId = patientsViewModel.selectedPatient.value?.id
+    val user by patientsViewModel.selectedPatient.observeAsState()
     val favoritesState by favoritesViewModel.patientFavoriteState.collectAsState()
 
-    LaunchedEffect(patientId) {
-        if (patientId != null) {
-            favoritesViewModel.getPatientFavorites(patientId)
-        }
+    LaunchedEffect(user?.id) {
+        user?.let { favoritesViewModel.getPatientFavorites(it.id) }
     }
 
     Column(
@@ -101,11 +94,13 @@ fun FavouritesScreen(
                             val doctor = mapFavoriteDoctorResponseToDoctor(favorite)
                             DoctorCard(
                                 doctor = doctor,
-                                onClick = { /* Handle doctor click */ },
-                                onFavoriteClick = { doctor ->
-                                    // Handle favorite click
-                                    // Change the icon here
-                                }
+                                onClick = { },
+                                onFavoriteClick = {
+                                    user?.let {
+                                        favoritesViewModel.handleFavoriteClick(doctor.id, it.id)
+                                    }
+                                },
+                                isFavoriteInitially = favoritesViewModel.isDoctorFavorite(doctor.id)
                             )
                         }
                     }
@@ -114,7 +109,7 @@ fun FavouritesScreen(
 
             is Resource.Failure -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = "Failed to load favorites!")
+                    Text(text = "You have no favorites yet!")
                 }
             }
         }

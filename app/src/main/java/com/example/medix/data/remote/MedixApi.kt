@@ -5,6 +5,7 @@ import com.example.medix.domain.model.AppointmentDeleteResponse
 import com.example.medix.domain.model.AppointmentResponse
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.FavoriteDoctorResponse
+import com.example.medix.domain.model.FavoritesDeleteResponse
 import com.example.medix.domain.model.FavoritesResponse
 import com.example.medix.domain.model.LoginResponse
 import com.example.medix.domain.model.Patient
@@ -155,4 +156,9 @@ interface MedixApi {
     suspend fun getFavorites(
         @Path("patient_id") patientId: Int
     ): List<FavoriteDoctorResponse>
+
+    @DELETE("/api/Favorites/{favoriteId}")
+    suspend fun deleteFavorite(
+        @Path("favoriteId") favoriteId: Int
+    ): FavoritesResponse
 }

@@ -10,38 +10,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.medix.domain.model.Doctor
 import com.example.medix.presentation.Dimens.extraSmallPadding2
 import com.example.medix.presentation.Dimens.mediumPadding1
 import com.example.medix.presentation.Dimens.mediumPadding2
+import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
 import com.example.medix.presentation.view.screens.common.EmptyScreen
-
-@Composable
-fun DoctorsList(
-    modifier: Modifier = Modifier,
-    doctors : List<Doctor>,
-    onClick : (Doctor) -> Unit,
-    onFavoriteClick : (Doctor) -> Unit
-) {
-    if (doctors.isEmpty()){
-        EmptyScreen()
-    }
-    LazyColumn(modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(mediumPadding1),
-        contentPadding = PaddingValues(all = extraSmallPadding2)
-    ) {
-        items(count = doctors.size) {
-            val doctor = doctors[it]
-            DoctorCard(
-                doctor = doctor, onClick =  { onClick(doctor) },
-                onFavoriteClick = { onFavoriteClick(doctor)
-                })
-        }
-    }
-}
-
 
 @Composable
 fun DoctorsList(
@@ -50,6 +27,8 @@ fun DoctorsList(
     onClick : (Doctor) -> Unit,
     onFavoriteClick : (Doctor) -> Unit
 ) {
+
+    val doctorsViewModel: DoctorsViewModel = hiltViewModel()
     val handlePagingResult = handlePagingResult(doctors = doctors)
     if (handlePagingResult) {
         LazyColumn(
@@ -61,8 +40,15 @@ fun DoctorsList(
                 val doctor = doctors[index]
                 if (doctor != null) {
                     DoctorCard(
-                        doctor = doctor, onClick = onClick,
-                        onFavoriteClick = onFavoriteClick)
+                        doctor = doctor,
+                        onClick = { doctor ->
+                            doctor.id.let { doctorsViewModel.onDoctorClicked(it) }
+                        },
+                        onFavoriteClick = { doctor ->
+                            onFavoriteClick(doctor)
+                        },
+                        isFavoriteInitially = false
+                    )
                 } else {
                     // Log the null value occurrence
                     Log.e("DoctorsList", "Doctor at index $index is null")

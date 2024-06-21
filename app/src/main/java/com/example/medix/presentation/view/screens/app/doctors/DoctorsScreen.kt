@@ -1,5 +1,7 @@
 package com.example.medix.presentation.view.screens.app.doctors
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,11 +17,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,6 +42,9 @@ import com.example.medix.ui.theme.mixture
 import com.example.medix.presentation.view.components.SearchBar
 import com.example.medix.presentation.view.screens.app.favourites.FavoritesViewModel
 import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun DoctorsScreen(
@@ -48,11 +55,13 @@ fun DoctorsScreen(
     favoritesViewModel: FavoritesViewModel = hiltViewModel(),
     patientsViewModel: PatientsViewModel = hiltViewModel()
 ){
+    val context = LocalContext.current
     val doctors = viewModel.getAllDoctors().collectAsLazyPagingItems()
     val user by patientsViewModel.selectedPatient.observeAsState()
     val chipItems = listOf("Option 1", "Option 2", "Option 3")
 
     val navigateToDoctorDetailsScreen = viewModel.navigateToDoctorDetails.observeAsState()
+    val deleteFavoriteState by favoritesViewModel.deleteFavoriteState.collectAsState()
 
     LaunchedEffect(navigateToDoctorDetailsScreen.value) {
         navigateToDoctorDetailsScreen.value?.let { doctorId ->
@@ -132,9 +141,8 @@ fun DoctorsScreen(
                 doctor.id.let { viewModel.onDoctorClicked(it) }
             },
             onFavoriteClick = { doctor: Doctor ->
-                val favoritesRequest = user?.let { FavoritesRequest(doctor.id, it.id) }
-                if (favoritesRequest != null) {
-                    favoritesViewModel.addFavorite(favoritesRequest)
+                user?.let {
+                    favoritesViewModel.handleFavoriteClick(doctor.id, it.id)
                 }
             }
         )

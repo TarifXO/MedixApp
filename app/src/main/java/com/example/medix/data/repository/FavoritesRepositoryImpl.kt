@@ -2,6 +2,7 @@ package com.example.medix.data.repository
 
 import com.example.medix.data.remote.MedixApi
 import com.example.medix.domain.model.FavoriteDoctorResponse
+import com.example.medix.domain.model.FavoritesDeleteResponse
 import com.example.medix.domain.model.FavoritesRequest
 import com.example.medix.domain.model.FavoritesResponse
 import com.example.medix.domain.repository.FavoritesRepository
@@ -20,5 +21,9 @@ class FavoritesRepositoryImpl @Inject constructor(
 
     override suspend fun getFavorites(patientId: Int): List<FavoriteDoctorResponse> {
         return medixApi.getFavorites(patientId)
+    }
+
+    override suspend fun deleteFavorite(favoriteId: Int): FavoritesResponse {
+        return medixApi.deleteFavorite(favoriteId)
     }
 }

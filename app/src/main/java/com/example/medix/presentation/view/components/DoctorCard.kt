@@ -16,6 +16,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -27,11 +31,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.FavoritesRequest
+import com.example.medix.domain.model.FavoritesResponse
 import com.example.medix.presentation.Dimens
+import com.example.medix.presentation.view.screens.app.favourites.FavoritesViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightMixture
@@ -41,9 +49,11 @@ import com.example.medix.ui.theme.mixture
 fun DoctorCard(
     doctor: Doctor,
     onClick: (Doctor) -> Unit,
-    onFavoriteClick: (Doctor) -> Unit
+    onFavoriteClick: (Doctor) -> Unit,
+    isFavoriteInitially: Boolean,
 ){
     val context = LocalContext.current
+    var isFavorite by remember { mutableStateOf(isFavoriteInitially) }
     //var rating by remember { mutableDoubleStateOf(0.0) }
 
     Row(modifier = Modifier
@@ -107,12 +117,16 @@ fun DoctorCard(
         }
 
         Icon(
-            painter = painterResource(id = R.drawable.not_saved_icon),
+            painter = if(isFavorite) painterResource(id = R.drawable.saved_icon)
+            else painterResource(id = R.drawable.not_saved_icon),
             contentDescription = null,
             modifier = Modifier
                 .size(40.dp)
                 .padding(start = 0.dp, top = 10.dp, end = 10.dp, bottom = 0.dp)
-                .clickable { onFavoriteClick(doctor) },
+                .clickable {
+                    onFavoriteClick(doctor)
+                    isFavorite = !isFavorite
+                },
             tint = lightMixture
         )
     }
@@ -140,7 +154,8 @@ fun DoctorCardPreview(){
                 imagefile = ""
             ),
             onClick = {},
-            onFavoriteClick = {}
+            onFavoriteClick = {},
+            isFavoriteInitially = false
         )
     }
 }

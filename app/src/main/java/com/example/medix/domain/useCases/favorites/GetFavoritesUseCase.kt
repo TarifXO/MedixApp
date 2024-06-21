@@ -9,5 +9,4 @@ class GetFavoritesUseCase(
     suspend operator fun invoke(patientId: Int): List<FavoriteDoctorResponse> {
         return favoritesRepository.getFavorites(patientId)
     }
-
 }

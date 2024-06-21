@@ -1,10 +1,6 @@
 package com.example.medix.presentation.view.screens.app.medix_ai
 
-
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +17,11 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,47 +30,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.medix.R
+import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.TopBar
-import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
 
-
 @Composable
 fun MedixAiScreen(
     navigateUp: () -> Unit,
-    onImageSelected: (Uri) -> Unit
-){
-    //val context = LocalContext.current
+    navController: NavController,
+    viewModel: MedixAiViewModel = hiltViewModel(),
+) {
 
-    val photoPickerLauncher = rememberLauncherForActivityResult(
+    /*val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
-            if (uri != null) {
-                onImageSelected(uri)
-            }
-        }
-    )
-
-    /*val photoCaptureLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicture(),
-        onResult = { bitmap ->
-            // Do something with the bitmap, such as saving it to a file and obtaining its URI
-            if (bitmap != null) {
-                val uri = saveBitmapToFileAndGetUri(context, bitmap)
-                if (uri != null) {
-                    onImageSelected(uri)
-                }
+            uri?.let {
+                onImageSelected(it)
+                viewModel.predictImage(it, contentResolver)
             }
         }
     )*/
+    val textFieldValue = remember { mutableStateOf(viewModel.imageUrl.value) }
+    val resultState = viewModel.result.value
 
     Column(
         modifier = Modifier
@@ -90,30 +80,30 @@ fun MedixAiScreen(
                 title = "Medix AI",
                 onBackClick = navigateUp
             )
-
         }
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .height(600.dp)
-            .padding(20.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(600.dp)
+                .padding(20.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(modifier = Modifier
-                .size(220.dp)
-                .shadow(8.dp, shape = RoundedCornerShape(100.dp))
-                .align(Alignment.CenterHorizontally)
-                .clip(CircleShape)
-                .background(lightMixture)
-            ){
+            Box(
+                modifier = Modifier
+                    .size(50.dp)
+                    .shadow(8.dp, shape = RoundedCornerShape(100.dp))
+                    .align(Alignment.CenterHorizontally)
+                    .clip(CircleShape)
+                    .background(lightMixture)
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.report_icon),
                     contentDescription = null,
                     modifier = Modifier
                         .shadow(30.dp)
                         .padding(start = 15.dp)
-
                         .align(Alignment.Center)
                 )
             }
@@ -139,6 +129,16 @@ fun MedixAiScreen(
 
             Spacer(modifier = Modifier.height(50.dp))
 
+            TextField(
+                value = textFieldValue.value,
+                onValueChange = { newValue -> textFieldValue.value = newValue },
+                label = { Text("Image URL") },
+                modifier = Modifier.fillMaxWidth(),
+                maxLines = 1
+            )
+
+            Spacer(modifier = Modifier.height(50.dp))
+
             ElevatedButton(
                 text = "Add Report",
                 textSize = 20.sp,
@@ -146,49 +146,17 @@ fun MedixAiScreen(
                 backgroundColor = mixture,
                 padding = PaddingValues(10.dp),
                 onClick = {
-                    photoPickerLauncher.launch(
+                    /*photoPickerLauncher.launch(
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )
+                    )*/
+                    if (textFieldValue.value.isNotEmpty()) {
+                        viewModel.imageUrl.value = textFieldValue.value
+                        viewModel.predictImage()
+                    }
                 }
             )
+
+            Text(text = "Result: $resultState")
         }
-    }
-}
-
-/*fun saveBitmapToFileAndGetUri(context: Context, bitmap: Bitmap): String? {
-    // Create a directory to save images
-    val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    val imageFileName = "JPEG_" + SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-
-    // Create a file to save the image
-    val imageFile = File.createTempFile(
-        imageFileName, /* prefix */
-        ".jpg", /* suffix */
-        imagesDir /* directory */
-    )
-
-    try {
-        // Write the Bitmap to the file
-        FileOutputStream(imageFile).use { outputStream ->
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-        }
-    } catch (e: IOException) {
-        e.printStackTrace()
-        return null
-    }
-
-    // Return the Uri of the saved image file
-    return imageFile.absolutePath
-}*/
-
-
-@Preview
-@Composable
-fun MedixAiPreview(){
-    MedixTheme {
-        MedixAiScreen(
-            navigateUp = {},
-            onImageSelected = {}
-        )
     }
 }

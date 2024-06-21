@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -22,13 +23,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.medix.domain.model.FavoritesRequest
+import com.example.medix.data.authentication.Resource
 import com.example.medix.presentation.view.components.DoctorCard
-import com.example.medix.ui.theme.lightBackground
 import com.example.medix.presentation.view.components.SearchBar
 import com.example.medix.presentation.view.components.TopBar
 import com.example.medix.presentation.view.screens.app.favourites.FavoritesViewModel
 import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
+import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
 
 @Composable
@@ -42,10 +43,11 @@ fun SearchDoctorsScreen(
     navigateToDoctorDetails : (Int) -> Unit,
 ){
     val user by patientsViewModel.selectedPatient.observeAsState()
-    val navigateToDoctorDetails = viewModel.navigateToDoctorDetails.observeAsState()
+    val navigateToDoctorDetailsScreen = viewModel.navigateToDoctorDetails.observeAsState()
+    val favoriteState by favoritesViewModel.patientFavoriteState.collectAsState()
 
-    LaunchedEffect(navigateToDoctorDetails.value) {
-        navigateToDoctorDetails.value?.let { doctorId ->
+    LaunchedEffect(navigateToDoctorDetailsScreen.value) {
+        navigateToDoctorDetailsScreen.value?.let { doctorId ->
             navigateToDoctorDetails(doctorId)
             viewModel.onDoctorDetailsNavigated()
         }
@@ -93,16 +95,22 @@ fun SearchDoctorsScreen(
         ) {
             if (state.doctors.isNotEmpty()) {
                 state.doctors.forEach{ doctor ->
-                    DoctorCard(doctor = doctor, onClick = { doctor ->
-                        doctor.id.let { viewModel.onDoctorClicked(it) }
-                    },
-                        onFavoriteClick = { doctor ->
-                            val favoritesRequest = user?.let { FavoritesRequest(doctor.id, it.id) }
-                            if (favoritesRequest != null) {
-                                favoritesViewModel.addFavorite(favoritesRequest)
+                    DoctorCard(
+                        doctor = doctor,
+                        onClick = {
+                            doctor.id.let { viewModel.onDoctorClicked(it) }
+                        },
+                        onFavoriteClick = {
+                            user?.id?.let { favoritesViewModel.handleFavoriteClick(doctor.id, it) }
+                        },
+                        isFavoriteInitially = when (val resource = favoriteState) {
+                            is Resource.Success -> {
+                                resource.data.any { it.id == doctor.id }
                             }
+                            else -> false
                         }
                     )
+
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             } else {
