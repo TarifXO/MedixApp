@@ -86,6 +86,8 @@ fun MedixNavigator(
         mutableStateOf(0)
     }
 
+    val medixAiViewModel : MedixAiViewModel = hiltViewModel()
+
     selectedPatientItem = remember(key1 = patientBackStackState) {
         when (patientBackStackState?.destination?.route) {
             Screens.HomeRoute.route -> 0
@@ -392,10 +394,9 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
-                val viewModel : MedixAiViewModel = hiltViewModel()
                 MedixAiScreen(
                     navigateUp = { navController.navigateUp() },
-                    viewModel = viewModel,
+                    viewModel = medixAiViewModel,
                     navController = navController
                 )
             }
@@ -434,10 +435,9 @@ fun MedixNavigator(
                     ) + fadeOut(animationSpec = tween(100))
                 }
             ) {
-                val viewModel : MedixAiViewModel = hiltViewModel()
                 MedixModelScreen(
                     navigateUp = { navController.navigateUp() },
-                    viewModel = viewModel,
+                    viewModel = medixAiViewModel,
                 )
             }
 

@@ -60,7 +60,7 @@ fun MedixAiScreen(
         }
     )*/
     val textFieldValue = remember { mutableStateOf(viewModel.imageUrl.value) }
-    val resultState = viewModel.result.value
+    //val resultState = viewModel.result.value
 
     Column(
         modifier = Modifier
@@ -151,12 +151,12 @@ fun MedixAiScreen(
                     )*/
                     if (textFieldValue.value.isNotEmpty()) {
                         viewModel.imageUrl.value = textFieldValue.value
-                        viewModel.predictImage()
+                        viewModel.predictImage(navController)
                     }
                 }
             )
 
-            Text(text = "Result: $resultState")
+            //Text(text = "Result: $resultState")
         }
     }
 }
