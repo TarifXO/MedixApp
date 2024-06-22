@@ -161,4 +161,6 @@ interface MedixApi {
     suspend fun deleteFavorite(
         @Path("favoriteId") favoriteId: Int
     ): FavoritesResponse
+
+
 }

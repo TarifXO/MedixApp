@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.auth.register
+package com.example.medix.presentation.view.screens.auth.doctor_register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,8 +38,8 @@ import com.example.medix.ui.theme.primaryGreen
 import com.example.medix.ui.theme.secondary
 
 @Composable
-fun RegisterScreen(navController: NavController){
-    
+fun DoctorRegisterScreen(navController: NavController){
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +86,7 @@ fun RegisterScreen(navController: NavController){
                 backgroundColor = orange,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                    navController.navigate(Screens.SignUpOptionsRoute.route)
+                    navController.navigate(Screens.DoctorSignUpRoute.route)
                 }
             )
 
@@ -99,7 +99,7 @@ fun RegisterScreen(navController: NavController){
                 backgroundColor = secondary,
                 padding = PaddingValues(0.dp),
                 onClick = {
-                    navController.navigate(Screens.LoginRoute.route)
+                    navController.navigate(Screens.DoctorLoginRoute.route)
                 }
             )
         }
@@ -110,5 +110,5 @@ fun RegisterScreen(navController: NavController){
 @Preview
 @Composable
 fun PreviewRegisterScreen(){
-    RegisterScreen(rememberNavController())
+    DoctorRegisterScreen(rememberNavController())
 }

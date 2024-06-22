@@ -1,7 +1,6 @@
 package com.example.medix.presentation.navigation
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -19,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -48,7 +46,7 @@ import com.example.medix.presentation.view.screens.app.patient_appointments.Pati
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileScreen
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileViewModel
 import com.example.medix.presentation.view.screens.auth.AuthViewModel
-import com.example.medix.presentation.view.screens.auth.log_in.LogInScreen
+import com.example.medix.presentation.view.screens.auth.patient_log_in.PatientLogInScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
@@ -146,17 +144,17 @@ fun MedixNavigator(
             modifier = Modifier
                 .padding(bottom = bottomPadding)
         ) {
-            composable(route = Screens.LoginRoute.route) {
+            composable(route = Screens.PatientLoginRoute.route) {
                 val currentBackStackEntry = navController.currentBackStackEntryAsState().value
                 val currentRoute = currentBackStackEntry?.destination?.route
                 if (currentRoute == Screens.PatientProfileRoute.route) {
-                    navController.navigate(Screens.LoginRoute.route) {
-                        popUpTo(Screens.LoginRoute.route) {
+                    navController.navigate(Screens.PatientLoginRoute.route) {
+                        popUpTo(Screens.PatientLoginRoute.route) {
                             inclusive = true
                         }
                     }
                 } else {
-                    LogInScreen(authViewModel, navController)
+                    PatientLogInScreen(authViewModel, navController)
                 }
             }
 

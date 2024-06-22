@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.auth.log_in
+package com.example.medix.presentation.view.screens.auth.doctor_log_in
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -72,7 +72,7 @@ import com.example.medix.ui.theme.primaryGreen
 import com.example.medix.ui.theme.secondary
 
 @Composable
-fun LogInScreen(
+fun DoctorLogInScreen(
     viewModel: AuthViewModel?,
     navController: NavController
 ) {
@@ -339,7 +339,7 @@ fun LogInScreen(
                         color = orange
                     ),
                     modifier = Modifier.clickable {
-                        navController.navigate(Screens.SignUpOptionsRoute.route)
+                        navController.navigate(Screens.RegisterOptions.route)
                     }
                 )
 
@@ -347,7 +347,7 @@ fun LogInScreen(
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            Row(modifier = Modifier.fillMaxWidth()
+            /*Row(modifier = Modifier.fillMaxWidth()
                 ,verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -418,7 +418,7 @@ fun LogInScreen(
                     tint = Color.White
                 )
 
-            }
+            }*/
         }
 
         loginFlow?.value?.let {
@@ -437,7 +437,7 @@ fun LogInScreen(
 
                 is Resource.Success -> {
                     LaunchedEffect(Unit) {
-                        navController.navigate(Screens.MedixNavigation.route) {
+                        navController.navigate(Screens.DoctorNavigation.route) {
                             popUpTo(Screens.AuthRoute.route)
                         }
                     }
@@ -450,7 +450,7 @@ fun LogInScreen(
 @Preview
 @Composable
 fun PreviewLogInScreen() {
-    LogInScreen(
+    DoctorLogInScreen(
         viewModel = null,
         rememberNavController()
     )

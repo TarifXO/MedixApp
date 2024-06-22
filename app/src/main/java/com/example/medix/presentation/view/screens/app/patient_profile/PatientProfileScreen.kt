@@ -429,8 +429,8 @@ fun PatientProfileScreen(
                     .clickable {
                         coroutineScope.launch {
                             patientsProfileViewModel.logout {
-                                navController.navigate(Screens.LoginRoute.route) {
-                                    popUpTo(Screens.LoginRoute.route) {
+                                navController.navigate(Screens.PatientLoginRoute.route) {
+                                    popUpTo(Screens.PatientLoginRoute.route) {
                                         inclusive = true
                                     }
                                 }

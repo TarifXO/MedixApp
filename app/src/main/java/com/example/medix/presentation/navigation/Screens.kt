@@ -1,11 +1,13 @@
 package com.example.medix.presentation.navigation
 
 sealed class Screens(val route : String) {
-    data object RegisterRoute : Screens("Register")
-    data object LoginRoute : Screens("LogIn")
+    data object RegisterOptions : Screens("RegisterOptions")
+    data object PatientRegisterRoute : Screens("PatientRegister")
+    data object DoctorRegisterRoute : Screens("DoctorRegister")
+    data object PatientLoginRoute : Screens("PatientLogIn")
+    data object DoctorLoginRoute : Screens("DoctorLogIn")
     data object PatientSignUpRoute : Screens("PatientSignUp")
     data object DoctorSignUpRoute : Screens("DoctorSignUp")
-    data object SignUpOptionsRoute : Screens("SignUpOptions")
 
 
     //////////

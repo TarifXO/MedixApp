@@ -30,7 +30,8 @@ import com.example.medix.presentation.view.screens.app.doctor_appointments.Docto
 import com.example.medix.presentation.view.screens.app.doctor_profile.DoctorProfileScreen
 import com.example.medix.presentation.view.screens.app.edit_doctor_profile.EditDoctorProfileScreen
 import com.example.medix.presentation.view.screens.auth.AuthViewModel
-import com.example.medix.presentation.view.screens.auth.log_in.LogInScreen
+import com.example.medix.presentation.view.screens.auth.doctor_log_in.DoctorLogInScreen
+import com.example.medix.presentation.view.screens.auth.patient_log_in.PatientLogInScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
@@ -102,17 +103,17 @@ fun DoctorNavigator(
             modifier = Modifier
                 .padding(bottom = bottomPadding)
         ) {
-            composable(route = Screens.LoginRoute.route) {
+            composable(route = Screens.DoctorLoginRoute.route) {
                 val currentBackStackEntry = navController.currentBackStackEntryAsState().value
                 val currentRoute = currentBackStackEntry?.destination?.route
                 if (currentRoute == Screens.DoctorProfileRoute.route) {
-                    navController.navigate(Screens.LoginRoute.route) {
-                        popUpTo(Screens.LoginRoute.route) {
+                    navController.navigate(Screens.DoctorLoginRoute.route) {
+                        popUpTo(Screens.DoctorLoginRoute.route) {
                             inclusive = true
                         }
                     }
                 } else {
-                    LogInScreen(authViewModel, navController)
+                    DoctorLogInScreen(authViewModel, navController)
                 }
             }
 

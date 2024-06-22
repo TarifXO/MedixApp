@@ -438,8 +438,8 @@ fun DoctorProfileScreen(
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
                         //viewModel?.logout()
-                        navController.navigate(Screens.LoginRoute.route) {
-                            popUpTo(Screens.LoginRoute.route) {
+                        navController.navigate(Screens.PatientLoginRoute.route) {
+                            popUpTo(Screens.PatientLoginRoute.route) {
                                 inclusive = true
                             }
                         }

@@ -323,9 +323,7 @@ fun PatientSignUpScreen(
                         image = null
                     )
                     viewModel?.signup(registerRequest)
-                    /*navController.navigate(Screens.MedixNavigation.route){
-                        popUpTo(Screens.AuthRoute.route)
-                    }*/
+                    navController.navigate(Screens.PatientLoginRoute.route)
                 }
             )
 
@@ -354,7 +352,7 @@ fun PatientSignUpScreen(
                         color = orange
                     ),
                     modifier = Modifier.clickable {
-                        navController.navigate(Screens.LoginRoute.route)
+                        navController.navigate(Screens.PatientLoginRoute.route)
                     }
                 )
 
@@ -362,7 +360,7 @@ fun PatientSignUpScreen(
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            Row(modifier = Modifier.fillMaxWidth()
+            /*Row(modifier = Modifier.fillMaxWidth()
                 ,verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -431,7 +429,7 @@ fun PatientSignUpScreen(
                     tint = Color.White
                 )
 
-            }
+            }*/
         }
 
         signupFlow?.value?.let {

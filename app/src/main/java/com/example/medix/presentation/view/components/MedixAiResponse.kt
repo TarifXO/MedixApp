@@ -34,34 +34,34 @@ fun CustomLayout(
     var generatedText by remember { mutableStateOf("") }
     val message = generateMessage(text)
 
-            Image(
-                painter = icon,
-                contentDescription = null,
-                modifier = Modifier
-                    .shadow(22.dp, shape = RoundedCornerShape(100.dp))
-                    .clip(CircleShape)
-            )
+    Image(
+        painter = icon,
+        contentDescription = null,
+        modifier = Modifier
+            .shadow(22.dp, shape = RoundedCornerShape(100.dp))
+            .clip(CircleShape)
+    )
 
-            Box(
-                modifier = Modifier
-                    .padding(start = 30.dp, end = 30.dp)
-                    .heightIn(min = 48.dp)
-                    .shadow(
-                        8.dp, shape = RoundedCornerShape(
-                            topStart = 0.dp, topEnd = 20.dp, bottomStart = 20.dp, bottomEnd = 20.dp
-                        )
-                    )
-                    .background(lightMixture)
-            ) {
-                Text(
-                    text = generatedText,
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .align(Alignment.CenterStart)
+    Box(
+        modifier = Modifier
+            .padding(start = 30.dp, end = 30.dp)
+            .heightIn(min = 48.dp)
+            .shadow(
+                8.dp, shape = RoundedCornerShape(
+                    topStart = 0.dp, topEnd = 20.dp, bottomStart = 20.dp, bottomEnd = 20.dp
                 )
-            }
+            )
+            .background(lightMixture)
+    ) {
+        Text(
+            text = generatedText,
+            modifier = Modifier
+                .padding(12.dp)
+                .align(Alignment.CenterStart)
+        )
+    }
 
-        Spacer(modifier = Modifier.height(8.dp))
+    Spacer(modifier = Modifier.height(8.dp))
 
     LaunchedEffect(message) {
         if (!animatedVisibility) {
