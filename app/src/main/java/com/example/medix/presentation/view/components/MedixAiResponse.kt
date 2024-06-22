@@ -32,6 +32,7 @@ fun CustomLayout(
 ) {
     var animatedVisibility by remember { mutableStateOf(false) }
     var generatedText by remember { mutableStateOf("") }
+    val message = generateMessage(text)
 
             Image(
                 painter = icon,
@@ -62,14 +63,24 @@ fun CustomLayout(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-    LaunchedEffect(text) {
+    LaunchedEffect(message) {
         if (!animatedVisibility) {
             animatedVisibility = true
             delay(100)
-            text.forEachIndexed { index, _ ->
+            message.forEachIndexed { index, _ ->
                 delay(50)
-                generatedText = text.substring(0, index + 1)
+                generatedText = message.substring(0, index + 1)
             }
         }
+    }
+}
+
+fun generateMessage(result: String): String {
+    return when (result) {
+        "No Tumor" -> "Good news! No tumor was detected in the provided image."
+        "Meningioma" -> "Unfortunate news! A Meningioma tumor was detected in the provided image."
+        "Pituitary" -> "Unfortunate news! A Pituitary tumor was detected in the provided image."
+        "Glioma" -> "Unfortunate news! A Glioma tumor was detected in the provided image."
+        else -> "The result is inconclusive. Please consult with a medical professional."
     }
 }

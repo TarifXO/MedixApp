@@ -104,7 +104,7 @@ fun MedixModelScreen(
 
             CustomLayout(
                 icon = iconPainter,
-                text = result.toString()
+                text = result
             )
         }
     }
