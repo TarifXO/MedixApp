@@ -146,9 +146,7 @@ fun DoctorNavigator(
                     imagefile = ""
                 )
                 DoctorProfileScreen(
-                    doctor = doctor,
                     navController = navController,
-                    //viewModel = viewModel
                 )
             }
 

@@ -1,7 +1,8 @@
 package com.example.medix.domain.useCases.user
 
 data class UserUseCases(
-    val logInUseCase: LogInUseCase,
+    val patientLogInUseCase: PatientLogInUseCase,
+    val doctorLogInUseCase: DoctorLogInUseCase,
     val forgotPasswordUseCase: ForgotPasswordUseCase,
     val resetPasswordUseCase: ResetPasswordUseCase,
     val registerUseCase: RegisterUseCase,

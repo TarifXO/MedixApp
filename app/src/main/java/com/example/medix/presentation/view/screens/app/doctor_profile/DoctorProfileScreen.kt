@@ -21,6 +21,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,11 +33,13 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -45,20 +50,25 @@ import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ToggleButton
 import com.example.medix.presentation.view.components.TopBarTitleOnly
+import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
+import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
+import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.orange
 import com.example.medix.ui.theme.secondary
+import kotlinx.coroutines.launch
 
 @Composable
 fun DoctorProfileScreen(
-    doctor: Doctor,
-    navController: NavController,
-    //viewModel: AuthViewModel?
+    doctorsProfileViewModel: DoctorProfileViewModel = hiltViewModel(),
+    doctorsViewModel: DoctorsViewModel = hiltViewModel(),
+    navController: NavController
 ){
     val context = LocalContext.current
-    //val userData = viewModel?.userData?.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val user by doctorsViewModel.selectedDoctor.observeAsState()
 
 
     Column(
@@ -119,13 +129,15 @@ fun DoctorProfileScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ){
-                AsyncImage(modifier = Modifier
-                    .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
-                    .size(60.dp)
-                    .clip(MaterialTheme.shapes.medium),
+                AsyncImage(
+                    model = ImageRequest.Builder(context = context).data(user?.image)
+                        .build(),
+                    modifier = Modifier
+                        .padding(0.dp, top = 10.dp, bottom = 10.dp, end = 0.dp)
+                        .size(60.dp)
+                        .clip(MaterialTheme.shapes.medium),
                     contentScale = ContentScale.Crop,
-                    model = ImageRequest.Builder(context).data(doctor.image).build()
-                    , contentDescription = null
+                    contentDescription = null
                 )
 
                 Column(
@@ -134,17 +146,21 @@ fun DoctorProfileScreen(
                         .height(80.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    /*when (val resource = userData?.value) {
-                        is Resource.Success -> {
+                    user?.let {
+                        it.name?.let { it1 ->
                             Text(
-                                text = resource.data.name,
+                                text = it1,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 18.sp,
                                 color = blackText,
                                 maxLines = 1,
                             )
+                        }
+                    }
+                    user?.let {
+                        it.email?.let { it1 ->
                             Text(
-                                text = resource.data.email,
+                                text = it1,
                                 style = TextStyle(
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 15.sp,
@@ -154,23 +170,7 @@ fun DoctorProfileScreen(
                                 modifier = Modifier.width(180.dp)
                             )
                         }
-                        is Resource.Failure -> {
-                            Text(
-                                text = "Failed to load user data",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = Color.Red,
-                            )
-                        }
-                        is Resource.Loading, null -> {
-                            Text(
-                                text = "Loading...",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = Color.Gray,
-                            )
-                        }
-                    }*/
+                    }
 
                     Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
 
@@ -437,10 +437,13 @@ fun DoctorProfileScreen(
                     .clip(RoundedCornerShape(12.dp))
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
-                        //viewModel?.logout()
-                        navController.navigate(Screens.PatientLoginRoute.route) {
-                            popUpTo(Screens.PatientLoginRoute.route) {
-                                inclusive = true
+                        coroutineScope.launch {
+                            doctorsProfileViewModel.logout {
+                                navController.navigate(Screens.DoctorNavigation.route) {
+                                    popUpTo(Screens.MedixNavigation.route) {
+                                        inclusive = true
+                                    }
+                                }
                             }
                         }
                     },
@@ -481,22 +484,6 @@ fun DoctorProfileScreen(
 @Composable
 fun DoctorProfileScreenPreview(){
     DoctorProfileScreen(
-        doctor = Doctor(
-            id = 1,
-            speciality = "Dentist",
-            bio = "he is the best around here",
-            name = "Abdelrahman Tarif",
-            address = "",
-            phone = "0123456789",
-            dateOfBirth = "12/12/2023",
-            gender = "Male",
-            email = "",
-            image = "",
-            wage = 0.0,
-            favorites = emptyList(),
-            appointments = emptyList(),
-            imagefile = ""
-        ),
         navController = rememberNavController(),
         //viewModel = null
     )

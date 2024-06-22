@@ -4,10 +4,11 @@ import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.AppointmentDeleteResponse
 import com.example.medix.domain.model.AppointmentResponse
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.DoctorDetails
+import com.example.medix.domain.model.DoctorLoginResponse
 import com.example.medix.domain.model.FavoriteDoctorResponse
-import com.example.medix.domain.model.FavoritesDeleteResponse
 import com.example.medix.domain.model.FavoritesResponse
-import com.example.medix.domain.model.LoginResponse
+import com.example.medix.domain.model.PatientLoginResponse
 import com.example.medix.domain.model.Patient
 import com.example.medix.domain.model.PatientAppointmentsResponse
 import com.example.medix.domain.model.PatientUpdateResponse
@@ -64,10 +65,17 @@ interface MedixApi {
     //Authentication
     @Multipart
     @POST("/api/Authentication/login")
-    suspend fun logIn(
+    suspend fun patientLogIn(
         @Part("Email") email: RequestBody,
         @Part("Password") password: RequestBody
-    ) : LoginResponse
+    ) : PatientLoginResponse
+
+    @Multipart
+    @POST("/api/Authentication/login")
+    suspend fun doctorLogin(
+        @Part("Email") email: RequestBody,
+        @Part("Password") password: RequestBody
+    ): DoctorLoginResponse
 
     @Multipart
     @POST("/api/Authentication/ForgotPassword")

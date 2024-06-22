@@ -31,12 +31,12 @@ data class LogInRequest(
 ) : Parcelable
 
 @Parcelize
-data class LoginResponse(
-    val profile: List<Profile>
+data class PatientLoginResponse(
+    val profile: List<PatientProfile>
 ) : Parcelable
 
 @Parcelize
-data class Profile(
+data class PatientProfile(
     val profileType: String,
     @SerializedName("patient_id") val patientId: Int,
     @SerializedName("patient_name") val patientName: String,
@@ -46,6 +46,25 @@ data class Profile(
     @SerializedName("patien_gender") val patientGender: String?,
     @SerializedName("patient_image") val patientImage: String?
 ) : Parcelable
+
+data class DoctorLoginResponse(
+    val profile: List<DoctorProfile>
+)
+
+data class DoctorProfile(
+    @SerializedName("profileType") val profileType: String,
+    @SerializedName("doctor_id") val doctor_id: Int,
+    @SerializedName("doctor_name")val doctor_name: String,
+    @SerializedName("doctor_phone")val doctor_phone: String?,
+    @SerializedName("doctor_email")val doctor_email: String,
+    @SerializedName("doctor_speciality")val doctor_speciality: String?,
+    @SerializedName("doctor_bio")val doctor_bio: String?,
+    @SerializedName("doctor_address")val doctor_address: String?,
+    @SerializedName("doctor_wage")val doctor_wage: String?,
+    @SerializedName("doctor_gender")val doctor_gender: String?,
+    @SerializedName("doctor_date_of_birth")val doctor_date_of_birth: String?,
+    @SerializedName("doctor_Image")val doctor_Image: String?
+)
 
 @Parcelize
 data class RegisterRequest(

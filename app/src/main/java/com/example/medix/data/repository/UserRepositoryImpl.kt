@@ -2,19 +2,18 @@ package com.example.medix.data.repository
 
 import com.example.medix.data.authentication.Resource
 import com.example.medix.data.remote.MedixApi
+import com.example.medix.domain.model.DoctorLoginResponse
 import com.example.medix.domain.model.DoctorUpdateRequest
 import com.example.medix.domain.model.LogInRequest
-import com.example.medix.domain.model.LoginResponse
+import com.example.medix.domain.model.PatientLoginResponse
 import com.example.medix.domain.model.PatientUpdateRequest
 import com.example.medix.domain.model.PatientUpdateResponse
 import com.example.medix.domain.model.RegisterRequest
 import com.example.medix.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -24,11 +23,21 @@ class UserRepositoryImpl @Inject constructor(
     private val medixApi: MedixApi
 ) : UserRepository {
 
-    override suspend fun loginUser(loginRequest: LogInRequest) : LoginResponse {
+    override suspend fun patientLogin(loginRequest: LogInRequest) : PatientLoginResponse {
         val email = loginRequest.email.toRequestBody("text/plain".toMediaTypeOrNull())
         val password = loginRequest.password.toRequestBody("text/plain".toMediaTypeOrNull())
 
-        return medixApi.logIn(
+        return medixApi.patientLogIn(
+            email = email,
+            password = password
+        )
+    }
+
+    override suspend fun doctorLogin(loginRequest: LogInRequest): DoctorLoginResponse {
+        val email = loginRequest.email.toRequestBody("text/plain".toMediaTypeOrNull())
+        val password = loginRequest.password.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        return medixApi.doctorLogin(
             email = email,
             password = password
         )
