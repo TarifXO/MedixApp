@@ -31,13 +31,13 @@ class DoctorsViewModel @Inject constructor(
     private val _selectedDoctor = MutableLiveData<Doctor?>()
     val selectedDoctor: LiveData<Doctor?> = _selectedDoctor
 
-    init {
+    /*init {
         viewModelScope.launch {
             val userId = dataStoreRepository.getUserId() ?: return@launch
             Log.d("PatientsViewModel", "Init block: Retrieved user ID: $userId")
             fetchDoctorById(userId)
         }
-    }
+    }*/
 
     fun onDoctorClicked(doctorId: Int) {
         _navigateToDoctorDetails.value = doctorId

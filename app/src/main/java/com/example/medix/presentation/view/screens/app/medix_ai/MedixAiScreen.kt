@@ -89,7 +89,7 @@ fun MedixAiScreen(
         ) {
             Box(
                 modifier = Modifier
-                    .size(50.dp)
+                    .size(180.dp)
                     .shadow(8.dp, shape = RoundedCornerShape(100.dp))
                     .align(Alignment.CenterHorizontally)
                     .clip(CircleShape)
@@ -108,7 +108,7 @@ fun MedixAiScreen(
             Spacer(modifier = Modifier.height(30.dp))
 
             Text(
-                text = "Add a medical report.",
+                text = "Add a tumor image url.",
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 24.sp,
                 color = blackText
@@ -117,14 +117,14 @@ fun MedixAiScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "A detailed health report helps the Ai model to diagnose you better.",
+                text = "A clear tumor image that ends with .jpg or png to helps the Ai model to diagnose you better.",
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
                 color = blackText,
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
             TextField(
                 value = textFieldValue.value,
@@ -134,10 +134,10 @@ fun MedixAiScreen(
                 maxLines = 1
             )
 
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             ElevatedButton(
-                text = "Add Report",
+                text = "Add Image",
                 textSize = 20.sp,
                 textColor = Color.White,
                 backgroundColor = mixture,

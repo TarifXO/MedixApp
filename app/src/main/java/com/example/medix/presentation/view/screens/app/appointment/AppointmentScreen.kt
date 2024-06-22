@@ -57,7 +57,8 @@ fun AppointmentScreen(
     patientsViewModel: PatientsViewModel = hiltViewModel(),
 ) {
     var selectedDay by remember { mutableStateOf("") }
-    var selectedHour by remember { mutableStateOf("") }
+    val defaultHour = "1:00 PM"
+    var selectedHour by remember { mutableStateOf(defaultHour) }
     val context = LocalContext.current
     val user by patientsViewModel.selectedPatient.observeAsState()
 

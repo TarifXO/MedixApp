@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,6 +29,7 @@ import com.example.medix.domain.model.generateFakePagingItemsForPatients
 import com.example.medix.presentation.view.screens.app.change_doctor_password.ChangeDoctorPassword
 import com.example.medix.presentation.view.screens.app.doctor_appointments.DoctorAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.doctor_profile.DoctorProfileScreen
+import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
 import com.example.medix.presentation.view.screens.app.edit_doctor_profile.EditDoctorProfileScreen
 import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.presentation.view.screens.auth.doctor_log_in.DoctorLogInScreen
@@ -58,6 +60,7 @@ fun DoctorNavigator(
     var selectedDoctorItem by rememberSaveable {
         mutableStateOf(0)
     }
+    val doctorsViewModel: DoctorsViewModel = hiltViewModel()
 
     selectedDoctorItem = remember(key1 = doctorBackStackState) {
         when (doctorBackStackState?.destination?.route) {
@@ -127,26 +130,9 @@ fun DoctorNavigator(
             }
 
             composable(route = Screens.DoctorProfileRoute.route) {
-                //val viewModel : BookmarkViewModel = hiltViewModel()
-                //val state = viewModel.state.value
-                val doctor = Doctor(
-                    id = 1,
-                    speciality = "Dentist",
-                    bio = "he is the best around here",
-                    name = "Abdelrahman Tarif",
-                    address = "",
-                    phone = "0123456789",
-                    dateOfBirth = "12/12/2023",
-                    gender = "Male",
-                    email = "",
-                    image = "",
-                    wage = 0.0,
-                    favorites = emptyList(),
-                    appointments = emptyList(),
-                    imagefile = ""
-                )
                 DoctorProfileScreen(
                     navController = navController,
+                    doctorsViewModel = doctorsViewModel
                 )
             }
 
