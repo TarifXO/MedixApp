@@ -1,13 +1,13 @@
 package com.example.medix.domain.useCases.doctors
 
-import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.DoctorUser
 import com.example.medix.domain.repository.DoctorsRepository
 import retrofit2.Call
 
-class GetDoctorByIdUseCase(
+class GetDoctorUserByIdUseCase(
     private val doctorsRepository: DoctorsRepository
 ) {
-    operator fun invoke(id: Int) : Call<Doctor> {
-        return doctorsRepository.getDoctorById(id)
+    operator fun invoke(id: Int) : Call<DoctorUser> {
+        return doctorsRepository.getDoctorUserById(id)
     }
 }

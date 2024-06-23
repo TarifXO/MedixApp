@@ -5,20 +5,6 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 
-data class DoctorDetails(
-    val id: Int,
-    val name: String,
-    val phone: String,
-    val email: String,
-    val speciality: String,
-    val bio: String,
-    val date_Of_Birth: String,
-    val address: String,
-    val wage: Int,
-    val gender: String,
-    val image: String
-)
-
 @Parcelize
 data class Doctor(
     val address: String?,
@@ -35,6 +21,22 @@ data class Doctor(
     val phone: String? = null,
     val speciality: String? = null,
     val wage: Double? = null
+) : Parcelable
+
+
+@Parcelize
+data class DoctorUser(
+    val address: String?,
+    val bio: String? = null,
+    val dateOfBirth: String? = null,
+    val email: String,
+    val gender: String? = null,
+    val id: Int,
+    val image: String,
+    val name: String,
+    val phone: String? = null,
+    val speciality: String? = null,
+    val wage: Double? = null,
 ) : Parcelable
 
 @Parcelize

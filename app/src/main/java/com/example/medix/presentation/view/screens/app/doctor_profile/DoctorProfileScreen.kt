@@ -36,23 +36,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.medix.R
-import com.example.medix.domain.model.Doctor
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ToggleButton
 import com.example.medix.presentation.view.components.TopBarTitleOnly
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
 import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
-import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
@@ -64,12 +60,11 @@ import kotlinx.coroutines.launch
 fun DoctorProfileScreen(
     doctorsProfileViewModel: DoctorProfileViewModel = hiltViewModel(),
     doctorsViewModel: DoctorsViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
 ){
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    val user by doctorsViewModel.selectedDoctor.observeAsState()
-
+    val user by doctorsViewModel.doctor.observeAsState()
 
     Column(
         modifier = Modifier
@@ -147,29 +142,25 @@ fun DoctorProfileScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     user?.let {
-                        it.name?.let { it1 ->
-                            Text(
-                                text = it1,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = blackText,
-                                maxLines = 1,
-                            )
-                        }
+                        Text(
+                            text = it.name,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = blackText,
+                            maxLines = 1,
+                        )
                     }
                     user?.let {
-                        it.email?.let { it1 ->
-                            Text(
-                                text = it1,
-                                style = TextStyle(
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 15.sp,
-                                    color = Color.Black,
-                                    lineHeight = 15.sp
-                                ),
-                                modifier = Modifier.width(180.dp)
-                            )
-                        }
+                        Text(
+                            text = it.email,
+                            style = TextStyle(
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 15.sp,
+                                color = Color.Black,
+                                lineHeight = 15.sp
+                            ),
+                            modifier = Modifier.width(180.dp)
+                        )
                     }
 
                     Spacer(modifier = Modifier.width(Dimens.extraSmallPadding2))
@@ -439,15 +430,14 @@ fun DoctorProfileScreen(
                     .clickable {
                         coroutineScope.launch {
                             doctorsProfileViewModel.logout {
-                                navController.navigate(Screens.DoctorNavigation.route) {
+                                navController.navigate(Screens.AuthRoute.route) {
                                     popUpTo(Screens.MedixNavigation.route) {
                                         inclusive = true
                                     }
                                 }
                             }
                         }
-                    },
-                //contentAlignment = Alignment.Center
+                    }
             ) {
                 Row(
                     modifier = Modifier
@@ -478,13 +468,4 @@ fun DoctorProfileScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun DoctorProfileScreenPreview(){
-    DoctorProfileScreen(
-        navController = rememberNavController(),
-        //viewModel = null
-    )
 }

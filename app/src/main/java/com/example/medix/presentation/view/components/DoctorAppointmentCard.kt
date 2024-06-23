@@ -126,7 +126,6 @@ fun DoctorAppointmentCardPreview(){
                 image = "",
                 dateOfBirth = "",
                 gender = "",
-                password = "123456789"
             )
         )
     }

@@ -53,17 +53,17 @@ data class DoctorLoginResponse(
 
 data class DoctorProfile(
     @SerializedName("profileType") val profileType: String,
-    @SerializedName("doctor_id") val doctor_id: Int,
-    @SerializedName("doctor_name")val doctor_name: String,
-    @SerializedName("doctor_phone")val doctor_phone: String?,
-    @SerializedName("doctor_email")val doctor_email: String,
-    @SerializedName("doctor_speciality")val doctor_speciality: String?,
-    @SerializedName("doctor_bio")val doctor_bio: String?,
-    @SerializedName("doctor_address")val doctor_address: String?,
-    @SerializedName("doctor_wage")val doctor_wage: String?,
-    @SerializedName("doctor_gender")val doctor_gender: String?,
-    @SerializedName("doctor_date_of_birth")val doctor_date_of_birth: String?,
-    @SerializedName("doctor_Image")val doctor_Image: String?
+    @SerializedName("doctor_id") val doctorId: Int,
+    @SerializedName("doctor_name") val doctorName: String,
+    @SerializedName("doctor_phone") val doctorPhone: String?,
+    @SerializedName("doctor_email") val doctorEmail: String,
+    @SerializedName("doctor_speciality") val doctorSpeciality: String?,
+    @SerializedName("doctor_bio") val doctorBio: String?,
+    @SerializedName("doctor_address") val doctorAddress: String?,
+    @SerializedName("doctor_wage") val doctorWage: String?,
+    @SerializedName("doctor_gender") val doctorGender: String?,
+    @SerializedName("doctor_date_of_birth") val doctorDateOfBirth: String?,
+    @SerializedName("doctor_Image") val doctorImage: String?
 )
 
 @Parcelize

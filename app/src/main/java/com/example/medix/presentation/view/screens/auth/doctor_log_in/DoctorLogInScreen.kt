@@ -83,7 +83,7 @@ fun DoctorLogInScreen(
     var showBottomSheet by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
-    val loginFlow = viewModel?.patientLoginFlow?.collectAsState()
+    val loginFlow = viewModel?.doctorLoginFlow?.collectAsState()
 
     Box(
         modifier = Modifier
@@ -279,7 +279,7 @@ fun DoctorLogInScreen(
                         email = email,
                         password = password,
                     )
-                    viewModel?.patientLogin(loginRequest)
+                    viewModel?.doctorLogin(loginRequest)
                     /*navController.navigate(Screens.MedixNavigation.route){
                         popUpTo(Screens.AuthRoute.route)
                     }*/

@@ -21,6 +21,7 @@ import com.example.medix.domain.useCases.appointments.DeleteAppointmentUseCase
 import com.example.medix.domain.useCases.appointments.PatientAppointmentsUseCase
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
 import com.example.medix.domain.useCases.doctors.GetDoctorByIdUseCase
+import com.example.medix.domain.useCases.doctors.GetDoctorUserByIdUseCase
 import com.example.medix.domain.useCases.doctors.GetDoctorsBySpecialization
 import com.example.medix.domain.useCases.doctors.GetDoctorsUseCase
 import com.example.medix.domain.useCases.doctors.SearchDoctorsUseCase
@@ -113,6 +114,7 @@ class AppModule {
             getDoctors = GetDoctorsUseCase(doctorsRepository),
             searchDoctors = SearchDoctorsUseCase(doctorsRepository),
             getDoctorById = GetDoctorByIdUseCase(doctorsRepository),
+            getDoctorUserById = GetDoctorUserByIdUseCase(doctorsRepository),
             getDoctorsBySpeciality = GetDoctorsBySpecialization(doctorsRepository)
         )
     }

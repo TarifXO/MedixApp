@@ -4,8 +4,8 @@ import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.AppointmentDeleteResponse
 import com.example.medix.domain.model.AppointmentResponse
 import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.DoctorDetails
 import com.example.medix.domain.model.DoctorLoginResponse
+import com.example.medix.domain.model.DoctorUser
 import com.example.medix.domain.model.FavoriteDoctorResponse
 import com.example.medix.domain.model.FavoritesResponse
 import com.example.medix.domain.model.PatientLoginResponse
@@ -34,6 +34,9 @@ interface MedixApi {
 
     @GET("/api/Doctors/{id}")
     fun getDoctorById(@Path("id") id: Int): Call<Doctor>
+
+    @GET("/api/Doctors/{id}")
+    fun getDoctorUserById(@Path("id") id: Int): Call<DoctorUser>
 
     @GET("/api/Doctors/SearchDoctor/{Name}")
     suspend fun searchDoctor(

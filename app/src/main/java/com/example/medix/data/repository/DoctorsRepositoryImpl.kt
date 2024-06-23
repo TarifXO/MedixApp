@@ -7,6 +7,7 @@ import com.example.medix.data.remote.MedixApi
 import com.example.medix.data.remote.paging.DoctorsBySpecialization
 import com.example.medix.data.remote.paging.DoctorsPagingSource
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.DoctorUser
 import com.example.medix.domain.repository.DoctorsRepository
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
@@ -35,6 +36,10 @@ class DoctorsRepositoryImpl @Inject constructor(
 
     override fun getDoctorById(id: Int): Call<Doctor> {
         return medixApi.getDoctorById(id)
+    }
+
+    override fun getDoctorUserById(id: Int): Call<DoctorUser> {
+        return medixApi.getDoctorUserById(id)
     }
 
     override fun getDoctorsBySpeciality(specialization: String): Flow<PagingData<Doctor>> {

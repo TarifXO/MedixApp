@@ -97,9 +97,9 @@ class AuthViewModel @Inject constructor(
     }
 
     private suspend fun saveDoctorData(profile: DoctorProfile) {
-        dataStoreRepository.saveUserId(profile.doctor_id)
-        dataStoreRepository.saveUserEmail(profile.doctor_email)
-        Log.d("AuthViewModel", "User data saved: ID = ${profile.doctor_id}, Email = ${profile.doctor_email}")
+        dataStoreRepository.saveUserId(profile.doctorId)
+        dataStoreRepository.saveUserEmail(profile.doctorEmail)
+        Log.d("AuthViewModel", "User data saved: ID = ${profile.doctorId}, Email = ${profile.doctorEmail}")
     }
 
     fun forgotPassword(email: String) {

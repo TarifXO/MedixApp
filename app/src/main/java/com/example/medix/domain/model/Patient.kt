@@ -4,7 +4,6 @@ data class Patient(
     val id: Int,
     val name: String,
     val email: String,
-    val password: String,
     val phoneNumber: String,
     val image: String,
     val dateOfBirth: String,

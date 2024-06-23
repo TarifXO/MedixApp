@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.DoctorUser
 import com.example.medix.domain.model.Patient
 import com.example.medix.domain.repository.DataStoreRepository
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
 import com.example.medix.domain.useCases.user.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -21,7 +23,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DoctorsViewModel @Inject constructor(
     private val doctorsUseCase: DoctorsUseCases,
-    private val userUseCases: UserUseCases,
     private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
@@ -31,13 +32,17 @@ class DoctorsViewModel @Inject constructor(
     private val _selectedDoctor = MutableLiveData<Doctor?>()
     val selectedDoctor: LiveData<Doctor?> = _selectedDoctor
 
-    /*init {
+    private val _doctor = MutableLiveData<DoctorUser?>()
+    val doctor: LiveData<DoctorUser?> = _doctor
+
+    init {
         viewModelScope.launch {
+            delay(1000)
             val userId = dataStoreRepository.getUserId() ?: return@launch
-            Log.d("PatientsViewModel", "Init block: Retrieved user ID: $userId")
-            fetchDoctorById(userId)
+            Log.d("DoctorsViewModel", "Init block: Retrieved user ID: $userId")
+            fetchDoctorUserById(userId)
         }
-    }*/
+    }
 
     fun onDoctorClicked(doctorId: Int) {
         _navigateToDoctorDetails.value = doctorId
@@ -69,6 +74,29 @@ class DoctorsViewModel @Inject constructor(
                 })
             } catch (e: Exception) {
                 _selectedDoctor.postValue(null)
+            }
+        }
+    }
+
+    private fun fetchDoctorUserById(id: Int) {
+        viewModelScope.launch {
+            try {
+                val call = doctorsUseCase.getDoctorUserById(id)
+                call.enqueue(object : retrofit2.Callback<DoctorUser> {
+                    override fun onResponse(call: Call<DoctorUser>, response: Response<DoctorUser>) {
+                        if (response.isSuccessful) {
+                            _doctor.postValue(response.body())
+                            Log.d("DoctorsViewModel", "Fetched doctor user: ${response.body()}")
+                        } else {
+                            _doctor.postValue(null)
+                        }
+                    }
+                    override fun onFailure(call: Call<DoctorUser>, t: Throwable) {
+                        _doctor.postValue(null)
+                    }
+                })
+            } catch (e: Exception) {
+                _doctor.postValue(null)
             }
         }
     }
