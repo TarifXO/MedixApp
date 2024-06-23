@@ -339,7 +339,7 @@ fun DoctorLogInScreen(
                         color = orange
                     ),
                     modifier = Modifier.clickable {
-                        navController.navigate(Screens.RegisterOptions.route)
+                        navController.navigate(Screens.DoctorSignUpRoute.route)
                     }
                 )
 

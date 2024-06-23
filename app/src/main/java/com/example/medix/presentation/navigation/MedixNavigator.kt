@@ -144,7 +144,7 @@ fun MedixNavigator(
             modifier = Modifier
                 .padding(bottom = bottomPadding)
         ) {
-            composable(route = Screens.PatientLoginRoute.route) {
+            /*composable(route = Screens.PatientLoginRoute.route) {
                 val currentBackStackEntry = navController.currentBackStackEntryAsState().value
                 val currentRoute = currentBackStackEntry?.destination?.route
                 if (currentRoute == Screens.PatientProfileRoute.route) {
@@ -156,7 +156,7 @@ fun MedixNavigator(
                 } else {
                     PatientLogInScreen(authViewModel, navController)
                 }
-            }
+            }*/
 
             composable(
                 route = Screens.HomeRoute.route,

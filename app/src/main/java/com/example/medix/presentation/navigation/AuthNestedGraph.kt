@@ -11,7 +11,7 @@ import com.example.medix.presentation.view.screens.auth.doctor_sign_up.DoctorSig
 import com.example.medix.presentation.view.screens.auth.patient_log_in.PatientLogInScreen
 import com.example.medix.presentation.view.screens.auth.patient_sign_up.PatientSignUpScreen
 import com.example.medix.presentation.view.screens.auth.patient_register.PatientRegisterScreen
-import com.example.medix.presentation.view.screens.auth.sign_up_options.SignUpOptions
+import com.example.medix.presentation.view.screens.auth.sign_up_options.RegisterOptions
 
 fun NavGraphBuilder.authGraph(
     viewModel: AuthViewModel?,
@@ -20,7 +20,7 @@ fun NavGraphBuilder.authGraph(
     navigation(startDestination = Screens.RegisterOptions.route, route = Screens.AuthRoute.route) {
 
         composable(Screens.RegisterOptions.route) {
-            SignUpOptions(navController)
+            RegisterOptions(navController)
         }
         composable(Screens.PatientRegisterRoute.route) {
             PatientRegisterScreen(navController)

@@ -428,13 +428,7 @@ fun PatientProfileScreen(
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
                         coroutineScope.launch {
-                            patientsProfileViewModel.logout {
-                                navController.navigate(Screens.PatientLoginRoute.route) {
-                                    popUpTo(Screens.PatientLoginRoute.route) {
-                                        inclusive = true
-                                    }
-                                }
-                            }
+                            patientsProfileViewModel.logout()
                         }
                     }
             ) {

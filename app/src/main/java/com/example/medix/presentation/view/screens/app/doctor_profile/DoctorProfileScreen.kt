@@ -48,7 +48,6 @@ import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ToggleButton
 import com.example.medix.presentation.view.components.TopBarTitleOnly
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
-import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
@@ -429,13 +428,7 @@ fun DoctorProfileScreen(
                     .background(color = orange, shape = RoundedCornerShape(12.dp))
                     .clickable {
                         coroutineScope.launch {
-                            doctorsProfileViewModel.logout {
-                                navController.navigate(Screens.AuthRoute.route) {
-                                    popUpTo(Screens.MedixNavigation.route) {
-                                        inclusive = true
-                                    }
-                                }
-                            }
+                            doctorsProfileViewModel.logout()
                         }
                     }
             ) {

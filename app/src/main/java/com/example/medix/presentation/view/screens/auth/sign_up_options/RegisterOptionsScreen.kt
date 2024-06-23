@@ -40,7 +40,7 @@ import com.example.medix.ui.theme.orange
 import com.example.medix.ui.theme.secondary
 
 @Composable
-fun SignUpOptions(navController: NavController){
+fun RegisterOptions(navController: NavController){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +65,7 @@ fun SignUpOptions(navController: NavController){
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "Sign Up As",
+                Text(text = "Register As",
                     style = TextStyle(
                         fontFamily = FontFamily(Font(R.font.nerkooneregular)),
                         fontWeight = FontWeight.Normal,
@@ -163,5 +163,5 @@ fun SignUpOptions(navController: NavController){
 @Preview
 @Composable
 fun PreviewSignUpOptions(){
-    SignUpOptions(rememberNavController())
+    RegisterOptions(rememberNavController())
 }

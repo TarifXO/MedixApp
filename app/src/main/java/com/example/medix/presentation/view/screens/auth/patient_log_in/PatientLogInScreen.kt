@@ -339,7 +339,7 @@ fun PatientLogInScreen(
                         color = orange
                     ),
                     modifier = Modifier.clickable {
-                        navController.navigate(Screens.RegisterOptions.route)
+                        navController.navigate(Screens.PatientSignUpRoute.route)
                     }
                 )
 

@@ -24,6 +24,14 @@ data class User(
     val isDoctor: Boolean?
 ) : Parcelable
 
+
+enum class UserType {
+    PATIENT,
+    DOCTOR,
+    UNKNOWN
+}
+
+
 @Parcelize
 data class LogInRequest(
     val email: String,
