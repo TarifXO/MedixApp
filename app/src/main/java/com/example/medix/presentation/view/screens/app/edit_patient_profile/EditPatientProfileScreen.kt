@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -186,8 +187,9 @@ fun EditPatientProfileContent(
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
+                                .padding(bottom = 10.dp)
                                 .size(120.dp)
-                                .padding(bottom = 16.dp)
+                                .clip(CircleShape)
                                 .align(Alignment.Center)
                         )
                     } ?: run {
@@ -197,8 +199,9 @@ fun EditPatientProfileContent(
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
+                                    .padding(bottom = 10.dp)
                                     .size(120.dp)
-                                    .padding(bottom = 16.dp)
+                                    .clip(CircleShape)
                                     .align(Alignment.Center)
                             )
                         }

@@ -25,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
 import com.example.medix.domain.model.generateFakePagingItemsForPatients
+import com.example.medix.presentation.view.screens.app.appointment.AppointmentsViewModel
 import com.example.medix.presentation.view.screens.app.change_doctor_password.ChangeDoctorPassword
 import com.example.medix.presentation.view.screens.app.doctor_appointments.DoctorAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.doctor_profile.DoctorProfileScreen
@@ -121,9 +122,9 @@ fun DoctorNavigator(
             composable(route = Screens.DoctorAppointmentsRoute.route) {
                 //val viewModel : SearchViewModel = hiltViewModel()
                 //val state = viewModel.state.value
-                val fakePagingItems = generateFakePagingItemsForPatients(20)
+                val appointmentsViewModel : AppointmentsViewModel = hiltViewModel()
                 DoctorAppointmentsScreen(
-                    patients = fakePagingItems
+                    appointmentsViewModel = appointmentsViewModel
                 )
             }
 

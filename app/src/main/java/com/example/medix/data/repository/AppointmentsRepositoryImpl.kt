@@ -4,6 +4,7 @@ import com.example.medix.data.remote.MedixApi
 import com.example.medix.domain.model.AppointmentDeleteResponse
 import com.example.medix.domain.model.AppointmentRequest
 import com.example.medix.domain.model.AppointmentResponse
+import com.example.medix.domain.model.DoctorAppointmentResponse
 import com.example.medix.domain.model.PatientAppointmentsResponse
 import com.example.medix.domain.repository.AppointmentsRepository
 import okhttp3.MediaType.Companion.toMediaType
@@ -28,6 +29,10 @@ class AppointmentsRepositoryImpl @Inject constructor(
 
     override suspend fun getPatientAppointments(patientId: Int): List<PatientAppointmentsResponse> {
         return medixApi.getPatientAppointments(patientId)
+    }
+
+    override suspend fun getDoctorAppointments(doctorId: Int): List<DoctorAppointmentResponse> {
+        return medixApi.getDoctorAppointments(doctorId)
     }
 
     override suspend fun deleteAppointment(appointmentId: Int): AppointmentDeleteResponse {

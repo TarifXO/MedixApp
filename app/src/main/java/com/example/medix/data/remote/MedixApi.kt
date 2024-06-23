@@ -4,7 +4,9 @@ import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.AppointmentDeleteResponse
 import com.example.medix.domain.model.AppointmentResponse
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.DoctorAppointmentResponse
 import com.example.medix.domain.model.DoctorLoginResponse
+import com.example.medix.domain.model.DoctorUpdateResponse
 import com.example.medix.domain.model.DoctorUser
 import com.example.medix.domain.model.FavoriteDoctorResponse
 import com.example.medix.domain.model.FavoritesResponse
@@ -49,20 +51,20 @@ interface MedixApi {
     ): List<Doctor>
 
     @Multipart
-    @PUT("api/Doctors/{id}")
+    @PUT("/api/Doctors/{id}")
     suspend fun updateDoctor(
         @Path("id") id: Int,
-        @Part("name") name: RequestBody,
-        @Part("phone") phone: RequestBody,
-        @Part("email") email: RequestBody,
-        @Part("dateOfBirth") dateOfBirth: RequestBody,
-        @Part("gender") gender: RequestBody,
-        @Part("speciality") speciality: RequestBody,
+        @Part("Name") name: RequestBody,
+        @Part("Phone") phone: RequestBody,
+        @Part("Email") email: RequestBody,
+        @Part("Date_Of_Birth") dateOfBirth: RequestBody,
+        @Part("Gender") gender: RequestBody,
+        @Part("Speciality") speciality: RequestBody,
         @Part("bio") bio: RequestBody,
-        @Part("address") address: RequestBody,
-        @Part("wage") wage: RequestBody,
+        @Part("Address") address: RequestBody,
+        @Part("Wage") wage: RequestBody,
         @Part image: MultipartBody.Part?
-    ): Resource<Unit>
+    ): DoctorUpdateResponse
 
 
     //Authentication
@@ -148,6 +150,11 @@ interface MedixApi {
     suspend fun getPatientAppointments(
         @Query("patient_id") patientId: Int
     ) : List<PatientAppointmentsResponse>
+
+    @GET("/api/Appointments/doctor")
+    suspend fun getDoctorAppointments(
+        @Query("doctor_id") doctorId: Int
+    ): List<DoctorAppointmentResponse>
 
     @DELETE("/api/Appointments/delete")
     suspend fun deleteAppointment(

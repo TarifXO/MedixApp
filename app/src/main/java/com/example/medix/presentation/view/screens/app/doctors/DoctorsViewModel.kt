@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.example.medix.domain.model.Doctor
+import com.example.medix.domain.model.DoctorUpdateRequest
 import com.example.medix.domain.model.DoctorUser
-import com.example.medix.domain.model.Patient
 import com.example.medix.domain.repository.DataStoreRepository
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
 import com.example.medix.domain.useCases.user.UserUseCases
@@ -23,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DoctorsViewModel @Inject constructor(
     private val doctorsUseCase: DoctorsUseCases,
+    private val userUseCases: UserUseCases,
     private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
@@ -97,6 +98,17 @@ class DoctorsViewModel @Inject constructor(
                 })
             } catch (e: Exception) {
                 _doctor.postValue(null)
+            }
+        }
+    }
+
+    fun updateDoctor(updateRequest: DoctorUpdateRequest) {
+        val doctorId = _doctor.value?.id ?: return
+        viewModelScope.launch {
+            try {
+                userUseCases.updateDoctorUseCase.execute(doctorId, updateRequest)
+                fetchDoctorUserById(doctorId)
+            } catch (_: Exception) {
             }
         }
     }

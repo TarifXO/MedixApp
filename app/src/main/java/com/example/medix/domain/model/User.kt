@@ -25,13 +25,6 @@ data class User(
 ) : Parcelable
 
 
-enum class UserType {
-    PATIENT,
-    DOCTOR,
-    UNKNOWN
-}
-
-
 @Parcelize
 data class LogInRequest(
     val email: String,
@@ -92,20 +85,6 @@ data class RegisterRequest(
 ) : Parcelable
 
 @Parcelize
-data class DoctorUpdateRequest(
-    val name: String,
-    val phone: String,
-    val email: String,
-    val dateOfBirth: String,
-    val gender: String,
-    val speciality: String,
-    val bio: String,
-    val address: String,
-    val wage: Double,
-    val image: File?
-) : Parcelable
-
-@Parcelize
 data class PatientUpdateRequest(
     val id: Int,
     val name: String,
@@ -125,3 +104,31 @@ data class PatientUpdateResponse(
     val gender: String,
     val imageUrl: String
 ) : Parcelable
+
+@Parcelize
+data class DoctorUpdateRequest(
+    val id: Int,
+    val name: String,
+    val phone: String,
+    val email: String,
+    val dateOfBirth: String,
+    val gender: String,
+    val speciality: String,
+    val bio: String,
+    val address: String,
+    val wage: Double,
+    val image: String
+) : Parcelable
+
+data class DoctorUpdateResponse(
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("phone") val phone: String,
+    @SerializedName("date_Of_Birth") val dateOfBirth: String,
+    @SerializedName("speciality") val speciality: String,
+    @SerializedName("bio") val bio: String,
+    @SerializedName("address") val address: String,
+    @SerializedName("wage") val wage: Double,
+    @SerializedName("gender") val gender: String,
+    @SerializedName("imageUrl") val imageUrl: String
+)

@@ -18,6 +18,7 @@ import com.example.medix.domain.useCases.ai.AiModelUseCase
 import com.example.medix.domain.useCases.appointments.AppointmentsUseCases
 import com.example.medix.domain.useCases.appointments.CreateAppointmentUseCase
 import com.example.medix.domain.useCases.appointments.DeleteAppointmentUseCase
+import com.example.medix.domain.useCases.appointments.DoctorAppointmentsUseCase
 import com.example.medix.domain.useCases.appointments.PatientAppointmentsUseCase
 import com.example.medix.domain.useCases.doctors.DoctorsUseCases
 import com.example.medix.domain.useCases.doctors.GetDoctorByIdUseCase
@@ -154,6 +155,7 @@ class AppModule {
         return AppointmentsUseCases(
             createAppointmentUseCase = CreateAppointmentUseCase(appointmentsRepository),
             patientAppointmentsUseCase = PatientAppointmentsUseCase(appointmentsRepository),
+            doctorAppointmentsUseCase = DoctorAppointmentsUseCase(appointmentsRepository),
             deleteAppointmentUseCase = DeleteAppointmentUseCase(appointmentsRepository)
         )
     }

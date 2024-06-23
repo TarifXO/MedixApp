@@ -4,6 +4,7 @@ import com.example.medix.data.authentication.Resource
 import com.example.medix.data.remote.MedixApi
 import com.example.medix.domain.model.DoctorLoginResponse
 import com.example.medix.domain.model.DoctorUpdateRequest
+import com.example.medix.domain.model.DoctorUpdateResponse
 import com.example.medix.domain.model.LogInRequest
 import com.example.medix.domain.model.PatientLoginResponse
 import com.example.medix.domain.model.PatientUpdateRequest
@@ -115,7 +116,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun updateDoctor(
         id: Int,
         updateRequest: DoctorUpdateRequest,
-    ) {
+    ) : DoctorUpdateResponse {
         val name = updateRequest.name.toRequestBody("text/plain".toMediaTypeOrNull())
         val phone = updateRequest.phone.toRequestBody("text/plain".toMediaTypeOrNull())
         val email = updateRequest.email.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -125,11 +126,12 @@ class UserRepositoryImpl @Inject constructor(
         val bio = updateRequest.bio.toRequestBody("text/plain".toMediaTypeOrNull())
         val address = updateRequest.address.toRequestBody("text/plain".toMediaTypeOrNull())
         val wage = updateRequest.wage.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val image = updateRequest.image?.let {
-            MultipartBody.Part.createFormData("image", it.name, it.asRequestBody("image/*".toMediaTypeOrNull()))
-        }
+        val image = if (updateRequest.image.isNotEmpty()) {
+            val file = File(updateRequest.image)
+            MultipartBody.Part.createFormData("Image", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))
+        } else null
 
-        medixApi.updateDoctor(
+        return medixApi.updateDoctor(
             id = id,
             name = name,
             phone = phone,

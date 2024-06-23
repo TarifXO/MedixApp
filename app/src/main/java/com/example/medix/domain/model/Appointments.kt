@@ -33,12 +33,22 @@ data class PatientAppointmentsResponse(
     @SerializedName("doctor_name") val doctorName: String,
     @SerializedName("doctor_phone") val doctorPhone: String,
     @SerializedName("doctor_email") val doctorEmail: String,
-    @SerializedName("doctor_speciality") val doctorSpeciality: String,
+    @SerializedName("doctor_speciality") val doctorSpeciality: String?,
     @SerializedName("doctor_bio") val doctorBio: String,
     @SerializedName("doctor_address") val doctorAddress: String,
     @SerializedName("doctor_wage") val doctorWage: Int,
     @SerializedName("doctor_Image") val doctorImage: String
 ) : Parcelable
+
+data class DoctorAppointmentResponse(
+    @SerializedName("appointment_id") val appointmentId: Int,
+    @SerializedName("date") val date: String,
+    @SerializedName("time") val time: String,
+    @SerializedName("patient_name") val patientName: String,
+    @SerializedName("patient_phone") val patientPhone: String?,
+    @SerializedName("patient_email") val patientEmail: String,
+    @SerializedName("patient_image") val patientImage: String
+)
 
 data class AppointmentDeleteResponse(
     @SerializedName("id") val id: Int,

@@ -110,11 +110,13 @@ fun PatientAppointmentCard(
                 maxLines = 1,
             )
 
-            Text(text = appointment.doctorSpeciality,
-                fontWeight = FontWeight.Normal,
-                fontSize = 15.sp,
-                color = mixture
-            )
+            appointment.doctorSpeciality?.let {
+                Text(text = it,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 15.sp,
+                    color = mixture
+                )
+            }
 
             Spacer(modifier = Modifier.width(extraSmallPadding2))
 
