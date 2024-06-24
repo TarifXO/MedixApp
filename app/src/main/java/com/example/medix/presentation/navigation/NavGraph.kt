@@ -21,9 +21,7 @@ fun NavGraph(
             startDestination = Screens.MedixNavigatorScreen.route
         ){
             composable(route = Screens.MedixNavigatorScreen.route){
-                MedixNavigator(
-                    authViewModel = authViewModel
-                )
+                MedixNavigator()
             }
         }
 
@@ -32,9 +30,7 @@ fun NavGraph(
             startDestination = Screens.DoctorNavigatorScreen.route
         ){
             composable(route = Screens.DoctorNavigatorScreen.route){
-                DoctorNavigator(
-                    authViewModel = authViewModel,
-                )
+                DoctorNavigator()
             }
         }
     }

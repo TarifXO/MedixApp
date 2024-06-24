@@ -42,12 +42,7 @@ class DoctorsRepositoryImpl @Inject constructor(
         return medixApi.getDoctorUserById(id)
     }
 
-    override fun getDoctorsBySpeciality(specialization: String): Flow<PagingData<Doctor>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 10
-            ),
-            pagingSourceFactory = { DoctorsBySpecialization(medixApi, specialization) }
-        ).flow
+    override suspend fun getDoctorsBySpeciality(specialization: String): List<Doctor> {
+        return medixApi.getDoctorBySpeciality(specialization)
     }
 }

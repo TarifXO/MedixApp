@@ -111,7 +111,7 @@ fun DoctorsScreen(
                 .fillMaxWidth()
                 .height(70.dp)
                 .padding(start = 15.dp, top = 20.dp, end = 15.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -122,13 +122,9 @@ fun DoctorsScreen(
                     color = blackText
                 ),
             )
-            ChipWithSubItems(
-                chipLabel = "Filter by",
-                chipItems = chipItems
-            )
+
             ChipWithSubItems(
                 chipLabel = "Sort by",
-                chipItems = chipItems
             )
         }
 

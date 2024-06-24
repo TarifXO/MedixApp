@@ -26,7 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.medix.R
+import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
@@ -34,10 +36,14 @@ import com.example.medix.ui.theme.orange
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChipWithSubItems(chipLabel: String, chipItems: List<String>) {
+fun ChipWithSubItems(
+    chipLabel: String,
+    viewModel: DoctorsViewModel = hiltViewModel()
+) {
     var isSelected by remember { mutableStateOf(false) }
     var showSubList by remember { mutableStateOf(false) }
     var filterName by remember { mutableStateOf("") }
+    val chipItems = listOf("Default", "Alphabet", "Wage")
 
     ExposedDropdownMenuBox(
         modifier = Modifier,
@@ -83,11 +89,18 @@ fun ChipWithSubItems(chipLabel: String, chipItems: List<String>) {
                     onClick = {
                         filterName = subListItem
                         showSubList = false
+                        when (subListItem) {
+                            "Default" -> viewModel.sortDoctorsByDefault()
+                            "Alphabet" -> viewModel.sortDoctorsByAlphabet()
+                            "Wage" -> viewModel.sortDoctorsByWage()
+                        }
                     },
                     colors = ButtonDefaults.textButtonColors(
                         containerColor = if (subListItem == filterName || subListItem == chipLabel) {
                             lightBackground
-                        } else { lightBackground }
+                        } else {
+                            lightBackground
+                        }
                     )
                 ) {
                     Text(text = subListItem, color = Color.Black)
@@ -103,8 +116,7 @@ fun ChipWithSubItems(chipLabel: String, chipItems: List<String>) {
 fun ChipWithSubItemsPreview() {
     MedixTheme {
         ChipWithSubItems(
-            chipLabel = "Sort by",
-            chipItems = listOf("Option 1", "Option 2", "Option 3")
+            chipLabel = "Sort by"
         )
     }
 }

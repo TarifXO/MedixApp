@@ -37,7 +37,6 @@ import com.example.medix.presentation.view.screens.auth.doctor_log_in.DoctorLogI
 @SuppressLint("AutoboxingStateCreation")
 @Composable
 fun DoctorNavigator(
-    authViewModel: AuthViewModel?
 ) {
     val bottomNavigationItem = remember {
         listOf(
@@ -105,19 +104,6 @@ fun DoctorNavigator(
             modifier = Modifier
                 .padding(bottom = bottomPadding)
         ) {
-            composable(route = Screens.DoctorLoginRoute.route) {
-                val currentBackStackEntry = navController.currentBackStackEntryAsState().value
-                val currentRoute = currentBackStackEntry?.destination?.route
-                if (currentRoute == Screens.DoctorProfileRoute.route) {
-                    navController.navigate(Screens.DoctorLoginRoute.route) {
-                        popUpTo(Screens.DoctorLoginRoute.route) {
-                            inclusive = true
-                        }
-                    }
-                } else {
-                    DoctorLogInScreen(authViewModel, navController)
-                }
-            }
 
             composable(route = Screens.DoctorAppointmentsRoute.route) {
                 //val viewModel : SearchViewModel = hiltViewModel()

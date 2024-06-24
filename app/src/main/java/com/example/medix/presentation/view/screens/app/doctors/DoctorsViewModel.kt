@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.medix.domain.model.Doctor
 import com.example.medix.domain.model.DoctorUpdateRequest
 import com.example.medix.domain.model.DoctorUser
@@ -15,6 +16,8 @@ import com.example.medix.domain.useCases.user.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
@@ -35,6 +38,10 @@ class DoctorsViewModel @Inject constructor(
 
     private val _doctor = MutableLiveData<DoctorUser?>()
     val doctor: LiveData<DoctorUser?> = _doctor
+
+    private val _doctors = MutableLiveData<List<Doctor>>()
+    val doctors: LiveData<List<Doctor>> get() = _doctors
+
 
     init {
         viewModelScope.launch {
@@ -111,5 +118,17 @@ class DoctorsViewModel @Inject constructor(
             } catch (_: Exception) {
             }
         }
+    }
+
+    fun sortDoctorsByDefault() {
+        _doctors.value = _doctors.value?.sortedBy { it.id }
+    }
+
+    fun sortDoctorsByAlphabet() {
+        _doctors.value = _doctors.value?.sortedBy { it.name }
+    }
+
+    fun sortDoctorsByWage() {
+        _doctors.value = _doctors.value?.sortedBy { it.wage }
     }
 }

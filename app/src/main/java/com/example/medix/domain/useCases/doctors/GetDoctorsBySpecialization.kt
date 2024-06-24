@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 class GetDoctorsBySpecialization(
     private val doctorsRepository: DoctorsRepository
 ) {
-    operator fun invoke(specialization: String) : Flow<PagingData<Doctor>> {
+    suspend operator fun invoke(specialization: String) : List<Doctor> {
         return doctorsRepository.getDoctorsBySpeciality(specialization)
     }
 }

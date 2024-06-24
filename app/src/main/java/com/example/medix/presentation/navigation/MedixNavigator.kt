@@ -45,13 +45,10 @@ import com.example.medix.presentation.view.screens.app.medix_model.MedixModelScr
 import com.example.medix.presentation.view.screens.app.patient_appointments.PatientAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileScreen
 import com.example.medix.presentation.view.screens.app.patient_profile.PatientProfileViewModel
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
-import com.example.medix.presentation.view.screens.auth.patient_log_in.PatientLogInScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable
 fun MedixNavigator(
-    authViewModel: AuthViewModel?
 ) {
 
     val bottomNavigationItem = remember {

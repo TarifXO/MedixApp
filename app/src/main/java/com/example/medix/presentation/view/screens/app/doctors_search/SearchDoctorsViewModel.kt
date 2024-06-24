@@ -38,6 +38,7 @@ class SearchDoctorsViewModel @Inject constructor(
             }
             is SearchEvent.SearchDoctors -> {
                 searchDoctor(_state.value.searchQuery)
+                getDoctorBySpecialization(_state.value.searchQuery)
             }
         }
     }
@@ -46,6 +47,18 @@ class SearchDoctorsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val doctors = doctorsUseCase.searchDoctors(name)
+                _state.value = _state.value.copy(doctors = doctors) // Update this line
+            } catch (e: Exception) {
+                Log.e("SearchDoctorsViewModel", "Exception: $e")
+                _state.value = _state.value.copy(doctors = emptyList()) // Handle null case appropriately
+            }
+        }
+    }
+
+    private fun getDoctorBySpecialization(specialization: String) {
+        viewModelScope.launch {
+            try {
+                val doctors = doctorsUseCase.getDoctorsBySpeciality(specialization)
                 _state.value = _state.value.copy(doctors = doctors) // Update this line
             } catch (e: Exception) {
                 Log.e("SearchDoctorsViewModel", "Exception: $e")

@@ -2,6 +2,7 @@ package com.example.medix.presentation.view.screens.app.medix_ai
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,8 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,7 +64,7 @@ fun MedixAiScreen(
         }
     )*/
     val textFieldValue = remember { mutableStateOf(viewModel.imageUrl.value) }
-    //val resultState = viewModel.result.value
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier
@@ -74,7 +81,7 @@ fun MedixAiScreen(
             contentAlignment = Alignment.Center
         ) {
             TopBar(
-                title = "Medix AI",
+                title = "Brain Tumor Diagnosis",
                 onBackClick = navigateUp
             )
         }
@@ -117,7 +124,7 @@ fun MedixAiScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "A clear tumor image that ends with .jpg or png to helps the Ai model to diagnose you better.",
+                text = "A clear tumor image url that ends with .jpg or png to helps the Ai model to diagnose you better.",
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
                 color = blackText,
@@ -127,11 +134,32 @@ fun MedixAiScreen(
             Spacer(modifier = Modifier.height(30.dp))
 
             TextField(
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
                 value = textFieldValue.value,
                 onValueChange = { newValue -> textFieldValue.value = newValue },
-                label = { Text("Image URL") },
-                modifier = Modifier.fillMaxWidth(),
-                maxLines = 1
+                textStyle = TextStyle(
+                    fontSize = 20.sp,
+                    color = blackText
+                ),
+                singleLine = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(0.5.dp, Color.Black, RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(12.dp)),
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                placeholder = {
+                    Text(
+                        text = "Image URL",
+                        fontSize = 20.sp,
+                        color = Color.Gray
+                    )
+                }
             )
 
             Spacer(modifier = Modifier.height(20.dp))

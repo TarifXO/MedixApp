@@ -1,15 +1,22 @@
 package com.example.medix.presentation.view.screens.app.doctors_search
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,6 +52,7 @@ fun SearchDoctorsScreen(
     val user by patientsViewModel.selectedPatient.observeAsState()
     val navigateToDoctorDetailsScreen = viewModel.navigateToDoctorDetails.observeAsState()
     val favoriteState by favoritesViewModel.patientFavoriteState.collectAsState()
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(navigateToDoctorDetailsScreen.value) {
         navigateToDoctorDetailsScreen.value?.let { doctorId ->
@@ -86,41 +94,47 @@ fun SearchDoctorsScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(55.dp))
+        //Spacer(modifier = Modifier.height(55.dp))
 
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 25.dp)
+                .verticalScroll(scrollState)
         ) {
-            if (state.doctors.isNotEmpty()) {
-                state.doctors.forEach{ doctor ->
-                    DoctorCard(
-                        doctor = doctor,
-                        onClick = {
-                            doctor.id.let { viewModel.onDoctorClicked(it) }
-                        },
-                        onFavoriteClick = {
-                            user?.id?.let { favoritesViewModel.handleFavoriteClick(doctor.id, it) }
-                        },
-                        isFavoriteInitially = when (val resource = favoriteState) {
-                            is Resource.Success -> {
-                                resource.data.any { it.id == doctor.id }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 25.dp, vertical = 15.dp)
+            ) {
+                if (state.doctors.isNotEmpty()) {
+                    state.doctors.forEach { doctor ->
+                        DoctorCard(
+                            doctor = doctor,
+                            onClick = {
+                                doctor.id.let { viewModel.onDoctorClicked(it) }
+                            },
+                            onFavoriteClick = {
+                                user?.id?.let { favoritesViewModel.handleFavoriteClick(doctor.id, it) }
+                            },
+                            isFavoriteInitially = when (val resource = favoriteState) {
+                                is Resource.Success -> {
+                                    resource.data.any { it.id == doctor.id }
+                                }
+                                else -> false
                             }
-                            else -> false
-                        }
-                    )
+                        )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                } else {
+                    Text(
+                        text = "Enter a valid doctor name or a specialty!",
+                        modifier = Modifier.fillMaxWidth()
+                            .align(Alignment.CenterHorizontally),
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center
+                    )
                 }
-            } else {
-                Text(
-                    text = "Enter a valid doctor name!",
-                    modifier = Modifier.fillMaxWidth()
-                        .align(Alignment.CenterHorizontally),
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Center
-                )
             }
         }
     }

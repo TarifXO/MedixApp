@@ -35,12 +35,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -48,7 +47,6 @@ import com.example.medix.R
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.PopularDoctorsList
 import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
-import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
@@ -194,7 +192,6 @@ fun HomeScreen(
             }
 
             PopularDoctorsList(
-                //modifier = Modifier.padding(vertical = Dimens.mediumPadding1),
                 doctors = doctors,
                 onClick = { doctor ->
                     doctor.id.let { doctorsViewModel.onDoctorClicked(it) }
@@ -277,7 +274,7 @@ fun HomeScreen(
                         )
 
                         Text(
-                            text = "Medix AI",
+                            text = "Brain Tumor Diagnosis",
                             style = TextStyle(
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 20.sp,
@@ -285,6 +282,7 @@ fun HomeScreen(
                             ),
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally),
+                            textAlign = TextAlign.Center
                         )
 
                         Text(
@@ -306,17 +304,4 @@ fun HomeScreen(
         }
     }
 
-}
-
-
-@Preview
-@Composable
-fun HomePreview() {
-    MedixTheme {
-        HomeScreen(
-            doctorsViewModel = null,
-            navController = rememberNavController(),
-            navigateToDoctorDetails = {}
-        )
-    }
 }
