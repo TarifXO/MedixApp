@@ -283,7 +283,7 @@ fun PatientProfileScreen(
             )
 
 
-            Column(
+            /*Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(40.dp)
@@ -326,7 +326,7 @@ fun PatientProfileScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(10.dp)
-            )
+            )*/
 
             Column(
                 modifier = Modifier

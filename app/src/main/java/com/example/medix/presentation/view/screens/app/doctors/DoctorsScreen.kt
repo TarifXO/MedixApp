@@ -1,7 +1,5 @@
 package com.example.medix.presentation.view.screens.app.doctors
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,13 +15,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,20 +27,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.medix.domain.model.Doctor
-import com.example.medix.domain.model.FavoritesRequest
 import com.example.medix.presentation.Dimens
-import com.example.medix.presentation.view.components.ChipWithSubItems
 import com.example.medix.presentation.view.components.DoctorsList
+import com.example.medix.presentation.view.components.SearchBar
 import com.example.medix.presentation.view.components.TopBar
+import com.example.medix.presentation.view.screens.app.favourites.FavoritesViewModel
+import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
-import com.example.medix.presentation.view.components.SearchBar
-import com.example.medix.presentation.view.screens.app.favourites.FavoritesViewModel
-import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun DoctorsScreen(
@@ -55,13 +46,10 @@ fun DoctorsScreen(
     favoritesViewModel: FavoritesViewModel = hiltViewModel(),
     patientsViewModel: PatientsViewModel = hiltViewModel()
 ){
-    val context = LocalContext.current
     val doctors = viewModel.getAllDoctors().collectAsLazyPagingItems()
     val user by patientsViewModel.selectedPatient.observeAsState()
-    val chipItems = listOf("Option 1", "Option 2", "Option 3")
-
     val navigateToDoctorDetailsScreen = viewModel.navigateToDoctorDetails.observeAsState()
-    val deleteFavoriteState by favoritesViewModel.deleteFavoriteState.collectAsState()
+    //val deleteFavoriteState by favoritesViewModel.deleteFavoriteState.collectAsState()
 
     LaunchedEffect(navigateToDoctorDetailsScreen.value) {
         navigateToDoctorDetailsScreen.value?.let { doctorId ->
@@ -109,8 +97,8 @@ fun DoctorsScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp)
-                .padding(start = 15.dp, top = 20.dp, end = 15.dp),
+                .height(50.dp)
+                .padding(start = 15.dp, top = 10.dp, end = 15.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -123,9 +111,10 @@ fun DoctorsScreen(
                 ),
             )
 
-            ChipWithSubItems(
+            /*ChipWithSubItems(
                 chipLabel = "Sort by",
-            )
+                onSortOptionSelected = { },
+            )*/
         }
 
         //Spacer(modifier = Modifier.padding(10.dp))

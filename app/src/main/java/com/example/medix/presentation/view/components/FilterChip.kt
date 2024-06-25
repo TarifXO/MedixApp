@@ -38,7 +38,7 @@ import com.example.medix.ui.theme.orange
 @Composable
 fun ChipWithSubItems(
     chipLabel: String,
-    viewModel: DoctorsViewModel = hiltViewModel()
+    onSortOptionSelected: (String) -> Unit,
 ) {
     var isSelected by remember { mutableStateOf(false) }
     var showSubList by remember { mutableStateOf(false) }
@@ -89,11 +89,7 @@ fun ChipWithSubItems(
                     onClick = {
                         filterName = subListItem
                         showSubList = false
-                        when (subListItem) {
-                            "Default" -> viewModel.sortDoctorsByDefault()
-                            "Alphabet" -> viewModel.sortDoctorsByAlphabet()
-                            "Wage" -> viewModel.sortDoctorsByWage()
-                        }
+                        onSortOptionSelected(subListItem)
                     },
                     colors = ButtonDefaults.textButtonColors(
                         containerColor = if (subListItem == filterName || subListItem == chipLabel) {
@@ -107,16 +103,5 @@ fun ChipWithSubItems(
                 }
             }
         }
-    }
-}
-
-
-@Preview
-@Composable
-fun ChipWithSubItemsPreview() {
-    MedixTheme {
-        ChipWithSubItems(
-            chipLabel = "Sort by"
-        )
     }
 }

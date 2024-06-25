@@ -58,7 +58,10 @@ fun MedixModelScreen(
         ) {
             TopBar(
                 title = "Medix Model",
-                onBackClick = navigateUp
+                onBackClick = {
+                    viewModel.resetData()
+                    navigateUp()
+                }
             )
         }
 

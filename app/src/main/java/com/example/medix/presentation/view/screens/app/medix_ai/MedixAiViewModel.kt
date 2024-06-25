@@ -11,8 +11,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
@@ -22,6 +27,11 @@ class MedixAiViewModel @Inject constructor(
 ) : ViewModel() {
     val imageUrl = mutableStateOf("")
     val result = mutableStateOf("")
+
+    fun resetData() {
+        imageUrl.value = ""
+        result.value = ""
+    }
 
     fun predictImage(navController: NavController) {
         Log.d("MedixAiViewModel", "predictImage() called")
@@ -63,6 +73,40 @@ class MedixAiViewModel @Inject constructor(
                 Log.e("MedixAiViewModel", "JSON Exception: ${e.message}", e)
             } catch (e: IOException) {
                 Log.e("MedixAiViewModel", "IO Exception: ${e.message}", e)
+            } catch (e: Exception) {
+                Log.e("MedixAiViewModel", "Exception: ${e.message}", e)
+            }
+        }
+    }
+
+
+    fun uploadImageAndPredict(file: File, navController: NavController) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val client = OkHttpClient()
+                val requestBody = MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("image", file.name, file.asRequestBody())
+                    .build()
+
+                val request = Request.Builder()
+                    .url("https://api.imgbb.com/1/upload?expiration=600&key=5dde1938587cd962bb46deb732884ae3")
+                    .post(requestBody)
+                    .build()
+
+                val response = client.newCall(request).execute()
+                val responseBody = response.body?.string()
+
+                // Parse the response to get the image URL
+                val imgUrl = responseBody?.let { JSONObject(it).getJSONObject("data").getString("display_url") }
+
+                // Update the imageUrl state
+                if (imgUrl != null) {
+                    imageUrl.value = imgUrl
+                }
+
+                // Call the AI prediction function
+                predictImage(navController)
             } catch (e: Exception) {
                 Log.e("MedixAiViewModel", "Exception: ${e.message}", e)
             }

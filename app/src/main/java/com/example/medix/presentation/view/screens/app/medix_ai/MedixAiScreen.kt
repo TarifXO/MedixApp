@@ -1,5 +1,11 @@
 package com.example.medix.presentation.view.screens.app.medix_ai
 
+import android.content.Context
+import android.net.Uri
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -46,6 +53,7 @@ import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
+import java.io.File
 
 @Composable
 fun MedixAiScreen(
@@ -54,15 +62,19 @@ fun MedixAiScreen(
     viewModel: MedixAiViewModel = hiltViewModel(),
 ) {
 
-    /*val photoPickerLauncher = rememberLauncherForActivityResult(
+    val context = LocalContext.current
+    val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
             uri?.let {
-                onImageSelected(it)
-                viewModel.predictImage(it, contentResolver)
+                val path = getRealPathFromURI(context, it)
+                path?.let { filePath ->
+                    val file = File(filePath)
+                    viewModel.uploadImageAndPredict(file, navController)
+                }
             }
         }
-    )*/
+    )
     val textFieldValue = remember { mutableStateOf(viewModel.imageUrl.value) }
     val focusManager = LocalFocusManager.current
 
@@ -171,12 +183,11 @@ fun MedixAiScreen(
                 backgroundColor = mixture,
                 padding = PaddingValues(10.dp),
                 onClick = {
-                    /*photoPickerLauncher.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )*/
                     if (textFieldValue.value.isNotEmpty()) {
                         viewModel.imageUrl.value = textFieldValue.value
                         viewModel.predictImage(navController)
+                    } else {
+                        photoPickerLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                     }
                 }
             )
@@ -184,4 +195,18 @@ fun MedixAiScreen(
             //Text(text = "Result: $resultState")
         }
     }
+}
+
+fun getRealPathFromURI(context: Context, contentURI: Uri): String? {
+    val result: String?
+    val cursor = context.contentResolver.query(contentURI, null, null, null, null)
+    if (cursor == null) {
+        result = contentURI.path
+    } else {
+        cursor.moveToFirst()
+        val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+        result = cursor.getString(idx)
+        cursor.close()
+    }
+    return result
 }
