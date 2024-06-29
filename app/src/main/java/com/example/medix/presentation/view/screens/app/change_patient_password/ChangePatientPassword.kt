@@ -27,6 +27,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,18 +44,20 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.TopBar
+import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
@@ -64,15 +67,18 @@ import com.example.medix.ui.theme.secondary
 @Composable
 fun ChangePatientPassword(
     navigateUp : () -> Unit,
-    navController: NavController
+    navController: NavController,
+    patientsViewModel: PatientsViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel()
 ){
+    val user by patientsViewModel.selectedPatient.observeAsState()
     val focusManager = LocalFocusManager.current
     var oldPassword by remember { mutableStateOf("") }
     var oldPasswordVisible by remember { mutableStateOf(false) }
     var newPassword by remember { mutableStateOf("") }
     var newPasswordVisible by remember { mutableStateOf(false) }
-    var confirmNewPassword by remember { mutableStateOf("") }
-    var confirmNewPasswordVisible by remember { mutableStateOf(false) }
+    //var confirmNewPassword by remember { mutableStateOf("") }
+    //var confirmNewPasswordVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -93,6 +99,8 @@ fun ChangePatientPassword(
                 onBackClick = navigateUp
             )
         }
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         Column(
             modifier = Modifier
@@ -245,7 +253,7 @@ fun ChangePatientPassword(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            Column {
+            /*Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.password),
@@ -312,7 +320,7 @@ fun ChangePatientPassword(
                         }
                     }
                 )
-            }
+            }*/
 
             Spacer(modifier = Modifier.height(60.dp))
 
@@ -323,6 +331,7 @@ fun ChangePatientPassword(
                 backgroundColor = orange,
                 padding = PaddingValues(0.dp),
                 onClick = {
+                    authViewModel.changePassword(oldPassword, newPassword, user?.email ?: "")
                     navController.navigate(Screens.PatientProfileRoute.route){
                         popUpTo(Screens.PatientProfileRoute.route){
                             inclusive = true

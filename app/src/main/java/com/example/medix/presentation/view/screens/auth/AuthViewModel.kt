@@ -6,10 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.medix.data.authentication.Resource
 import com.example.medix.domain.model.DoctorLoginResponse
 import com.example.medix.domain.model.DoctorProfile
+import com.example.medix.domain.model.ForgotPasswordResponse
 import com.example.medix.domain.model.LogInRequest
 import com.example.medix.domain.model.PatientLoginResponse
 import com.example.medix.domain.model.PatientProfile
 import com.example.medix.domain.model.RegisterRequest
+import com.example.medix.domain.model.ResetPasswordResponse
 import com.example.medix.domain.repository.DataStoreRepository
 import com.example.medix.domain.useCases.user.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,9 +33,9 @@ class AuthViewModel @Inject constructor(
     private val _doctorLoginFlow = MutableStateFlow<Resource<Unit>?>(null)
     val doctorLoginFlow: StateFlow<Resource<Unit>?> = _doctorLoginFlow
     private val _forgotPasswordFlow = MutableStateFlow<Resource<Unit>?>(null)
-    val forgotPasswordFlow: StateFlow<Resource<Unit>?> = _forgotPasswordFlow
     private val _resetPasswordFlow = MutableStateFlow<Resource<Unit>?>(null)
-    val resetPasswordFlow: StateFlow<Resource<Unit>?> = _resetPasswordFlow
+    private val _changePasswordFlow = MutableStateFlow<Resource<Unit>?>(null)
+    val changePasswordFlow: StateFlow<Resource<Unit>?> = _changePasswordFlow
 
     fun signup(registerRequest: RegisterRequest) {
         viewModelScope.launch {
@@ -107,7 +109,7 @@ class AuthViewModel @Inject constructor(
             _forgotPasswordFlow.value = Resource.Loading
             try {
                 val resource = userUseCases.forgotPasswordUseCase.execute(email)
-                handleResource(resource, _forgotPasswordFlow)
+                handleResourceForForgotPassword(resource, _forgotPasswordFlow)
             } catch (e: Exception) {
                 _forgotPasswordFlow.value = Resource.Failure(e)
             }
@@ -124,9 +126,25 @@ class AuthViewModel @Inject constructor(
             _resetPasswordFlow.value = Resource.Loading
             try {
                 val resource = userUseCases.resetPasswordUseCase.execute(password, confirmPassword, email, token)
-                handleResource(resource, _resetPasswordFlow)
+                handleResourceForResetPassword(resource, _resetPasswordFlow)
             } catch (e: Exception) {
                 _resetPasswordFlow.value = Resource.Failure(e)
+            }
+        }
+    }
+
+    fun changePassword(
+        oldPassword: String,
+        newPassword: String,
+        email: String
+    ) {
+        viewModelScope.launch {
+            _changePasswordFlow.value = Resource.Loading
+            try {
+                val resource = userUseCases.changePasswordUseCase.execute(oldPassword, newPassword, email)
+                handleResourceForResetPassword(resource, _changePasswordFlow)
+            } catch (e: Exception) {
+                _changePasswordFlow.value = Resource.Failure(e)
             }
         }
     }
@@ -148,6 +166,22 @@ class AuthViewModel @Inject constructor(
     }
 
     private fun handleResourceForDoctorLogin(resource: Resource<DoctorLoginResponse>, flow: MutableStateFlow<Resource<Unit>?>) {
+        when (resource) {
+            is Resource.Success -> flow.value = Resource.Success(Unit)
+            is Resource.Failure -> flow.value = Resource.Failure(resource.exception)
+            is Resource.Loading -> flow.value = Resource.Loading
+        }
+    }
+
+    private fun handleResourceForForgotPassword(resource: Resource<ForgotPasswordResponse>, flow: MutableStateFlow<Resource<Unit>?>) {
+        when (resource) {
+            is Resource.Success -> flow.value = Resource.Success(Unit)
+            is Resource.Failure -> flow.value = Resource.Failure(resource.exception)
+            is Resource.Loading -> flow.value = Resource.Loading
+        }
+    }
+
+    private fun handleResourceForResetPassword(resource: Resource<ResetPasswordResponse>, flow: MutableStateFlow<Resource<Unit>?>) {
         when (resource) {
             is Resource.Success -> flow.value = Resource.Success(Unit)
             is Resource.Failure -> flow.value = Resource.Failure(resource.exception)

@@ -32,6 +32,7 @@ import com.example.medix.domain.useCases.favorites.FavoritesUseCases
 import com.example.medix.domain.useCases.favorites.GetFavoritesUseCase
 import com.example.medix.domain.useCases.patients.GetPatientByIdUseCase
 import com.example.medix.domain.useCases.patients.PatientsUseCases
+import com.example.medix.domain.useCases.user.ChangePasswordUseCase
 import com.example.medix.domain.useCases.user.DoctorLogInUseCase
 import com.example.medix.domain.useCases.user.ForgotPasswordUseCase
 import com.example.medix.domain.useCases.user.PatientLogInUseCase
@@ -100,6 +101,7 @@ class AppModule {
             doctorLogInUseCase = DoctorLogInUseCase(userRepository),
             forgotPasswordUseCase = ForgotPasswordUseCase(userRepository),
             resetPasswordUseCase = ResetPasswordUseCase(userRepository),
+            changePasswordUseCase = ChangePasswordUseCase(userRepository),
             registerUseCase = RegisterUseCase(userRepository),
             updatePatientUseCase = UpdatePatientUseCase(userRepository),
             updateDoctorUseCase = UpdateDoctorUseCase(userRepository)

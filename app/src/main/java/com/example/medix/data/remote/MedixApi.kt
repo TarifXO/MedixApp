@@ -10,10 +10,12 @@ import com.example.medix.domain.model.DoctorUpdateResponse
 import com.example.medix.domain.model.DoctorUser
 import com.example.medix.domain.model.FavoriteDoctorResponse
 import com.example.medix.domain.model.FavoritesResponse
+import com.example.medix.domain.model.ForgotPasswordResponse
 import com.example.medix.domain.model.PatientLoginResponse
 import com.example.medix.domain.model.Patient
 import com.example.medix.domain.model.PatientAppointmentsResponse
 import com.example.medix.domain.model.PatientUpdateResponse
+import com.example.medix.domain.model.ResetPasswordResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -86,7 +88,7 @@ interface MedixApi {
     @POST("/api/Authentication/ForgotPassword")
     suspend fun forgotPassword(
         @Part("email") email: RequestBody
-    ): Resource<Unit>
+    ): ForgotPasswordResponse
 
     @Multipart
     @POST("/api/Authentication/ResetPassword")
@@ -95,7 +97,15 @@ interface MedixApi {
         @Part("ConfirmPassword") confirmPassword: RequestBody,
         @Part("Email") email: RequestBody,
         @Part("token") token: RequestBody
-    ): Resource<Unit>
+    ): ResetPasswordResponse
+
+    @Multipart
+    @PUT("/api/Authentication/ChangePassword")
+    suspend fun changePassword(
+        @Part("CurrentPassword") oldPassword: RequestBody,
+        @Part("NewPassword") newPassword: RequestBody,
+        @Part("Email") email: RequestBody
+    ): ResetPasswordResponse
 
     @Multipart
     @POST("api/Authentication/Register")

@@ -67,6 +67,21 @@ data class DoctorProfile(
     @SerializedName("doctor_Image") val doctorImage: String?
 )
 
+
+@Parcelize
+data class ForgotPasswordResponse(
+    @SerializedName("status") val status: String,
+    @SerializedName("message") val message: String
+) : Parcelable
+
+
+@Parcelize
+data class ResetPasswordResponse(
+    @SerializedName("status") val status: String,
+    @SerializedName("message") val message: String
+) : Parcelable
+
+
 @Parcelize
 data class RegisterRequest(
     val username: String,

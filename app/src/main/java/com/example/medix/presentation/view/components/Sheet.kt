@@ -46,9 +46,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.lightGray
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
@@ -61,6 +64,7 @@ fun Sheet(
     onEmailChange: (String) -> Unit,
     onClose: () -> Unit
 ) {
+    val viewmodel : AuthViewModel = hiltViewModel()
     var isResetPasswordMode by remember { mutableStateOf(false) }
     var isOtpMode by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
@@ -69,6 +73,7 @@ fun Sheet(
     var resetPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var resetPasswordVisible by remember { mutableStateOf(false) }
+    var otp by remember { mutableStateOf("") }
 
     ModalBottomSheet(
         sheetState = rememberModalBottomSheetState(),
@@ -121,7 +126,7 @@ fun Sheet(
                     ),
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(15.dp))
 
                 if (!isOtpMode && !isResetPasswordMode) {
                     TextField(
@@ -132,8 +137,9 @@ fun Sheet(
                             unfocusedIndicatorColor = Color.Transparent
                         ),
                         value = email,
-                        onValueChange = {
-                            onEmailChange(it)
+                        onValueChange = { newValue ->
+                            onEmailChange(newValue)
+                            viewmodel.forgotPassword(newValue)
                         },
                         singleLine = true,
                         textStyle = TextStyle(
@@ -164,6 +170,7 @@ fun Sheet(
                             text = it
                             if (text.length == 6) {
                                 focusManager.clearFocus()
+                                otp = text
                             }
                         }
                     }
@@ -266,7 +273,7 @@ fun Sheet(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier.height(15.dp))
 
                     ElevatedButton(
                         text = if (isResetPasswordMode) "Update Password" else "Continue",
@@ -279,6 +286,7 @@ fun Sheet(
                                 isOtpMode = false
                                 isResetPasswordMode = true
                             } else if (isResetPasswordMode) {
+                                viewmodel.resetPassword(password, resetPassword, email, otp)
                                 onClose()
                             } else {
                                 isOtpMode = true
@@ -297,8 +305,8 @@ fun OTPTextField(
     value: String,
     length: Int,
     modifier: Modifier = Modifier,
-    boxWidth: Dp = 60.dp,
-    boxHeight: Dp = 60.dp,
+    boxWidth: Dp = 40.dp,
+    boxHeight: Dp = 40.dp,
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     keyboardActions: KeyboardActions = KeyboardActions(),
@@ -307,7 +315,7 @@ fun OTPTextField(
     val spaceBetweenBoxes = 8.dp
     BasicTextField(
         modifier = modifier
-        .fillMaxWidth(),
+            .fillMaxWidth(),
         value = value,
         singleLine = true,
         onValueChange = {
@@ -324,18 +332,12 @@ fun OTPTextField(
                 .size(width = (boxWidth + spaceBetweenBoxes) * length, height = boxHeight),
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
-
             repeat(length) { index ->
-                val color =
-                    if (index == value.length) Color.Black else lightGray
+                val color = if (index == value.length) Color.Black else lightGray
                 Box(
                     modifier = Modifier
                         .size(boxWidth, boxHeight)
-                        .border(
-                            1.dp,
-                            color = color,
-                            shape = RoundedCornerShape(12.dp)
-                        ),
+                        .border(1.dp, color = color, shape = RoundedCornerShape(12.dp)),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -348,4 +350,14 @@ fun OTPTextField(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun SheetPreview() {
+    Sheet(
+        email = "",
+        onEmailChange = {},
+        onClose = {}
+    )
 }

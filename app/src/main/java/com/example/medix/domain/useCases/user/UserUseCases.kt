@@ -5,6 +5,7 @@ data class UserUseCases(
     val doctorLogInUseCase: DoctorLogInUseCase,
     val forgotPasswordUseCase: ForgotPasswordUseCase,
     val resetPasswordUseCase: ResetPasswordUseCase,
+    val changePasswordUseCase: ChangePasswordUseCase,
     val registerUseCase: RegisterUseCase,
     val updatePatientUseCase: UpdatePatientUseCase,
     val updateDoctorUseCase: UpdateDoctorUseCase,

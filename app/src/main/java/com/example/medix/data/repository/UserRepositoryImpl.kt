@@ -5,11 +5,13 @@ import com.example.medix.data.remote.MedixApi
 import com.example.medix.domain.model.DoctorLoginResponse
 import com.example.medix.domain.model.DoctorUpdateRequest
 import com.example.medix.domain.model.DoctorUpdateResponse
+import com.example.medix.domain.model.ForgotPasswordResponse
 import com.example.medix.domain.model.LogInRequest
 import com.example.medix.domain.model.PatientLoginResponse
 import com.example.medix.domain.model.PatientUpdateRequest
 import com.example.medix.domain.model.PatientUpdateResponse
 import com.example.medix.domain.model.RegisterRequest
+import com.example.medix.domain.model.ResetPasswordResponse
 import com.example.medix.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -44,15 +46,12 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun forgotPassword(email: String): Resource<Unit> {
-        return withContext(Dispatchers.IO) {
-            val email = email.toRequestBody("text/plain".toMediaTypeOrNull())
-            try {
-                medixApi.forgotPassword(email)
-            } catch (e: Exception) {
-                Resource.Failure(e)
-            }
-        }
+    override suspend fun forgotPassword(email: String): ForgotPasswordResponse {
+        val email = email.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        return medixApi.forgotPassword(
+            email = email
+        )
     }
 
     override suspend fun resetPassword(
@@ -60,23 +59,25 @@ class UserRepositoryImpl @Inject constructor(
         confirmPassword: String,
         email: String,
         token: String
-    ) : Resource<Unit> {
-        return try {
-            val password = password.toRequestBody("text/plain".toMediaTypeOrNull())
-            val confirmPassword = confirmPassword.toRequestBody("text/plain".toMediaTypeOrNull())
-            val email = email.toRequestBody("text/plain".toMediaTypeOrNull())
-            val token = token.toRequestBody("text/plain".toMediaTypeOrNull())
+    ) : ResetPasswordResponse {
+        val password = password.toRequestBody("text/plain".toMediaTypeOrNull())
+        val confirmPassword = confirmPassword.toRequestBody("text/plain".toMediaTypeOrNull())
+        val email = email.toRequestBody("text/plain".toMediaTypeOrNull())
+        val token = token.toRequestBody("text/plain".toMediaTypeOrNull())
 
-            val response = medixApi.resetPassword(password, confirmPassword, email, token)
+        return medixApi.resetPassword(password, confirmPassword, email, token)
+    }
 
-            if (response is Resource.Success) {
-                Resource.Success(Unit)
-            } else {
-                Resource.Failure(Exception("Failed to reset password"))
-            }
-        } catch (e: Exception) {
-            Resource.Failure(e)
-        }
+    override suspend fun changePassword(
+        oldPassword: String,
+        newPassword: String,
+        email: String
+    ): ResetPasswordResponse {
+        val oldPassword = oldPassword.toRequestBody("text/plain".toMediaTypeOrNull())
+        val newPassword = newPassword.toRequestBody("text/plain".toMediaTypeOrNull())
+        val email = email.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        return medixApi.changePassword(oldPassword, newPassword, email)
     }
 
     override suspend fun registerUser(registerRequest: RegisterRequest) {

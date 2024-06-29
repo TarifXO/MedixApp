@@ -425,7 +425,7 @@ fun DoctorLogInScreen(
             when (it) {
                 is Resource.Failure -> {
                     val context = LocalContext.current
-                    Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please enter valid values.", Toast.LENGTH_SHORT).show()
                 }
 
                 Resource.Loading -> {
