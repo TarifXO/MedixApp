@@ -1,15 +1,17 @@
 # Preview 
 
 ## Project Features
+ - Kotlin
+ - Jetpack Compose
  - MVVM with Clean Architecture
  - Coroutines
+ - Paging
  - Navigation Components
  - Hilt for Dependency Injection
  - Retrofit
- - Firebase Auth & Firestore
- - Room Database
- - Glide
- - TabLayout & ViewPager2 with PageTransformer
+ - OkHttp
+ - DataStore Preferences
+ - Coil
 
 ## Screens
 <div>
