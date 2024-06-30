@@ -19,8 +19,8 @@ class DoctorProfileViewModel @Inject constructor(
 
     fun logout() {
         viewModelScope.launch {
-            dataStoreRepository.clearUserEmail()
-            dataStoreRepository.clearUserId()
+            dataStoreRepository.clearDoctorEmail()
+            dataStoreRepository.clearDoctorId()
             Log.d("Logout", "User ID and email cleared")
 
             val intent = Intent(application, MainActivity::class.java)

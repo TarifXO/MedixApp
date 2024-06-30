@@ -40,7 +40,7 @@ class DoctorsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             delay(1000)
-            val userId = dataStoreRepository.getUserId() ?: return@launch
+            val userId = dataStoreRepository.getDoctorId() ?: return@launch
             Log.d("DoctorsViewModel", "Init block: Retrieved user ID: $userId")
             fetchDoctorUserById(userId)
         }

@@ -136,7 +136,7 @@ fun MedixAiScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "A clear tumor image url that ends with .jpg or png to helps the Ai model to diagnose you better.",
+                text = "A clear tumor image that ends with .jpg or png to helps the Ai model to diagnose you better.",
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
                 color = blackText,

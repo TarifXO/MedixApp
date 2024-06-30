@@ -112,12 +112,12 @@ data class PatientUpdateRequest(
 
 @Parcelize
 data class PatientUpdateResponse(
-    val id: Int,
-    val name: String,
-    val phone: String,
-    val dateOfBirth: String,
-    val gender: String,
-    val imageUrl: String
+    @SerializedName("id")val id: Int,
+    @SerializedName("name")val name: String,
+    @SerializedName("phone")val phone: String,
+    @SerializedName("data_Of_Birth")val dateOfBirth: String,
+    @SerializedName("gender")val gender: String,
+    @SerializedName("imageUrl")val imageUrl: String
 ) : Parcelable
 
 @Parcelize

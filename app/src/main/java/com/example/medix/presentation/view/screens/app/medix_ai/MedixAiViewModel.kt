@@ -97,15 +97,12 @@ class MedixAiViewModel @Inject constructor(
                 val response = client.newCall(request).execute()
                 val responseBody = response.body?.string()
 
-                // Parse the response to get the image URL
                 val imgUrl = responseBody?.let { JSONObject(it).getJSONObject("data").getString("display_url") }
 
-                // Update the imageUrl state
                 if (imgUrl != null) {
                     imageUrl.value = imgUrl
                 }
 
-                // Call the AI prediction function
                 predictImage(navController)
             } catch (e: Exception) {
                 Log.e("MedixAiViewModel", "Exception: ${e.message}", e)

@@ -23,14 +23,18 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val email = dataStoreRepository.getUserEmail()
-            val userId = dataStoreRepository.getUserId()
-            Log.d("MainViewModel", "Retrieved user ID: $userId, Email: $email")
-            startDestination = if (email.isNullOrEmpty() || userId == 0) {
-                Screens.AuthRoute.route
-            } else {
-                Screens.MedixNavigation.route
+            val patientEmail = dataStoreRepository.getUserEmail()
+            val patientId = dataStoreRepository.getUserId()
+            val doctorEmail = dataStoreRepository.getDoctorEmail()
+            val doctorId = dataStoreRepository.getDoctorId()
+            Log.d("MainViewModel", "Retrieved user ID: $patientId, Email: $patientEmail")
+
+            startDestination = when {
+                !patientEmail.isNullOrEmpty() && patientId != 0 -> Screens.MedixNavigation.route
+                !doctorEmail.isNullOrEmpty() && doctorId != 0 -> Screens.DoctorNavigation.route
+                else -> Screens.AuthRoute.route
             }
+
             delay(300)
             splashCondition = false
         }

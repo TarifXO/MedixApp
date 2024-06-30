@@ -99,8 +99,8 @@ class AuthViewModel @Inject constructor(
     }
 
     private suspend fun saveDoctorData(profile: DoctorProfile) {
-        dataStoreRepository.saveUserId(profile.doctorId)
-        dataStoreRepository.saveUserEmail(profile.doctorEmail)
+        dataStoreRepository.saveDoctorId(profile.doctorId)
+        dataStoreRepository.saveDoctorEmail(profile.doctorEmail)
         Log.d("AuthViewModel", "User data saved: ID = ${profile.doctorId}, Email = ${profile.doctorEmail}")
     }
 
