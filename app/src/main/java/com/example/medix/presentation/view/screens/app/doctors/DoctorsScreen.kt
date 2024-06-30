@@ -31,8 +31,9 @@ import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.view.components.DoctorsList
 import com.example.medix.presentation.view.components.SearchBar
 import com.example.medix.presentation.view.components.TopBar
+import com.example.medix.presentation.view.screens.app.DoctorsViewModel
 import com.example.medix.presentation.view.screens.app.favourites.FavoritesViewModel
-import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
+import com.example.medix.presentation.view.screens.app.PatientsViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture

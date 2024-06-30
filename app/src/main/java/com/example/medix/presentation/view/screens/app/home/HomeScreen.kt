@@ -46,7 +46,8 @@ import coil.request.ImageRequest
 import com.example.medix.R
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.PopularDoctorsList
-import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
+import com.example.medix.presentation.view.screens.app.PatientsViewModel
+import com.example.medix.presentation.view.screens.app.DoctorsViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture

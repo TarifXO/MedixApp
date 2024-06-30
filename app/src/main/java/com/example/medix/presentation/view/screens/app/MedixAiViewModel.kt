@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.app.medix_ai
+package com.example.medix.presentation.view.screens.app
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf

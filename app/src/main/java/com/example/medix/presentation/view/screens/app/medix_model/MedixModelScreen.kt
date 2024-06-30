@@ -27,7 +27,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.medix.R
 import com.example.medix.presentation.view.components.CustomLayout
 import com.example.medix.presentation.view.components.TopBar
-import com.example.medix.presentation.view.screens.app.medix_ai.MedixAiViewModel
+import com.example.medix.presentation.view.screens.app.MedixAiViewModel
 import com.example.medix.ui.theme.lightMixture
 import com.example.medix.ui.theme.mixture
 import com.example.medix.ui.theme.secondary

@@ -56,7 +56,7 @@ import com.example.medix.R
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.TopBar
-import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
+import com.example.medix.presentation.view.screens.app.PatientsViewModel
 import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText

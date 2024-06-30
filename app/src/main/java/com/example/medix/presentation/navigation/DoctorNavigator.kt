@@ -24,15 +24,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.medix.R
-import com.example.medix.domain.model.generateFakePagingItemsForPatients
 import com.example.medix.presentation.view.screens.app.appointment.AppointmentsViewModel
 import com.example.medix.presentation.view.screens.app.change_doctor_password.ChangeDoctorPassword
 import com.example.medix.presentation.view.screens.app.doctor_appointments.DoctorAppointmentsScreen
 import com.example.medix.presentation.view.screens.app.doctor_profile.DoctorProfileScreen
-import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
+import com.example.medix.presentation.view.screens.app.DoctorsViewModel
 import com.example.medix.presentation.view.screens.app.edit_doctor_profile.EditDoctorProfileScreen
-import com.example.medix.presentation.view.screens.auth.AuthViewModel
-import com.example.medix.presentation.view.screens.auth.doctor_log_in.DoctorLogInScreen
 
 @SuppressLint("AutoboxingStateCreation")
 @Composable

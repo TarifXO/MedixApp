@@ -1,19 +1,14 @@
 package com.example.medix.presentation.view.screens.app.doctors_search
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -35,7 +30,7 @@ import com.example.medix.presentation.view.components.DoctorCard
 import com.example.medix.presentation.view.components.SearchBar
 import com.example.medix.presentation.view.components.TopBar
 import com.example.medix.presentation.view.screens.app.favourites.FavoritesViewModel
-import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
+import com.example.medix.presentation.view.screens.app.PatientsViewModel
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
 

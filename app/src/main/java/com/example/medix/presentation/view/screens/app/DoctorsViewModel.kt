@@ -1,4 +1,4 @@
-package com.example.medix.presentation.view.screens.app.doctors
+package com.example.medix.presentation.view.screens.app
 
 import android.util.Log
 import androidx.lifecycle.LiveData

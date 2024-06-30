@@ -33,7 +33,7 @@ import com.example.medix.domain.model.FavoriteDoctorResponse
 import com.example.medix.presentation.Dimens
 import com.example.medix.presentation.view.components.DoctorCard
 import com.example.medix.presentation.view.components.TopBarTitleOnly
-import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
+import com.example.medix.presentation.view.screens.app.PatientsViewModel
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.mixture
 

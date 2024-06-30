@@ -44,7 +44,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,7 +56,7 @@ import com.example.medix.R
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.TopBar
-import com.example.medix.presentation.view.screens.app.home.PatientsViewModel
+import com.example.medix.presentation.view.screens.app.PatientsViewModel
 import com.example.medix.presentation.view.screens.auth.AuthViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText

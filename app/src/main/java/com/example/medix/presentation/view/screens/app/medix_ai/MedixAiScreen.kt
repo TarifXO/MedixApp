@@ -49,6 +49,7 @@ import androidx.navigation.NavController
 import com.example.medix.R
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.TopBar
+import com.example.medix.presentation.view.screens.app.MedixAiViewModel
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.lightBackground
 import com.example.medix.ui.theme.lightMixture

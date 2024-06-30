@@ -17,7 +17,7 @@ import com.example.medix.domain.model.Doctor
 import com.example.medix.presentation.Dimens.extraSmallPadding2
 import com.example.medix.presentation.Dimens.mediumPadding1
 import com.example.medix.presentation.Dimens.mediumPadding2
-import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
+import com.example.medix.presentation.view.screens.app.DoctorsViewModel
 import com.example.medix.presentation.view.screens.common.EmptyScreen
 
 @Composable

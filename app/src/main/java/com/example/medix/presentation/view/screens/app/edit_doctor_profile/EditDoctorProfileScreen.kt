@@ -64,7 +64,7 @@ import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.ElevatedButton
 import com.example.medix.presentation.view.components.GenderSelection
 import com.example.medix.presentation.view.components.TopBar
-import com.example.medix.presentation.view.screens.app.doctors.DoctorsViewModel
+import com.example.medix.presentation.view.screens.app.DoctorsViewModel
 import com.example.medix.ui.theme.MedixTheme
 import com.example.medix.ui.theme.blackText
 import com.example.medix.ui.theme.mixture
