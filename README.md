@@ -13,8 +13,6 @@
 
 ## Screens
 <div>
-    | Splash | Register | Sign Up |
-    | ------ | -------- | ------- |
     <img width="216" alt="Splash Screen" src="https://github.com/TarifXO/MedixApp/blob/master/assets/Splash%20Screen.png">
     <img width="216" alt="Sign Up Options" src="https://github.com/TarifXO/MedixApp/blob/master/assets/Sign%20Up%20Options.png">
     <img width="216" alt="Sign Up" src="https://github.com/TarifXO/MedixApp/blob/master/assets/Sign%20Up.png">
