@@ -41,11 +41,6 @@ DataStore is a data storage solution that allows you to store key-value pairs or
 ### Coil
 Coil is an image loading library for Android backed by Kotlin Coroutines. It is designed to be fast, lightweight, and easy to use, making it a great choice for loading and displaying images in your app.
 
-## Video Overview
-<video width="320" height="240" controls>
-  <source src="https://github.com/TarifXO/MedixApp/blob/master/assets/MedixApplication.mp4" type="video/mp4">
-</video>
-
 ## Screens
 <div>
     <img width="216" alt="Splash Screen" src="https://github.com/TarifXO/MedixApp/blob/master/assets/Splash%20Screen.png">
