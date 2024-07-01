@@ -1,7 +1,7 @@
 # Preview 
 
 ## Project Features
- - Kotlin
+ - Kotlin: Kotlin is a modern, statically typed programming language that runs on the Java Virtual Machine (JVM) and can also be compiled to JavaScript or native code. It is fully interoperable with Java, making it a popular choice for Android development due to its expressive syntax and enhanced safety features.
  - Jetpack Compose
  - MVVM with Clean Architecture
  - Coroutines
