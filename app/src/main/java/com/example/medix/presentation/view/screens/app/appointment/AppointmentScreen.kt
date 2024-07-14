@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.medix.R
 import com.example.medix.domain.model.AppointmentRequest
 import com.example.medix.presentation.navigation.Screens
 import com.example.medix.presentation.view.components.DayHourSelection
@@ -77,7 +78,7 @@ fun AppointmentScreen(
             contentAlignment = Alignment.Center
         ) {
             TopBar(
-                title = "Appointment",
+                title = R.string.appointment.toString(),
                 onBackClick = navigateUp
             )
         }
@@ -112,7 +113,7 @@ fun AppointmentScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Afternoon Dates",
+                text = R.string.afternoon_dates.toString(),
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = blackText,
@@ -131,7 +132,7 @@ fun AppointmentScreen(
             )
 
             Text(
-                text = "Evening Dates",
+                text = R.string.evening_dates.toString(),
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = blackText,
@@ -152,7 +153,7 @@ fun AppointmentScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             ElevatedButton(
-                text = "Confirm",
+                text = R.string.confirm.toString(),
                 textSize = 20.sp,
                 textColor = Color.White,
                 backgroundColor = mixture,
@@ -182,7 +183,7 @@ fun AppointmentScreen(
                     CoroutineScope(Dispatchers.Main).launch {
                         Toast.makeText(
                             context,
-                            "Appointment Reserved Successfully",
+                            R.string.appointment_reserved_successfully.toString(),
                             Toast.LENGTH_SHORT
                         ).show()
                     }

@@ -1,0 +1,9 @@
+<resources>
+    <string name="appointment">موعد</string>
+    <string name="afternoon_dates">مواعيد بعد الظهر</string>
+    <string name="evening_dates">مواعيد المساء</string>
+    <string name="confirm">تأكيد</string>
+    <string name="appointment_reserved_successfully">تم حجز الموعد بنجاح</string>
+    <string name="hellohome">مرحبا، </string>
+    <string name="log_out">تسجيل الخروج</string>
+</resources>

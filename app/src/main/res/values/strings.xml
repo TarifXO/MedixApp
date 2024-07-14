@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Medix</string>
+    <string name="app_name" translatable="false">Medix</string>
+    <string name="appointment">Appointment</string>
+    <string name="afternoon_dates">Afternoon Dates</string>
+    <string name="evening_dates">Evening Dates</string>
+    <string name="confirm">Confirm</string>
+    <string name="appointment_reserved_successfully">Appointment Reserved Successfully</string>
+    <string name="hellohome">"Hello, "</string>
+    <string name="log_out">Log Out</string>
 </resources>

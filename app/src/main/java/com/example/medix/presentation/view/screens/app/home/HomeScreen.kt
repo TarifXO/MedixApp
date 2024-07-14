@@ -101,7 +101,7 @@ fun HomeScreen(
                         .align(Alignment.CenterVertically)
                 ) {
                     Row {
-                        Text(text = "Hello, ",
+                        Text(text = context.getString(R.string.hellohome),
                             style = TextStyle(
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 20.sp,

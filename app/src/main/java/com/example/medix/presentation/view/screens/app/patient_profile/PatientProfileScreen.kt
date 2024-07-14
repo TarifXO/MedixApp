@@ -64,6 +64,7 @@ fun PatientProfileScreen(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val user by patientsViewModel.selectedPatient.observeAsState()
+    //var showMenu by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -289,7 +290,7 @@ fun PatientProfileScreen(
                     .height(40.dp)
                     .shadow(0.dp, shape = RoundedCornerShape(20.dp))
                     .clip(RoundedCornerShape(20.dp))
-                    .clickable { },
+                    .clickable { showMenu = !showMenu },
                 verticalArrangement = Arrangement.Center
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -316,6 +317,31 @@ fun PatientProfileScreen(
                 }
 
                 Spacer(modifier = Modifier.height(5.dp))
+
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("English") },
+                        onClick = {
+                            val currentActivity = context as Activity
+                            setLocale(currentActivity, "en")
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Arabic") },
+                        onClick = {
+                            val currentActivity = context as Activity
+                            setLocale(currentActivity, "ar")
+                            showMenu = false
+                        }
+                    )
+                }
             }
 
             Image(
@@ -449,7 +475,7 @@ fun PatientProfileScreen(
 
                     Spacer(modifier = Modifier.width(80.dp))
                     Text(
-                        text = "Log Out",
+                        text = context.getString(R.string.log_out),
                         color = Color.White,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.ExtraBold,
