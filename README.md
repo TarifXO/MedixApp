@@ -1,6 +1,6 @@
 # Preview 
 
-![App Preview](https://github.com/TarifXO/MedixApp/blob/master/assets/TumorDiagnoseGif.gif)
+![App Preview](https://github.com/TarifXO/MedixApp/blob/master/assets/TumorDiagnoseGif.gif.mp4)
 
 ## Project Services
 ### Booking Appointments
