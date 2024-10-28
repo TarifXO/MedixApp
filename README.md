@@ -1,5 +1,11 @@
 # Preview 
 
+## Walkthrough 📱
+
+
+[preview.webm](https://github.com/user-attachments/assets/41522633-014d-4ef3-8975-2037f828f633)
+
+
 ## Project Services
 ### Booking Appointments
 The app facilitates seamless scheduling and management of medical appointments. Users can book, and cancel appointments with their account through an intuitive and user-friendly interface. The appointment module integrates with the backend to ensure real-time updates.
